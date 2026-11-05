@@ -25,7 +25,7 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo Gabriel Pereira.
 
 ## v0.51
 - Barra inferior nueva: Triage (ABC), Sistemas, Casos, Cards y Más. Checklists, Cálculos, POCUS y Quemados pasaron a «Más» y se llega a ellos desde las secciones nuevas.
-- Casos: 88 motivos de ingreso a UCIP en 12 grupos, con qué hacer al recibir al paciente y las herramientas útiles (incluye recepción del quemado, shock séptico e insuficiencia cardíaca).
+- Casos: 87 motivos de ingreso a UCIP en 12 grupos, con qué hacer al recibir al paciente y las herramientas útiles (incluye recepción del quemado, shock séptico e insuficiencia cardíaca).
 - Portada: los botones replican la barra inferior; se quitó «Entrar».
 - Créditos: Jorge Selandari, Eduardo Motto y Gonzalo Gabriel Pereira, en ese orden.
 - Las secciones nuevas están en español; las herramientas que enlazan conservan su traducción.
