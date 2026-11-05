@@ -12,7 +12,8 @@ src/data/05-app/     datos, imágenes y herramientas (Cards, POCUS, Quemados…)
 src/data/12-i18n-…/  traducciones es / en / pt
 assets/              emblema, wordmark (P con bastón de Esculapio), logo de Fundación Garrahan
 tools/build.py       arma index.html a partir de src/ y assets/
-tools/make_assets.js regenera wordmark, íconos y recorte del logo (Playwright)
+tools/make_assets.js regenera wordmark (AR terracota + UCIP azul), emblema, íconos y recorte del logo (Playwright)
+tools/trace_head.js  vectoriza la silueta de la cabeza desde assets/source/ar-ucip-original.jpg (npm i playwright potrace)
 ```
 
 ## Compilar
