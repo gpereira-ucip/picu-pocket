@@ -1,6 +1,6 @@
-// PICU Pocket – service worker: guarda la app para usarla sin conexión.
-// Al publicar una versión nueva, cambiar CACHE (p. ej. picu-v0.49) para forzar la actualización.
-var CACHE = "picu-v0.49";
+// Arucip – service worker: guarda la app para usarla sin conexión.
+// Al publicar una versión nueva, cambiar CACHE (p. ej. arucip-v0.50) para forzar la actualización.
+var CACHE = "arucip-v0.50";
 var FILES = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));

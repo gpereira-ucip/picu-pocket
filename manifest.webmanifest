@@ -1,6 +1,6 @@
 {
-  "name": "PICU Pocket",
-  "short_name": "PICU Pocket",
+  "name": "Arucip",
+  "short_name": "Arucip",
   "description": "Ayuda rápida para cuidados intensivos pediátricos. Funciona sin conexión.",
   "lang": "es",
   "start_url": "./",

@@ -1,0 +1,60 @@
+/* ===== Arucip: identidad visual (bastón de Esculapio, azul petróleo, terracota y dorado) =====
+   Va al final de la cascada: pisa los estilos anteriores de botones y acentos. */
+:root{--gold:#D9A441;--gold2:#BA8A38;--navy:#1F5368;--deep:#17384A;--terra:#C27F62;--cream:#F6F2EA;
+--acc:#1F5368;--acc-ink:#fff;--tint:#E1ECEF}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--acc:#3CC2B9;--acc-ink:#042220;--tint:#12363A}}
+:root[data-theme="dark"]{--acc:#3CC2B9;--acc-ink:#042220;--tint:#12363A}
+
+/* Botones: píldora con filete dorado */
+.btn{border-radius:999px;border:1.5px solid color-mix(in srgb,var(--gold) 55%,var(--line));background:var(--surf);color:var(--acc);font-weight:700;letter-spacing:.01em;box-shadow:0 1px 2px rgba(11,38,49,.08)}
+.btn:not(.pri):not(.bad):not(.g):hover{border-color:var(--gold2);background:color-mix(in srgb,var(--gold) 9%,var(--surf))}
+.btn.g{border-color:transparent;background:var(--soft);color:var(--mut)}
+.btn.pri,.cs button[aria-pressed=true]{background:linear-gradient(180deg,color-mix(in srgb,var(--acc) 82%,#fff),var(--acc));color:var(--acc-ink);border:1.5px solid var(--gold2);
+ box-shadow:0 10px 22px -12px color-mix(in srgb,var(--acc) 90%,#000),inset 0 1px 0 rgba(255,255,255,.25),inset 0 -2px 0 color-mix(in srgb,var(--gold) 70%,transparent)}
+.btn.bad{border-radius:999px}
+.btn:focus-visible{outline:3px solid color-mix(in srgb,var(--gold) 70%,transparent);outline-offset:2px}
+
+/* Pestañas: marca dorada bajo la sección activa */
+.tabs button[aria-current=true]{color:var(--acc);background:var(--tint);box-shadow:inset 0 -3px 0 var(--gold)}
+.ic{background:var(--tint);color:var(--acc)}
+
+/* Encabezado: logo redondo + wordmark con la P del bastón */
+.ph::before{background:linear-gradient(90deg,var(--navy) 0 50%,var(--terra) 50% 76%,var(--gold) 76%)}
+.ph-mark{border-radius:50%;cursor:pointer;filter:drop-shadow(0 8px 12px rgba(23,56,74,.28))}
+.ph-bt{max-width:220px}
+.ph-wm img{max-height:64px;width:auto;max-width:100%}
+
+/* Quemados: % de cabeza por edad (no toca los muñecos) */
+.bhd{margin:12px 0 0;padding:12px 14px;border-radius:var(--r2);background:var(--tint);border:1px solid color-mix(in srgb,var(--gold) 40%,var(--line));display:grid;gap:3px}
+.bhd small{font-weight:700;color:var(--mut);font-size:.8rem}
+.bhd b{font:700 1.35rem var(--sans);color:var(--acc);font-variant-numeric:tabular-nums}
+.bhd span{font-size:.84rem;color:var(--mut);line-height:1.45}
+.bhd i{font-style:normal;font-variant-numeric:tabular-nums}
+.bhd i.on{color:var(--acc);font-weight:800;text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px}
+
+/* Portada */
+.cover{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;overflow-y:auto;
+ padding:calc(28px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom));
+ background:radial-gradient(120% 70% at 50% 0%,#FFFDF8 0,var(--cream) 55%,#E9E0CF 100%);color:var(--deep);transition:opacity .35s,visibility .35s}
+:root[data-theme="dark"] .cover{background:radial-gradient(120% 70% at 50% 0%,#12303B 0,#0B2631 60%,#071218 100%);color:#E8F0F3}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .cover{background:radial-gradient(120% 70% at 50% 0%,#12303B 0,#0B2631 60%,#071218 100%);color:#E8F0F3}}
+.cover.out{opacity:0;visibility:hidden}
+.cover::before{content:"";position:fixed;left:0;right:0;top:0;height:6px;background:linear-gradient(90deg,var(--navy) 0 50%,var(--terra) 50% 76%,var(--gold) 76%)}
+.cv-in{margin:auto;width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:0}
+.cv-em{width:min(46vw,190px);height:auto;border-radius:50%;filter:drop-shadow(0 18px 24px rgba(23,56,74,.32))}
+.cv-wm{margin:26px 0 0;line-height:0}
+.cv-wm img{width:min(78vw,330px);height:auto}
+.cv-orn{display:flex;align-items:center;gap:10px;margin:18px 0 12px;width:70%}
+.cv-orn::before,.cv-orn::after{content:"";flex:1;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold))}
+.cv-orn::after{background:linear-gradient(270deg,transparent,var(--gold))}
+.cv-orn i{width:8px;height:8px;rotate:45deg;background:var(--gold)}
+.cv-tag{margin:0;font:500 1.02rem/1.4 var(--sans);max-width:26ch;opacity:.85}
+.cv-go{margin-top:28px;width:100%;max-width:300px;height:58px;font-size:1.08rem;flex:none}
+.cv-off{margin:12px 0 0;font-size:.78rem;opacity:.65}
+.cv-col{margin-top:30px;display:grid;justify-items:center;gap:8px}
+.cv-col span{font-size:.74rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.65}
+.cv-fg{background:#fff;border-radius:16px;padding:8px 14px;box-shadow:0 1px 2px rgba(11,38,49,.1),0 10px 24px -14px rgba(11,38,49,.45)}
+.cv-fg img{display:block;width:min(64vw,240px);height:auto}
+.cv-by{margin:18px 0 0;font-size:.74rem;line-height:1.45;opacity:.6;max-width:34ch}
+@media(max-height:640px){.cv-em{width:120px}.cv-wm{margin-top:14px}.cv-go{margin-top:18px}.cv-col{margin-top:18px}}
+@media(prefers-reduced-motion:reduce){.cover{transition:none}}

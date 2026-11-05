@@ -1,0 +1,17 @@
+
+/* ===== v20: retoques de estética ===== */
+.tabs{box-shadow:0 -10px 28px -16px rgba(11,38,49,.45);border-top-left-radius:22px;border-top-right-radius:22px}
+.tabs button{font-size:.64rem;letter-spacing:0;gap:3px;transition:background .18s,color .18s}
+.tabs button[aria-current=true]{background:var(--tint);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--acc) 24%,transparent)}
+.mtr{height:66px}
+.card{border-radius:22px}
+.card>summary,.card summary{transition:background .15s}
+.card[open]{border-color:color-mix(in srgb,var(--acc) 38%,var(--line))}
+.bcv{background:radial-gradient(130% 90% at 50% 18%,var(--surf) 0%,var(--soft) 100%);border:1px solid var(--line);border-radius:20px;padding:8px 0 10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.bside{width:96px}
+.blive{background:linear-gradient(160deg,var(--tint),color-mix(in srgb,var(--tint) 60%,var(--surf)));border:1px solid color-mix(in srgb,var(--acc) 25%,var(--line))}
+.bdc{border-radius:14px;transition:border-color .15s,background .15s,transform .1s}
+.bdc:active{transform:scale(.97)}
+#b-w,#b-e{font-weight:700;font-variant-numeric:tabular-nums}
+#v-burn .flds label.f span{font-weight:600}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}

@@ -1,0 +1,1 @@
+(function(){var c=document.getElementById("c-endo"),h=document.getElementById("calcs");if(c&&h)h.appendChild(c)})();
