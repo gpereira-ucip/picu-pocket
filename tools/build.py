@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Arucip build: inlines src/ into the single-file index.html.
 
-Usage: python3 tools/build.py [--check]
+Usage: python3 tools/build.py [--check | --no-pwa]
 
 src/index.src.html holds the page skeleton. Each marker
     <!--@style path-->   ->  <style>…contents of path…</style>
@@ -33,8 +33,19 @@ def build():
         return "<%s>%s</%s>" % (k, body, k)
     return re.sub(r"<!--@(style|script|parts|datauri) (.*?)-->", sub, t)
 
+def no_pwa(html):
+    """Variante para compartir como archivo suelto: sin manifest, sin ícono de Apple y sin service worker."""
+    html = html.replace('<link rel="manifest" href="manifest.webmanifest">\n', '')
+    html = html.replace('<link rel="apple-touch-icon" href="apple-touch-icon.png">\n', '')
+    return re.sub(r'<script>\nif\("serviceWorker" in navigator.*?</script>', '', html, flags=re.S)
+
 if __name__ == "__main__":
     out = build()
+    if "--no-pwa" in sys.argv:
+        (ROOT / "dist").mkdir(exist_ok=True)
+        (ROOT / "dist" / "Arucip_sin-PWA.html").write_text(no_pwa(out), encoding="utf-8")
+        print("dist/Arucip_sin-PWA.html")
+        sys.exit(0)
     dst = ROOT / "index.html"
     if "--check" in sys.argv:
         sys.exit(0 if dst.read_text(encoding="utf-8") == out else "index.html is out of date: run tools/build.py")

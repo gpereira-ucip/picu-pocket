@@ -22,5 +22,7 @@ python3 tools/build.py          # genera index.html
 python3 tools/build.py --check  # falla si index.html no está al día
 ```
 
+`python3 tools/build.py --no-pwa` genera `dist/Arucip_sin-PWA.html` (sin manifest ni service worker) para compartir como archivo suelto. `docs/ROADMAP.md` es el registro del proyecto.
+
 `index.html` se versiona compilado para poder publicarlo y compartirlo como un único archivo.
 Al publicar una versión nueva, subir `VER` (`src/js/10-ui-shell.js`) y `CACHE` (`sw.js`).
