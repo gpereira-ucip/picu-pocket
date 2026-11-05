@@ -58,3 +58,16 @@
 .cv-by{margin:18px 0 0;font-size:.74rem;line-height:1.45;opacity:.6;max-width:34ch}
 @media(max-height:640px){.cv-em{width:120px}.cv-wm{margin-top:14px}.cv-go{margin-top:18px}.cv-col{margin-top:18px}}
 @media(prefers-reduced-motion:reduce){.cover{transition:none}}
+
+/* Créditos */
+ul.cred{list-style:none;margin:0 0 6px;padding:0}
+ul.cred li{padding:8px 0;border-top:1px solid var(--line);line-height:1.35}
+ul.cred li:first-child{border-top:0}
+ul.cred span{font-size:.84rem;color:var(--mut)}
+.cv-team{margin-top:16px;width:100%;max-width:420px;text-align:left;background:color-mix(in srgb,var(--surf) 70%,transparent);border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);border-radius:16px;padding:0 16px}
+.cv-team summary{cursor:pointer;padding:12px 0;font-weight:700;font-size:.9rem;text-align:center;list-style:none}
+.cv-team summary::-webkit-details-marker{display:none}
+.cv-team[open] summary{border-bottom:1px solid var(--line)}
+.cv-team .th{font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin:14px 0 4px}
+.cv-team p{font-size:.88rem;margin:4px 0 12px}
+.cv-team ul.cred{padding-bottom:6px}

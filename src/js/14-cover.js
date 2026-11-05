@@ -12,5 +12,6 @@ document.getElementById("cv-go").addEventListener("click",close);
 document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!c.hidden)close()});
 var m=document.querySelector(".ph-mark");if(m){m.setAttribute("role","button");m.setAttribute("tabindex","0");m.setAttribute("aria-label","Portada");
  m.addEventListener("click",open);m.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();open()}})}
+var tm=document.getElementById("cv-team");if(tm&&window.ARUCIP_CRED)tm.innerHTML=window.ARUCIP_CRED();
 if(!seen())open();
 })();
