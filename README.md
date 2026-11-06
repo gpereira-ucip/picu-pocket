@@ -40,6 +40,14 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo Gabriel Pereira.
 - Se toca el logo del encabezado para volver a verla. El ECG respeta «reducir movimiento».
 - Se quitaron de la portada los 5 accesos (están en la barra inferior de la app).
 
+## v0.54 · botonera según Jorge (primer paso)
+Barra nueva: **Emergencias · Motivos · Indicaciones · Favoritos · Más**.
+- Emergencias: PARO y Secuencia PALS arriba, buscador general, triángulo y ABC.
+- Motivos: Casos (por aspecto, con buscador); «Aparatos y sistemas» pasó adentro como acceso («Por aparato o sistema»).
+- Indicaciones: nuevo hub diario (`IND` en `js/data.js`) con enlaces a calculadoras, escalas y checklists que ya existían, sin contenido clínico nuevo. Checklists, Cálculos y Cards se abren desde ahí.
+- Favoritos: accesos fijados y recientes (antes estaban en la primera pantalla).
+- Falta: buscador predictivo en la portada, predictivo por signos y síntomas, «Más» reordenado con Autocuidado y Calidad y Seguridad adentro, indicaciones diarias y periodicidad de estudios (requieren redacción médica). `arucip.html` (copia autocontenida) no está regenerado con esta versión.
+
 ## Pendiente de diseño · propuesta de Jorge (a acordar con Jorge y Eduardo antes de implementar)
 Nueva barra inferior propuesta:
 1. **Buscador general en la portada** con predictivo que funcione bien (busca en toda la app).

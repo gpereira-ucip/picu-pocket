@@ -106,6 +106,16 @@ window.ARUCIP_DATA = (function () {
       t: ["k:ipass", "k:tras", "k:tr65", "t:pim3", "t:pelod", "t:hd", "t:braden", "t:mbcn", "k:procu"] }
   ];
 
+  /* ---------- INDICACIONES Y CÁLCULOS: acceso diario a lo que la app ya tiene ---------- */
+  var IND = [
+    { n: "Balance, medio interno y riñón", t: ["c:elec", "t:natr", "t:eab", "t:gfr", "c:hk", "c:sc"] },
+    { n: "Nutrición y glucemia", t: ["c:leche", "c:hg", "t:gluc", "t:antro"] },
+    { n: "Analgosedación", t: ["c:sed", "c:opi", "c:int", "t:analgo", "t:wat", "t:comfb"] },
+    { n: "Infusiones y vasoactivos", t: ["c:inf", "t:ccv", "t:lact"] },
+    { n: "Peso, dosis y medicación", t: ["c:age", "x:cards", "x:bib"] },
+    { n: "Pase, traslado y escalas", t: ["k:ipass", "k:tras", "t:pelod", "t:pim3"] }
+  ];
+
   /* ---------- CASOS: motivos de ingreso a UCIP ---------- */
   var GROUPS = [
     { id: "cv", n: "Shock y cardiovascular", ic: "heart", d: "Shock, falla cardíaca, arritmias, posoperatorio cardíaco",
@@ -599,5 +609,5 @@ window.ARUCIP_DATA = (function () {
       t: ["k:tras", "k:tr65", "k:intub", "k:ipass"] }
   ];
 
-  return { LBL: LBL, BASE: BASE, TRIAGE: TRIAGE, SYS: SYS, GROUPS: GROUPS, CASES: CASES };
+  return { LBL: LBL, BASE: BASE, TRIAGE: TRIAGE, SYS: SYS, GROUPS: GROUPS, CASES: CASES, IND: IND };
 })();
