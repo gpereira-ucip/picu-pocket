@@ -1,6 +1,6 @@
 // Arucip – service worker: guarda la app para usarla sin conexión.
-// Al publicar una versión nueva, cambiar CACHE (p. ej. arucip-v0.51) para forzar la actualización.
-var CACHE = "arucip-v0.51";
+// Al publicar una versión nueva, cambiar CACHE (p. ej. arucip-v0.52) para forzar la actualización.
+var CACHE = "arucip-v0.52";
 var FILES = ["./", "index.html", "css/arucip.css", "css/hubs.css", "js/data.js", "js/hubs.js", "js/migrate.js", "js/cover.js", "assets/arucip-mark.svg", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));

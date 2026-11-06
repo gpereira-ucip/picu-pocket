@@ -29,3 +29,7 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo Gabriel Pereira.
 - Portada: los botones replican la barra inferior; se quitó «Entrar».
 - Créditos: Jorge Selandari, Eduardo Motto y Gonzalo Gabriel Pereira, en ese orden.
 - Las secciones nuevas están en español; las herramientas que enlazan conservan su traducción.
+
+## v0.52
+- Íconos de la app (PWA) reemplazados por los que mandó Jorge Selandari (cabeza con engranajes, «AR-UCIP»), «por ahora». Los de «Volver a ARUCIP» quedan en `assets/volver/` (sin usar todavía), junto con `icon-349` y `icon-maskable-640` en `assets/`.
+- Pendientes que salieron de la charla con Jorge (para acordar con él y Eduardo antes de tocar): botones inferiores (Emergencias, Favoritos, Aspectos y Sistemas, Calidad y Seguridad, Autocuidado), capítulos como etiquetas, campo «paciente actual» (peso/edad/género/talla), formulario de prompt a IAR1, texto predictivo en la búsqueda.
