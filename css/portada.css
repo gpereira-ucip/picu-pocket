@@ -72,3 +72,12 @@
 .cv-pw{justify-self:center}
 .cv-ecg{justify-self:stretch;width:calc(100% + 28px)}
 .cv-panel{padding-top:12px}
+
+/* Panel: patrocinio a la izquierda, botón EMERGENCIA en el lateral derecho */
+.cv-panel{grid-template-columns:1fr auto;justify-items:stretch;align-items:center;gap:4px 12px;padding:14px 14px 0 16px}
+.cv-col-in{margin:0;justify-items:start;text-align:left;gap:6px}
+.cv-col-in span{font-size:.62rem;letter-spacing:.07em;line-height:1.25}
+.cv-col-in .cv-fg{padding:7px 10px;border-radius:14px}
+.cv-col-in .cv-fg img{width:min(44vw,170px)}
+.cv-pw{justify-self:end}
+.cv-paro{width:78px;height:78px}
