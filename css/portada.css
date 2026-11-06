@@ -60,3 +60,15 @@
 #v-more .fv .lk{padding-right:92px!important}
 .fv-un,.fav-s{right:44px}
 .lk span[data-i]{position:absolute;right:14px;top:50%;transform:translateY(-50%)}
+
+/* Interruptor de tema pequeño: sol (claro) y luna (oscuro) según la posición, sin texto */
+.cv-go[hidden]{display:none!important}
+.sw{width:48px;height:26px}
+.sw::after{width:20px;height:20px;top:2px;left:2px;background:#D9A441 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B4210' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4'/%3E%3C/svg%3E") center/15px no-repeat}
+.sw[aria-checked=true]::after{transform:translateX(22px);background:#EAF6F8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23123B4A' stroke='%23123B4A' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z'/%3E%3C/svg%3E") center/14px no-repeat}
+.swm span{display:none}
+.cv-sw{position:absolute;top:calc(env(safe-area-inset-top) + 18px);right:20px;z-index:2}
+.cv-panel{grid-template-columns:1fr;justify-items:center}
+.cv-pw{justify-self:center}
+.cv-ecg{justify-self:stretch;width:calc(100% + 28px)}
+.cv-panel{padding-top:12px}
