@@ -21,7 +21,7 @@ window.ARUCIP_DATA = (function () {
          4: "Otros procedimientos ecoguiados", 5: "eFAST pediátrico" },
     b: { pa: "Datos del paciente quemado", ch: "Mapa de quemaduras", to: "Superficie corporal quemada (SCQ)", fl: "Reanimación con fluidos",
          nb: "Necesidades basales y pérdidas", sc: "Scores de gravedad (DEMI, Garcés)", "in": "Gravedad y derivación" },
-    x: { cards: "Cards: medicación por peso", bib: "Otras recomendaciones: fórmulas y preparaciones", tips: "Otras recomendaciones: notas prácticas de la unidad" }
+    x: { ck: "Checklists: traslado, intubación, accesos y más", calc: "Calculadoras: infusiones, electrolitos, peso y nutrición", pocus: "POCUS: ecografía a la cabecera", cards: "Cards: medicación por peso", bib: "Otras recomendaciones: fórmulas y preparaciones", tips: "Otras recomendaciones: notas prácticas de la unidad" }
   };
 
   /* ---------- Siempre a mano ---------- */
@@ -614,5 +614,117 @@ window.ARUCIP_DATA = (function () {
       t: ["k:tras", "k:tr65", "k:intub", "k:ipass"] }
   ];
 
-  return { LBL: LBL, BASE: BASE, TRIAGE: TRIAGE, SYS: SYS, GROUPS: GROUPS, CASES: CASES };
+
+  /* ---------- INDICACIONES Y CÁLCULOS: acceso diario a lo que la app ya tiene ---------- */
+  var IND = [
+    { n: "Todo el día a día", t: ["x:calc", "x:ck", "x:pocus"] },
+    { n: "Balance, medio interno y riñón", t: ["c:elec", "t:natr", "t:eab", "t:gfr", "c:hk", "c:sc"] },
+    { n: "Nutrición y glucemia", t: ["c:leche", "c:hg", "t:gluc", "t:antro"] },
+    { n: "Analgosedación", t: ["c:sed", "c:opi", "c:int", "t:analgo", "t:wat", "t:comfb"] },
+    { n: "Infusiones y vasoactivos", t: ["c:inf", "t:ccv", "t:lact"] },
+    { n: "Peso, dosis y medicación", t: ["c:age", "x:cards", "x:bib"] },
+    { n: "Pase, traslado y escalas", t: ["k:ipass", "k:tras", "t:pelod", "t:pim3"] }
+  ];
+  /* Secciones que el equipo todavía tiene que redactar y validar (no se inventa contenido clínico). */
+  var IND_PEND = [
+    { n: "Indicaciones diarias", d: "Qué revisar e indicar cada día por aparato." },
+    { n: "Estudios complementarios: qué pedir y cuándo", d: "Periodicidad de laboratorio, imágenes y otros controles." }
+  ];
+
+  /* ---------- BUSCADOR: signos y síntomas → motivos de ingreso ---------- */
+  /* ⚕ Asociaciones orientativas para encontrar rápido el motivo; requieren revisión médica. Sin dosis. */
+  var SYMP = {
+    "Fiebre": ["shs","sep","men","pbl","inm","cat","neu","kaw","end","hlh","gol","tet","pan"],
+    "Hipotensión o shock": ["shs","ic","shh","ana","tap","kaw","pbl","sup","pcv","mio","cch","end"],
+    "Taquicardia": ["shs","ic","arr","shh","tap","mio","ana","hta","hk"],
+    "Bradicardia": ["hte","hk","arr","gol","tec","hid"],
+    "Dificultad respiratoria": ["bro","asm","neu","sdr","ira","vaa","pnt","aho","ana","ic","mio","hp","tos","inh","epc"],
+    "Cianosis": ["cch","ic","hp","ira","apn","tos","vaa","aho"],
+    "Sibilancias": ["asm","bro","ana"],
+    "Estridor o ronquera": ["vaa","ana","inh","tcc","mas"],
+    "Apnea": ["apn","tos","bro","hte","tco"],
+    "Tos": ["neu","tos","bro","vaa","epc"],
+    "Convulsiones": ["ee","men","hip","ecm","tec","tmd","nat","hte"],
+    "Alteración de conciencia o coma": ["hte","tec","men","ee","hip","cad","tmd","tco","top","tal","fha","ecm","hie","aho","acv","nat"],
+    "Cefalea o vómitos": ["hte","hid","men","acv","hta","tec"],
+    "Déficit neurológico focal": ["acv","tec","hte","hid","gbs","trm"],
+    "Debilidad o parálisis": ["gbs","tet","trm","rab","hk"],
+    "Agitación o delirium": ["del","tmd","tal","hte","hip"],
+    "Dolor abdominal": ["abd","pan","nec","hda","cad","suh","ecm"],
+    "Vómitos o diarrea": ["shh","suh","nat","end","cad","nec","des"],
+    "Deshidratación": ["shh","nat","cad","ehh","suh"],
+    "Sangrado o hemorragia": ["shh","hda","cid","pol","tec","acv","ane","suh"],
+    "Petequias o púrpura": ["sep","cid","suh","hlh","kaw","shs"],
+    "Ictericia": ["fha","ane","hda"],
+    "Poca orina (oliguria)": ["lra","suh","nef","rab","shh"],
+    "Edema": ["nef","ic","lra"],
+    "Hipertensión arterial": ["hta","lra","suh","nef","hte"],
+    "Poliuria o sed excesiva": ["cad","ehh"],
+    "Hipoglucemia": ["hip","ecm","sup"],
+    "Dolor torácico o palpitaciones": ["arr","mio","tap","pnt","hp"],
+    "Urticaria o exantema": ["ana","kaw","pbl"],
+    "Quemadura": ["que","inh","gol"],
+    "Trauma": ["pol","tec","tto","trm","mal","aho","que"],
+    "Ingesta o intoxicación": ["tmd","tcc","tco","top","tal","ani"],
+    "Mordedura o picadura": ["ani"],
+    "Ahogamiento": ["aho"],
+    "Sodio alterado": ["nat","sup","ehh"],
+    "Potasio alterado": ["hk","lra","rab","lis"]
+  };
+
+  /* Otras formas de nombrar cada signo o síntoma, para el buscador. */
+  var SYMP_SYN = {
+    "Fiebre": "febril temperatura hipertermia",
+    "Hipotensión o shock": "presion baja hipoperfusion mala perfusion colapso",
+    "Taquicardia": "frecuencia cardiaca alta palpitaciones",
+    "Bradicardia": "frecuencia cardiaca baja",
+    "Dificultad respiratoria": "disnea falta de aire ahogo taquipnea tiraje hipoxemia",
+    "Cianosis": "azul morado hipoxemia",
+    "Sibilancias": "silbidos broncoespasmo",
+    "Estridor o ronquera": "ruido inspiratorio obstruccion via aerea",
+    "Apnea": "pausas respiratorias",
+    "Convulsiones": "crisis ataque epilepsia epileptico",
+    "Alteración de conciencia o coma": "somnolencia letargo obnubilacion inconsciente glasgow",
+    "Cefalea o vómitos": "dolor de cabeza",
+    "Déficit neurológico focal": "hemiparesia asimetria paralisis facial",
+    "Debilidad o parálisis": "paresia hipotonia",
+    "Agitación o delirium": "confusion irritabilidad",
+    "Dolor abdominal": "panza abdomen",
+    "Vómitos o diarrea": "gastroenteritis",
+    "Deshidratación": "perdidas liquidos",
+    "Sangrado o hemorragia": "hematemesis melena epistaxis",
+    "Petequias o púrpura": "manchas piel",
+    "Ictericia": "amarillo bilirrubina",
+    "Poca orina (oliguria)": "diuresis baja anuria",
+    "Edema": "hinchazon",
+    "Hipertensión arterial": "presion alta",
+    "Poliuria o sed excesiva": "diabetes polidipsia",
+    "Hipoglucemia": "glucemia baja",
+    "Dolor torácico o palpitaciones": "pecho",
+    "Urticaria o exantema": "rash ronchas alergia erupcion",
+    "Quemadura": "fuego escaldadura",
+    "Ingesta o intoxicación": "envenenamiento tragó pastillas",
+    "Mordedura o picadura": "animal ofidio escorpion arana",
+    "Sodio alterado": "hiponatremia hipernatremia",
+    "Potasio alterado": "hiperkalemia hipokalemia"
+  };
+  /* Palabras que se usan para nombrar cada aspecto o aparato. */
+  var ALIAS = {
+    cv: "corazon cardiaco cardiologico circulatorio shock hemodinamico",
+    re: "pulmon pulmonar respiratorio ventilacion via aerea",
+    in: "infeccion infeccioso sepsis",
+    ne: "cerebro neurologico sistema nervioso neuro",
+    tr: "trauma quemado quemaduras ambiental",
+    en: "endocrino metabolico diabetes glucosa",
+    rn: "rinon renal hidroelectrolitico electrolitos",
+    di: "digestivo higado hepatico nutricion abdomen",
+    he: "sangre hematologico oncologico oncologia tumor",
+    to: "toxicologico intoxicacion veneno",
+    po: "posoperatorio cirugia procedimientos",
+    ot: "cronico paliativo traslado"
+  };
+  /* Qué herramientas del listado «Aparatos y sistemas» corresponden a cada aspecto de Motivos de ingreso. */
+  var SYSMAP = { cv: "cv", re: "re", in: "in", ne: "ne", tr: "tr", en: "en", rn: "re2", di: "di", he: "he", to: "to", po: "pr", ot: "ca" };
+
+  return { LBL: LBL, BASE: BASE, TRIAGE: TRIAGE, SYS: SYS, GROUPS: GROUPS, CASES: CASES, IND: IND, IND_PEND: IND_PEND, SYMP: SYMP, SYMP_SYN: SYMP_SYN, ALIAS: ALIAS, SYSMAP: SYSMAP };
 })();

@@ -41,3 +41,28 @@
 .abc-b{padding:0 14px 14px}
 .abc-b .hl-l{margin-top:12px}
 .tri-t{margin-top:12px}
+
+/* Emergencias: accesos grandes a PARO y PALS */
+.em-b{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 12px}
+.em-b>*{display:flex;flex-direction:column;gap:2px;min-height:66px;padding:12px 14px;border-radius:16px;text-align:left;text-decoration:none;font:inherit;cursor:pointer;border:1.5px solid #D9A441;color:inherit;background:var(--surf)}
+.em-b b{font:700 1.05rem var(--disp,inherit)}.em-b small{opacity:.8;font-size:.76rem;line-height:1.25}
+.em-paro{background:linear-gradient(160deg,#C9302C,#9E1B17)!important;border-color:#9E1B17!important;color:#fff!important;box-shadow:0 10px 18px -12px rgba(158,27,23,.9)}
+@media (max-width:350px){.em-b{grid-template-columns:1fr}}
+.hub-h2{font:650 .74rem var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--mut);margin:12px 4px 6px}
+
+/* Buscador predictivo */
+.ps{position:relative;width:100%}
+.ps-in{display:flex;align-items:center;gap:8px;height:50px;padding:0 14px;border-radius:16px;background:var(--surf);border:1.5px solid var(--line);box-shadow:var(--sh1,0 1px 2px rgba(30,43,48,.05))}
+.ps-in:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 22%,transparent)}
+.ps-in svg{width:20px;height:20px;color:var(--mut);flex:none}
+.ps-in input{flex:1;min-width:0;border:0;outline:0;background:none;color:var(--ink);font:500 1rem var(--sans);height:100%}
+.ps-in input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.ps-r{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:50;margin:0;padding:6px;list-style:none;max-height:min(56vh,420px);overflow:auto;
+  background:var(--surf);border:1.5px solid var(--line);border-radius:16px;box-shadow:0 18px 34px -16px rgba(11,38,49,.55);text-align:left}
+.ps-r li{display:flex;flex-direction:column;gap:1px;padding:10px 12px;border-radius:12px;cursor:pointer}
+.ps-r li[aria-selected=true]{background:var(--tint)}
+.ps-t{font:650 .95rem var(--sans);color:var(--ink)}
+.ps-r small{color:var(--mut);font-size:.76rem}
+.ps-r mark{background:color-mix(in srgb,#D9A441 45%,transparent);color:inherit;border-radius:3px;padding:0 1px}
+.ps-no{color:var(--mut);cursor:default!important;font-size:.9rem}
+#cs-search{margin:0 0 4px}

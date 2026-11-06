@@ -105,3 +105,9 @@
 .cv-panel .cv-pw .cv-paro,.cv-panel .cv-pw .paro-l{grid-column:auto;grid-row:auto}
 .cv-panel .cv-pw .cv-paro{width:78px;height:78px}
 .cv-ecg{grid-column:1/-1;grid-row:2;margin-top:10px}
+
+/* Buscador de la portada */
+.cv-search{width:100%;margin-top:16px;position:relative;z-index:30}
+.cv-search .ps-in{height:48px}
+.cv-search .ps-r{max-height:min(40vh,330px)}
+.tabs button{font-size:.58rem}

@@ -1,5 +1,14 @@
 # Arucip (antes Picu Pocket)
 
+## REGLAS PARA QUIEN TRABAJE EN ESTE REPOSITORIO (leer primero)
+- **No tocar la estética sin que Gonzalo lo pida**: logo, colores, tipografías, botones, portada, panel de emergencia, ECG y tarjetas están aprobados. Cualquier cambio visual se muestra primero en un HTML aparte.
+- **Botonera acordada** (Jorge Selandari y Gonzalo): Emergencias · Motivos de ingreso · Indicaciones y cálculos · Favoritos · Más. Autocuidado y Calidad y seguridad van dentro de «Más» (no son botones de acceso rápido).
+- No aparecen las palabras «Biblia», «Tips» ni «Funciona sin conexión». Lo que no se pudo reubicar está en Más › Otras recomendaciones.
+- Sin dosis nuevas. Todo contenido clínico nuevo va marcado ⚕ «pendiente de revisión médica».
+- Antes de subir: `NODE_PATH=$(npm root -g) node tests/smoke.js` debe terminar en «Todo bien».
+- Pendientes y plan: ver `docs/PENDIENTES.md`.
+
+
 Ayuda rápida para cuidados intensivos pediátricos. PWA sin dependencias que funciona sin conexión.
 Basada en AR-UCIP (Argentina). Autor: Gonzalo Gabriel Pereira.
 
@@ -50,3 +59,8 @@ Nueva barra inferior propuesta:
 6. **Más**, ordenado. Autocuidado y Calidad y Seguridad NO llevan botón de acceso rápido: van como espacio claro dentro de «Más». Idea abierta: ponderar un reporte de eventos, normas, etc.
 
 Nota clínica: «Indicaciones diarias» y «periodicidad de estudios» son contenido nuevo que debe redactar o validar un médico del servicio; no se inventa.
+
+## v0.54 · botonera de Jorge
+- Barra: **Emergencias** (PARO, Secuencia PALS, Cards, buscador y ABC) · **Motivos de ingreso** (por aspecto, con las herramientas de cada aparato y buscador por signo, síntoma, aparato o motivo) · **Indicaciones y cálculos** (balances, nutrición, analgosedación, infusiones, pase y escalas; «indicaciones diarias» y «estudios: qué pedir y cuándo» quedan como pendientes de redacción médica) · **Favoritos** (apartados y herramientas fijados como tarjetas) · **Más** (ordenado: herramientas, Autocuidado, Calidad y seguridad, IA, otras recomendaciones, la app).
+- Portada: buscador general predictivo (`js/buscador.js`) con tolerancia a acentos y a un error de tipeo.
+- `js/data.js`: `SYMP` (signos y síntomas → motivos, ⚕ a revisar), `SYMP_SYN`, `ALIAS`, `SYSMAP`, `IND`.

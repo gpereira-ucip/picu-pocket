@@ -83,7 +83,7 @@
         '</ul><div class="hl-l">' + s.t.map(link).join("") + "</div></div></details>";
     }).join("");
     host.innerHTML =
-      '<h2>Emergencias</h2><p class="sub">Orden de trabajo ante un paciente que ingresa: evaluá con el ABC y abrí lo que necesites.</p><div class="hl-l" style="margin:6px 0 10px"><a class="hl" href="#" data-go="cards"><span class="hl-t"><b>Cards: medicación por peso</b><small>Tablas para situaciones críticas</small></span>' + CHEV + '</a></div>' +
+      '<h2>Emergencias</h2><p class="sub">Orden de trabajo ante un paciente que ingresa: evaluá con el ABC y abrí lo que necesites.</p><div class="em-b"><button class="em-paro" type="button" id="em-paro"><b>PARO</b><small>RCP con metrónomo y registro</small></button><a class="em-pals" href="#" data-tool="pals"><b>Secuencia PALS</b><small>Evaluación y algoritmos pediátricos</small></a></div><div class="hl-l" style="margin:6px 0 10px"><a class="hl" href="#" data-go="cards"><span class="hl-t"><b>Cards: medicación por peso</b><small>Tablas para situaciones críticas</small></span>' + CHEV + '</a></div>' +
       '<div class="card tri-t"><div class="calc"><h3 class="th" style="margin-top:0">' + esc(T.tri.n) + '</h3><p class="hint" style="margin-top:0">' + esc(T.tri.d) + '</p><ul class="hub-ul">' + li(T.tri.pts) + "</ul></div></div>" +
       '<div class="abc-w">' + abc + "</div>" +
       '<div class="card"><div class="calc"><h3 class="th" style="margin-top:0">Después del ABC</h3><ul class="hub-ul">' + li(T.prox) + "</ul></div></div>" +
@@ -95,7 +95,7 @@
   function renderSys() {
     var v = $("#v-sys"), html;
     if (!sysState) {
-      html = '<h2>Aparatos y sistemas</h2><p class="sub">Elegí el sistema y vas a ver todo lo que la app tiene para él.</p><div class="hub-grid">' +
+      html = '<button class="btn g back" type="button" data-hbm>‹ Motivos de ingreso</button><h2>Aparatos y sistemas</h2><p class="sub">Elegí el sistema y vas a ver todo lo que la app tiene para él.</p><div class="hub-grid">' +
         D.SYS.map(function (s) {
           return '<button class="tile" type="button" data-sys="' + s.id + '"><span class="tile-i">' + svg(s.ic) + '</span><b>' + esc(s.n) + "</b><small>" + esc(s.d) + "</small></button>";
         }).join("") + "</div>" + NOTE;
@@ -107,12 +107,16 @@
   }
 
   /* ---------- CASOS ---------- */
-  var cs = { g: null, c: null, q: "" };
+  var cs = { g: null, c: null, s: null, q: "" };
   function gname(id) { return D.GROUPS.filter(function (g) { return g.id === id; })[0]; }
   function casesOf(gid) { return D.CASES.filter(function (c) { return c.g.indexOf(gid) >= 0; }); }
   function caseRow(c) {
     var gs = c.g.map(function (i) { return gname(i).n; }).join(" · ");
     return '<button class="cr" type="button" data-case="' + c.id + '"><span class="hl-t"><b>' + esc(c.n) + "</b><small>" + esc(gs) + "</small></span>" + CHEV + "</button>";
+  }
+  function sysTools(gid) {
+    var sid = (D.SYSMAP || {})[gid], s = D.SYS.filter(function (x) { return x.id === sid; })[0];
+    return s && s.t && s.t.length ? '<h3 class="hub-h">Herramientas de este aparato</h3>' + sections(s.t).replace(/<h3 class="hub-h">/g, '<h4 class="hub-h2">').replace(/<\/h3>/g, "</h4>") : "";
   }
   function renderCasos() {
     var v = $("#v-casos"), html;
@@ -124,25 +128,27 @@
         sections(c.t) + base() + NOTE;
     } else if (cs.g) {
       var g = gname(cs.g);
-      html = back + '<div class="hub-hd"><span class="tile-i">' + svg(g.ic) + "</span><h2>" + esc(g.n) + '</h2></div><p class="sub">' + esc(g.d) + '</p><div class="cr-l">' + casesOf(g.id).map(caseRow).join("") + "</div>" + NOTE;
+      html = back + '<div class="hub-hd"><span class="tile-i">' + svg(g.ic) + "</span><h2>" + esc(g.n) + '</h2></div><p class="sub">' + esc(g.d) + '</p><h3 class="hub-h">Motivos de ingreso</h3><div class="cr-l">' + casesOf(g.id).map(caseRow).join("") + "</div>" + sysTools(g.id) + NOTE;
+    } else if (cs.s) {
+      var ids = (D.SYMP || {})[cs.s] || [];
+      html = back + '<p class="hub-badge">Signo o síntoma</p><h2>' + esc(cs.s) + '</h2><p class="sub">Motivos de ingreso que pueden presentarse con este signo o síntoma. Orientativo: no reemplaza el criterio clínico.</p><div class="cr-l">' +
+        D.CASES.filter(function (c) { return ids.indexOf(c.id) >= 0; }).map(caseRow).join("") + "</div>" + NOTE;
     } else {
-      var q = nz(cs.q.trim()), res = "";
-      if (q.length > 1) {
-        var m = D.CASES.filter(function (c) { return nz(c.n + " " + c.g.map(function (i) { return gname(i).n; }).join(" ")).indexOf(q) >= 0; });
-        res = m.length ? '<div class="cr-l">' + m.map(caseRow).join("") + "</div>" : '<p class="sub">Sin resultados.</p>';
-      }
-      html = '<h2>Motivos de ingreso</h2><p class="sub">Motivos de ingreso a terapia intensiva pediátrica. Elegí el motivo y vas a ver qué hacer al recibir al paciente y qué herramientas de la app te sirven.</p>' +
-        '<div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.500-3.500"/></svg><input id="cs-q" type="search" placeholder="Buscar motivo de ingreso" autocomplete="off" enterkeyhint="search" value="' + esc(cs.q) + '"></div>' +
-        (q.length > 1 ? res :
-          '<h3 class="hub-h">Frecuentes</h3><div class="cr-l">' + D.CASES.filter(function (c) { return c.top; }).map(caseRow).join("") + "</div>" +
-          '<h3 class="hub-h">Motivos de ingreso por grupo</h3><div class="hub-grid">' + D.GROUPS.map(function (g) {
-            return '<button class="tile" type="button" data-grp="' + g.id + '"><span class="tile-i">' + svg(g.ic) + "</span><b>" + esc(g.n) + "</b><small>" + casesOf(g.id).length + " motivos · " + esc(g.d) + "</small></button>";
-          }).join("") + "</div>") + NOTE;
+      var others = ["ad", "pr", "ca"].map(function (id) { return D.SYS.filter(function (x) { return x.id === id; })[0]; }).filter(Boolean);
+      html = '<h2>Motivos de ingreso</h2><p class="sub">Motivos de ingreso a terapia intensiva pediátrica, por aspecto. Buscá por aparato, signo, síntoma o motivo.</p>' +
+        '<div id="cs-search"></div>' +
+        '<h3 class="hub-h">Frecuentes</h3><div class="cr-l">' + D.CASES.filter(function (c) { return c.top; }).map(caseRow).join("") + "</div>" +
+        '<h3 class="hub-h">Por aspecto o aparato</h3><div class="hub-grid">' + D.GROUPS.map(function (g) {
+          return '<button class="tile" type="button" data-grp="' + g.id + '"><span class="tile-i">' + svg(g.ic) + "</span><b>" + esc(g.n) + "</b><small>" + casesOf(g.id).length + " motivos · " + esc(g.d) + "</small></button>";
+        }).join("") + "</div>" +
+        '<h3 class="hub-h">Otros recursos</h3><div class="hub-grid">' + others.map(function (x) {
+          return '<button class="tile" type="button" data-sys="' + x.id + '"><span class="tile-i">' + svg(x.ic) + "</span><b>" + esc(x.n) + "</b><small>" + esc(x.d) + "</small></button>";
+        }).join("") + "</div>" + NOTE;
     }
     v.innerHTML = html;
-    var inp = $("#cs-q");
-    if (inp && cs.q) { inp.focus(); try { inp.setSelectionRange(inp.value.length, inp.value.length); } catch (e) {} }
-    if (!inp || !cs.q) scrollTo(0, 0);
+    var sh = $("#cs-search");
+    if (sh && window.ARUCIP_SEARCH) window.ARUCIP_SEARCH.mount(sh, { scope: "motivos", placeholder: "Buscar signo, síntoma, aparato o motivo" });
+    scrollTo(0, 0);
   }
 
   /* ---------- Eventos ---------- */
@@ -153,24 +159,47 @@
     if ((b = t.closest("[data-sys]"))) { sysState = b.dataset.sys; renderSys(); return; }
     if ((b = t.closest("[data-grp]"))) { cs.g = b.dataset.grp; renderCasos(); return; }
     if ((b = t.closest("[data-case]"))) { cs.c = b.dataset.case; renderCasos(); return; }
+    if ((b = t.closest("[data-hbm]"))) { var tb = document.querySelector('.tabs button[data-v="casos"]'); if (tb) tb.click(); return; }
     if ((b = t.closest("[data-hb]"))) {
       if (b.closest("#v-sys")) { sysState = null; renderSys(); }
       else if (cs.c && !cs.q) { cs.c = null; renderCasos(); }
       else if (cs.c) { cs.c = null; renderCasos(); }
-      else { cs.g = null; renderCasos(); }
+      else { cs.g = null; cs.s = null; renderCasos(); }
       return;
     }
     if ((b = t.closest(".tabs button"))) {
       if (b.dataset.v === "sys" && sysState) { sysState = null; renderSys(); }
-      if (b.dataset.v === "casos" && (cs.c || cs.g || cs.q)) { cs = { g: null, c: null, q: "" }; renderCasos(); }
+      if (b.dataset.v === "triage") { /* sin estado propio */ }
+      if (b.dataset.v === "casos" && (cs.c || cs.g || cs.q)) { cs = { g: null, c: null, s: null, q: "" }; renderCasos(); }
     }
   });
-  document.addEventListener("input", function (e) {
-    if (e.target && e.target.id === "cs-q") { cs.q = e.target.value; cs.g = null; cs.c = null; renderCasos(); }
+  /* PARO desde Emergencias */
+  document.addEventListener("click", function (e) {
+    if (e.target.closest && e.target.closest("#em-paro")) { var p = document.getElementById("paro"); if (p) p.click(); }
   });
 
+  /* ---------- INDICACIONES Y CÁLCULOS (día a día) ---------- */
+  function renderInd() {
+    var v = $("#v-ind");
+    if (!v || !D.IND) return;
+    v.innerHTML = '<h2>Indicaciones y cálculos</h2><p class="sub">Para el trabajo diario en sala: balances, nutrición, analgosedación, infusiones y controles.</p>' +
+      D.IND.map(function (g) { return '<h3 class="hub-h">' + esc(g.n) + '</h3><div class="hl-l">' + g.t.map(link).join("") + "</div>"; }).join("") +
+      '<h3 class="hub-h">En preparación</h3><div class="card"><div class="calc"><ul class="hub-ul">' +
+      (D.IND_PEND || []).map(function (x) { return "<li><b>" + esc(x.n) + "</b>: " + esc(x.d) + "</li>"; }).join("") +
+      '</ul><p class="hint" style="margin:8px 0 0">Contenido pendiente de redacción y validación por el servicio. No se agregan indicaciones ni periodicidades sin esa revisión.</p></div></div>' + NOTE;
+  }
+
+  /* ---------- API para el buscador ---------- */
+  function goTab(v) { var tb = document.querySelector('.tabs button[data-v="' + v + '"]'); if (tb) tb.click(); }
+  window.ARUCIP_HUBS = {
+    openCase: function (id) { goTab("casos"); cs = { g: null, c: id, s: null, q: "" }; renderCasos(); },
+    openGroup: function (id) { goTab("casos"); cs = { g: id, c: null, s: null, q: "" }; renderCasos(); },
+    openSymptom: function (name) { goTab("casos"); cs = { g: null, c: null, s: name, q: "" }; renderCasos(); },
+    openSys: function (id) { goTab("casos"); if (window.ARUCIP_GO) window.ARUCIP_GO("sys"); sysState = id; renderSys(); }
+  };
+
   /* ---------- Arranque ---------- */
-  function init() { renderTriage(); renderSys(); renderCasos(); }
+  function init() { renderTriage(); renderSys(); renderCasos(); renderInd(); }
   if (document.readyState === "complete") init(); else window.addEventListener("load", init);
 
   /* Traducciones de los títulos de las secciones nuevas */
