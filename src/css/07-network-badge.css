@@ -1,0 +1,10 @@
+
+.netb{display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:2px 8px;border-radius:99px;background:var(--soft);border:1px solid var(--line);color:var(--mut);font-size:.72rem;font-weight:600;line-height:1.4}
+.netb svg{width:12px!important;height:12px!important;color:var(--mut)}
+.blive .bta{display:block;margin-top:4px;font-size:.72rem;font-weight:700;color:var(--mut);letter-spacing:0}
+.blive .bta span{font-variant-numeric:tabular-nums;white-space:nowrap}
+#wbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 12px;padding:10px 14px;border-radius:var(--r2);background:var(--tint);border:1px solid color-mix(in srgb,var(--acc) 25%,var(--line))}
+#wbar span{flex:1;min-width:0;font-size:.9rem;font-weight:600;color:var(--ink)}
+#wbar b{font-variant-numeric:tabular-nums;color:var(--acc)}
+#wbar button,.gw-new{min-height:44px;padding:0 14px;border-radius:12px;border:1.5px solid var(--acc);background:var(--surf);color:var(--acc);font:600 .85rem var(--sans);cursor:pointer}
+.gw-new{margin-top:8px}

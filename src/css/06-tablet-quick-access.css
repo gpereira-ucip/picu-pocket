@@ -1,0 +1,17 @@
+
+/* 0.42 · F13: tablet y horizontal en dos columnas; F11: accesos rápidos editables */
+.qa-hd{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.qa-ed{height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surf);color:var(--acc);font:700 .78rem var(--disp);cursor:pointer}
+.qa-list{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:6px}
+.qa-li{display:flex;align-items:center;gap:2px;background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:2px 4px 2px 12px;min-height:46px}
+.qa-li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:600 .86rem var(--disp)}
+.qa-li button{flex:none;width:44px;height:44px;border:0;background:none;color:var(--ink);font-size:1.15rem;border-radius:10px;cursor:pointer}
+.qa-li button[disabled]{opacity:.28;cursor:default}
+.qa-sub{font:700 .7rem var(--disp);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:10px 4px 6px}
+@media(min-width:900px){
+ .view{max-width:1120px}
+ #v-tool,#v-more,#v-burn,#v-cards{max-width:760px}
+ #cks,#calcs,#tl,#bl,#pc,#tpl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;align-items:start}
+ #calcs>div,#pc>div,#pc>.chint{grid-column:1/-1}
+ .qa-row{flex-wrap:wrap;overflow-x:visible}
+}

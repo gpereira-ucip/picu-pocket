@@ -7,8 +7,8 @@
  * Idea y base: Jorge Selandari. */
 var CACHE = "arucip";
 var TIMEOUT_MS = 4000;
-var ASSETS = ["./", "index.html", "css/arucip.css", "css/hubs.css", "js/data.js", "js/hubs.js", "js/migrate.js", "js/cover.js",
-  "assets/arucip-mark.svg", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
+var ASSETS = ["./", "index.html", "css/hubs.css", "css/portada.css", "js/data.js", "js/hubs.js", "js/portada.js", "js/migrate.js",
+  "assets/emblem-ar-ucip.png", "assets/logo-emblem-light.png", "assets/logo-emblem-dark.png", "assets/logo-wordmark-light.png", "assets/logo-wordmark-dark.png", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {

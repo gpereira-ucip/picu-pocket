@@ -1,0 +1,42 @@
+/* Arucip · botones de la portada (sobre el diseño de la portada original) */
+.cv-panel{position:relative;margin-top:22px;width:100%;display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 8px;padding:14px 14px 0;overflow:hidden;text-align:left;
+  background:var(--surf);border:1px solid var(--line);border-radius:22px;box-shadow:0 14px 30px -20px rgba(11,38,49,.5)}
+.cv-pl{display:grid;grid-template-columns:auto auto;gap:8px 10px;align-items:center;justify-content:start}
+.cv-pl .sw{position:relative;inset:auto;margin:0}
+.cv-swl{font:650 .92rem var(--sans);white-space:nowrap;color:var(--ink)}
+.cv-off2{grid-column:1/-1;font-size:.8rem;color:var(--mut)}
+.cv-pw{display:flex;flex-direction:column;align-items:center;gap:5px}
+.cv-paro{position:static!important;width:84px;height:84px;margin:0}
+.cv-pw .paro-l{display:block!important}
+.cv-ecg{grid-column:1/-1;margin:4px -14px 0}
+.cv-ecg .pk-ecg{display:block!important;margin:0;height:44px}
+.cv-ecg .pk-ecg::after{background:linear-gradient(90deg,var(--surf) 0,transparent 12%,transparent 80%,var(--surf) 100%)}
+.cv-nav{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;margin-top:14px}
+.cv-n{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:70px;padding:8px 2px;border-radius:18px;border:1.5px solid color-mix(in srgb,var(--acc) 28%,var(--line));
+  background:var(--surf);color:var(--ink);cursor:pointer;font:inherit;transition:transform .12s;box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 2px 6px -3px rgba(11,38,49,.2)}
+.cv-n:active{transform:scale(.95)}
+.cv-n b{font:650 .7rem var(--sans)}
+.cv-n span svg{width:24px;height:24px;color:var(--acc)}
+@media(max-height:700px){.cv-panel{margin-top:14px}.cv-nav{margin-top:10px}}
+
+/* Logo de la portada: versión clara y oscura (PNG con fondo transparente) */
+.cv-d{display:none!important}
+:root[data-mode=dark] .cv-d{display:block!important}
+:root[data-mode=dark] .cv-l{display:none!important}
+.cv-em{border-radius:0!important;filter:drop-shadow(0 14px 18px rgba(23,56,74,.22))!important;width:min(52vw,200px)!important;height:auto}
+.cv-wm img{width:min(80vw,340px)!important}
+.cv-wm{margin-top:18px!important}
+
+/* Logo nuevo en el encabezado (versión clara y oscura) con relieve suave */
+.ph-md{display:none!important}
+:root[data-mode=dark] .ph-md{display:block!important}
+:root[data-mode=dark] .ph-ml{display:none!important}
+.ph-mark{border-radius:0!important;object-fit:contain;filter:drop-shadow(0 6px 8px rgba(20,40,55,.28))!important}
+.ph-wm img{filter:drop-shadow(0 3px 3px rgba(20,40,55,.22))}
+.cv-wm img{filter:drop-shadow(0 4px 4px rgba(20,40,55,.22))}
+:root[data-mode=dark] .ph-mark,:root[data-mode=dark] .ph-wm img,:root[data-mode=dark] .cv-wm img{filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))!important}
+
+/* Barra inferior: etiquetas largas en dos líneas */
+.tabs button{line-height:1.05;font-size:.62rem;padding-left:2px;padding-right:2px;text-wrap:balance}
+.tabs button i{margin-bottom:2px}
+.cv-n b{font-size:.62rem;line-height:1.1;text-align:center}

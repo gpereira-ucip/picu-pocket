@@ -21,7 +21,7 @@ window.ARUCIP_DATA = (function () {
          4: "Otros procedimientos ecoguiados", 5: "eFAST pediátrico" },
     b: { pa: "Datos del paciente quemado", ch: "Mapa de quemaduras", to: "Superficie corporal quemada (SCQ)", fl: "Reanimación con fluidos",
          nb: "Necesidades basales y pérdidas", sc: "Scores de gravedad (DEMI, Garcés)", "in": "Gravedad y derivación" },
-    x: { cards: "Cards: medicación por peso", bib: "La Biblia: fórmulas y dosis", tips: "Tips de la unidad" }
+    x: { cards: "Cards: medicación por peso", bib: "Otras recomendaciones: fórmulas y preparaciones", tips: "Otras recomendaciones: notas prácticas de la unidad" }
   };
 
   /* ---------- Siempre a mano ---------- */
