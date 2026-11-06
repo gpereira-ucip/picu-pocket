@@ -81,3 +81,15 @@
 .cv-col-in .cv-fg img{width:min(44vw,170px)}
 .cv-pw{justify-self:end}
 .cv-paro{width:78px;height:78px}
+
+/* Logo de Garrahan y botón EMERGENCIA: mismo alto y centrados sobre la misma línea horizontal */
+.cv-panel{grid-template-columns:1fr auto;grid-template-rows:auto 78px auto auto;gap:6px 14px;align-items:center;padding:14px 14px 0 16px}
+.cv-col-in,.cv-pw{display:contents}
+.cv-col-in>span{grid-column:1;grid-row:1;align-self:end}
+.cv-col-in .cv-fg{grid-column:1;grid-row:2;height:78px;box-sizing:border-box;padding:0 12px;display:flex;align-items:center;justify-content:center;border-radius:16px;align-self:center}
+.cv-col-in .cv-fg img{height:58px;width:auto;max-width:100%;object-fit:contain}
+.cv-pw .cv-paro{grid-column:2;grid-row:2;width:78px;height:78px;align-self:center;justify-self:center}
+.cv-pw .paro-l{grid-column:2;grid-row:3;justify-self:center}
+.cv-ecg{grid-row:4}
+.cv-panel .cv-col-in,.cv-panel .cv-pw{display:contents}
+.cv-panel .cv-col-in>span{margin:0}
