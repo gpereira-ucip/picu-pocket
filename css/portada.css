@@ -93,3 +93,15 @@
 .cv-ecg{grid-row:4}
 .cv-panel .cv-col-in,.cv-panel .cv-pw{display:contents}
 .cv-panel .cv-col-in>span{margin:0}
+
+/* Garrahan: tarjeta única (leyenda + logo), del mismo alto que el botón con su rótulo y centrada con él */
+.cv-panel{grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:0 14px;align-items:center;padding:14px 14px 0 14px}
+.cv-panel .cv-col-in{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;height:104px;box-sizing:border-box;margin:0;padding:0 10px;
+  grid-column:1;grid-row:1;background:#fff;border-radius:18px;box-shadow:0 1px 2px rgba(11,38,49,.1),0 10px 24px -14px rgba(11,38,49,.45)}
+.cv-panel .cv-col-in>span{grid-row:auto;align-self:auto;color:#5B6B73;opacity:1;font-size:.6rem;letter-spacing:.07em;text-align:center}
+.cv-panel .cv-col-in .cv-fg{grid-row:auto;height:auto;padding:0;background:none;box-shadow:none;border-radius:0;display:block}
+.cv-panel .cv-col-in .cv-fg img{height:52px;width:auto;max-width:100%}
+.cv-panel .cv-pw{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;height:104px;grid-column:2;grid-row:1}
+.cv-panel .cv-pw .cv-paro,.cv-panel .cv-pw .paro-l{grid-column:auto;grid-row:auto}
+.cv-panel .cv-pw .cv-paro{width:78px;height:78px}
+.cv-ecg{grid-column:1/-1;grid-row:2;margin-top:10px}
