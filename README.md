@@ -39,3 +39,14 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo Gabriel Pereira.
 - Portada rehecha según el diseño que pidió Gonzalo: emblema de la cabeza con engranajes, título ARUCI + P con vara de Esculapio, tagline, botón «Entrar», panel con interruptor de modo claro/oscuro, botón EMERGENCIA (abre el modo PARO) y ECG animado, y «Con la colaboración de» Fundación Garrahan.
 - Se toca el logo del encabezado para volver a verla. El ECG respeta «reducir movimiento».
 - Se quitaron de la portada los 5 accesos (están en la barra inferior de la app).
+
+## Pendiente de diseño · propuesta de Jorge (a acordar con Jorge y Eduardo antes de implementar)
+Nueva barra inferior propuesta:
+1. **Buscador general en la portada** con predictivo que funcione bien (busca en toda la app).
+2. **Emergencias**: correcto como está, con la secuencia PALS.
+3. **Motivo de ingreso a la unidad**: un solo botón dividido por aspectos (reemplaza la diferencia entre «aparatos y sistemas» y «cuadros clínicos»; junta Sistemas y Casos). Con buscador predictivo propio de aparatos, signos, síntomas, etc.
+4. **Indicaciones y cálculos** (título tentativo), para el día a día asistencial: balances, indicaciones diarias, periodicidad de estudios complementarios, qué solicitar y cuándo. Sería el botón más práctico para el personal en actividad.
+5. **Favoritos / uso frecuente**: fijar botones o secciones para personalizar la app según la tarea diaria más frecuente.
+6. **Más**, ordenado. Autocuidado y Calidad y Seguridad NO llevan botón de acceso rápido: van como espacio claro dentro de «Más». Idea abierta: ponderar un reporte de eventos, normas, etc.
+
+Nota clínica: «Indicaciones diarias» y «periodicidad de estudios» son contenido nuevo que debe redactar o validar un médico del servicio; no se inventa.
