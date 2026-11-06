@@ -38,8 +38,8 @@
   var TYPE = { t: "Herramienta", k: "Checklist", c: "Calculadora", p: "POCUS", b: "Quemados", x: "Acceso" };
   var SECTION = { t: "Herramientas y escalas", k: "Checklists", c: "Calculadoras", p: "POCUS", b: "Quemados", x: "Otros accesos" };
   function toolTitle(k) {
-    var b = document.querySelector('#tl [data-tool="' + k + '"] b');
-    return b ? b.textContent.trim() : k;
+    var b = document.querySelector('#tl [data-tool="' + k + '"] b') || document.querySelector('[data-tool="' + k + '"] b');
+    return b ? b.textContent.trim() : (((D.LBL || {}).t || {})[k] || k);
   }
   function label(ref) {
     var p = ref.split(":"), t = p[0], id = p[1];
