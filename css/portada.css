@@ -1,0 +1,107 @@
+/* Arucip · botones de la portada (sobre el diseño de la portada original) */
+.cv-panel{position:relative;margin-top:22px;width:100%;display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 8px;padding:14px 14px 0;overflow:hidden;text-align:left;
+  background:var(--surf);border:1px solid var(--line);border-radius:22px;box-shadow:0 14px 30px -20px rgba(11,38,49,.5)}
+.cv-pl{display:grid;grid-template-columns:auto auto;gap:8px 10px;align-items:center;justify-content:start}
+.cv-pl .sw{position:relative;inset:auto;margin:0}
+.cv-swl{font:650 .92rem var(--sans);white-space:nowrap;color:var(--ink)}
+.cv-off2{grid-column:1/-1;font-size:.8rem;color:var(--mut)}
+.cv-pw{display:flex;flex-direction:column;align-items:center;gap:5px}
+.cv-paro{position:static!important;width:84px;height:84px;margin:0}
+.cv-pw .paro-l{display:block!important}
+.cv-ecg{grid-column:1/-1;margin:4px -14px 0}
+.cv-ecg .pk-ecg{display:block!important;margin:0;height:44px}
+.cv-ecg .pk-ecg::after{background:linear-gradient(90deg,var(--surf) 0,transparent 12%,transparent 80%,var(--surf) 100%)}
+.cv-nav{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;margin-top:14px}
+.cv-n{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:70px;padding:8px 2px;border-radius:18px;border:1.5px solid color-mix(in srgb,var(--acc) 28%,var(--line));
+  background:var(--surf);color:var(--ink);cursor:pointer;font:inherit;transition:transform .12s;box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 2px 6px -3px rgba(11,38,49,.2)}
+.cv-n:active{transform:scale(.95)}
+.cv-n b{font:650 .7rem var(--sans)}
+.cv-n span svg{width:24px;height:24px;color:var(--acc)}
+@media(max-height:700px){.cv-panel{margin-top:14px}.cv-nav{margin-top:10px}}
+
+/* Logo de la portada: versión clara y oscura (PNG con fondo transparente) */
+.cv-d{display:none!important}
+:root[data-mode=dark] .cv-d{display:block!important}
+:root[data-mode=dark] .cv-l{display:none!important}
+.cv-em{border-radius:0!important;filter:drop-shadow(0 14px 18px rgba(23,56,74,.22))!important;width:min(52vw,200px)!important;height:auto}
+.cv-wm img{width:min(80vw,340px)!important}
+.cv-wm{margin-top:18px!important}
+
+/* Logo nuevo en el encabezado (versión clara y oscura) con relieve suave */
+.ph-md{display:none!important}
+:root[data-mode=dark] .ph-md{display:block!important}
+:root[data-mode=dark] .ph-ml{display:none!important}
+.ph-mark{border-radius:0!important;object-fit:contain;filter:drop-shadow(0 6px 8px rgba(20,40,55,.28))!important}
+.ph-wm img{filter:drop-shadow(0 3px 3px rgba(20,40,55,.22))}
+.cv-wm img{filter:drop-shadow(0 4px 4px rgba(20,40,55,.22))}
+:root[data-mode=dark] .ph-mark,:root[data-mode=dark] .ph-wm img,:root[data-mode=dark] .cv-wm img{filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))!important}
+
+/* Barra inferior: etiquetas largas en dos líneas */
+.tabs button{line-height:1.05;font-size:.62rem;padding-left:2px;padding-right:2px;text-wrap:balance}
+.tabs button i{margin-bottom:2px}
+.cv-n b{font-size:.62rem;line-height:1.1;text-align:center}
+
+/* Favoritos: apartados fijados como tarjetas (iguales a las de «Más») */
+.fv-l{display:grid;gap:12px;margin-bottom:6px}
+.fv{position:relative}
+.fv .fv-a{padding-right:58px}
+.fv-un,.fav-s{position:absolute;right:46px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;border-radius:12px;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:var(--mut);-webkit-tap-highlight-color:transparent}
+.fv-un svg,.fav-s svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.fv-un[aria-pressed=true] svg,.fav-s[aria-pressed=true] svg{fill:#D9A441;stroke:#D9A441}
+.fv-un[aria-pressed=true],.fav-s[aria-pressed=true]{color:#D9A441}
+#v-more .lst>.lk.has-s{padding-right:58px}
+#v-more .lst{position:relative}
+
+/* Tarjetas fijadas: mismo aspecto que las de «Más» */
+#v-fav .lk{border:1px solid var(--line)!important;border-radius:20px;background:var(--surf);padding:17px 92px 17px 20px;box-shadow:var(--sh1,0 1px 2px rgba(30,43,48,.05));position:relative;overflow:hidden}
+#v-fav .lk::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:4px;border-radius:0 4px 4px 0;background:linear-gradient(180deg,var(--acc),var(--terra,#C27F62))}
+#v-fav .lk b{font-size:1.02rem}
+#v-fav .lk:active{transform:scale(.99);background:var(--tint)}
+#v-more .fv .lk{padding-right:92px!important}
+.fv-un,.fav-s{right:44px}
+.lk span[data-i]{position:absolute;right:14px;top:50%;transform:translateY(-50%)}
+
+/* Interruptor de tema pequeño: sol (claro) y luna (oscuro) según la posición, sin texto */
+.cv-go[hidden]{display:none!important}
+.sw{width:48px;height:26px}
+.sw::after{width:20px;height:20px;top:2px;left:2px;background:#D9A441 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B4210' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4'/%3E%3C/svg%3E") center/15px no-repeat}
+.sw[aria-checked=true]::after{transform:translateX(22px);background:#EAF6F8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23123B4A' stroke='%23123B4A' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z'/%3E%3C/svg%3E") center/14px no-repeat}
+.swm span{display:none}
+.cv-sw{position:absolute;top:calc(env(safe-area-inset-top) + 18px);right:20px;z-index:2}
+.cv-panel{grid-template-columns:1fr;justify-items:center}
+.cv-pw{justify-self:center}
+.cv-ecg{justify-self:stretch;width:calc(100% + 28px)}
+.cv-panel{padding-top:12px}
+
+/* Panel: patrocinio a la izquierda, botón EMERGENCIA en el lateral derecho */
+.cv-panel{grid-template-columns:1fr auto;justify-items:stretch;align-items:center;gap:4px 12px;padding:14px 14px 0 16px}
+.cv-col-in{margin:0;justify-items:start;text-align:left;gap:6px}
+.cv-col-in span{font-size:.62rem;letter-spacing:.07em;line-height:1.25}
+.cv-col-in .cv-fg{padding:7px 10px;border-radius:14px}
+.cv-col-in .cv-fg img{width:min(44vw,170px)}
+.cv-pw{justify-self:end}
+.cv-paro{width:78px;height:78px}
+
+/* Logo de Garrahan y botón EMERGENCIA: mismo alto y centrados sobre la misma línea horizontal */
+.cv-panel{grid-template-columns:1fr auto;grid-template-rows:auto 78px auto auto;gap:6px 14px;align-items:center;padding:14px 14px 0 16px}
+.cv-col-in,.cv-pw{display:contents}
+.cv-col-in>span{grid-column:1;grid-row:1;align-self:end}
+.cv-col-in .cv-fg{grid-column:1;grid-row:2;height:78px;box-sizing:border-box;padding:0 12px;display:flex;align-items:center;justify-content:center;border-radius:16px;align-self:center}
+.cv-col-in .cv-fg img{height:58px;width:auto;max-width:100%;object-fit:contain}
+.cv-pw .cv-paro{grid-column:2;grid-row:2;width:78px;height:78px;align-self:center;justify-self:center}
+.cv-pw .paro-l{grid-column:2;grid-row:3;justify-self:center}
+.cv-ecg{grid-row:4}
+.cv-panel .cv-col-in,.cv-panel .cv-pw{display:contents}
+.cv-panel .cv-col-in>span{margin:0}
+
+/* Garrahan: tarjeta única (leyenda + logo), del mismo alto que el botón con su rótulo y centrada con él */
+.cv-panel{grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:0 14px;align-items:center;padding:14px 14px 0 14px}
+.cv-panel .cv-col-in{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;height:104px;box-sizing:border-box;margin:0;padding:0 10px;
+  grid-column:1;grid-row:1;background:#fff;border-radius:18px;box-shadow:0 1px 2px rgba(11,38,49,.1),0 10px 24px -14px rgba(11,38,49,.45)}
+.cv-panel .cv-col-in>span{grid-row:auto;align-self:auto;color:#5B6B73;opacity:1;font-size:.6rem;letter-spacing:.07em;text-align:center}
+.cv-panel .cv-col-in .cv-fg{grid-row:auto;height:auto;padding:0;background:none;box-shadow:none;border-radius:0;display:block}
+.cv-panel .cv-col-in .cv-fg img{height:52px;width:auto;max-width:100%}
+.cv-panel .cv-pw{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;height:104px;grid-column:2;grid-row:1}
+.cv-panel .cv-pw .cv-paro,.cv-panel .cv-pw .paro-l{grid-column:auto;grid-row:auto}
+.cv-panel .cv-pw .cv-paro{width:78px;height:78px}
+.cv-ecg{grid-column:1/-1;grid-row:2;margin-top:10px}

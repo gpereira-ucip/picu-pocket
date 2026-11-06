@@ -21,7 +21,7 @@ window.ARUCIP_DATA = (function () {
          4: "Otros procedimientos ecoguiados", 5: "eFAST pediátrico" },
     b: { pa: "Datos del paciente quemado", ch: "Mapa de quemaduras", to: "Superficie corporal quemada (SCQ)", fl: "Reanimación con fluidos",
          nb: "Necesidades basales y pérdidas", sc: "Scores de gravedad (DEMI, Garcés)", "in": "Gravedad y derivación" },
-    x: { cards: "Cards: medicación por peso", bib: "La Biblia: fórmulas y dosis", tips: "Tips de la unidad" }
+    x: { cards: "Cards: medicación por peso", bib: "Otras recomendaciones: fórmulas y preparaciones", tips: "Otras recomendaciones: notas prácticas de la unidad" }
   };
 
   /* ---------- Siempre a mano ---------- */
@@ -579,14 +579,29 @@ window.ARUCIP_DATA = (function () {
     { id: "ptx", n: "Trasplante (hepático, renal)", g: ["po"],
       t: ["t:cort", "c:elec", "t:gfr", "k:ipass"] },
     { id: "pvo", n: "Vía aérea quirúrgica / ORL", g: ["po", "re"],
+      rec: ["Pase con ORL, cirugía y anestesia: qué se operó, cómo fue la vía aérea y si hubo dificultad al intubar.",
+            "Tené a mano el equipo de vía aérea difícil, con el plan A, B y C acordado antes de cualquier cambio de tubo o extubación.",
+            "Vigilá sangrado, edema y secreciones; cabecera elevada y control de la permeabilidad de la vía aérea.",
+            "Extubación solo con plan de rescate y personal con experiencia presente (checklist de extubación).",
+            "Ante obstrucción súbita, pedí ayuda de inmediato y preparate para acceso quirúrgico de la vía aérea."],
       t: ["k:intub", "k:extub", "p:2", "t:sri"] },
 
     /* ===== Crónicos, paliativos y otros ===== */
     { id: "dep", n: "Niño con dependencia tecnológica descompensado", g: ["ot"],
+      rec: ["Conocé la línea de base: dispositivo (traqueostomía, respirador domiciliario, gastrostomía, derivación) y el último control.",
+            "Pedí a la familia el equipo, los parámetros habituales y los últimos antecedentes; ellos suelen ser expertos en su hijo.",
+            "Revisá primero lo mecánico: cánula obstruida o desplazada, circuito, fuente de oxígeno, batería y alimentación.",
+            "Buscá infección intercurrente y causa de descompensación; mantené la nutrición y la continuidad de los cuidados.",
+            "Involucrá a los equipos de seguimiento (neumonología, neurología, cuidados paliativos) y definí objetivos de cuidado."],
       t: ["k:intub", "t:peep", "c:leche", "k:ipass"] },
     { id: "pal", n: "Cuidados paliativos y limitación del esfuerzo terapéutico", g: ["ot"],
       t: ["t:analgo", "c:opi", "t:comfb", "t:flaccr"] },
     { id: "apn", n: "Lactante pequeño con apneas", g: ["ot", "re"],
+      rec: ["Reconocé el tipo de apnea (central, obstructiva o mixta), su duración y si hay cianosis o bradicardia.",
+            "Monitoreo continuo de saturación, frecuencia cardíaca y respiratoria; estimulación y soporte ventilatorio según la respuesta.",
+            "Buscá la causa: infección (virus respiratorios, tos convulsa), reflujo, trastorno metabólico, neurológico o prematurez.",
+            "Evaluá el riesgo de sepsis con las herramientas de la app y considerá hemocultivos y laboratorio.",
+            "Aislamiento respiratorio si hay sospecha de virus o coqueluche."],
       t: ["t:npass", "t:peep", "t:qps4"] },
     { id: "det", n: "Deterioro clínico en sala (alerta temprana)", g: ["ot"],
       rec: ["Reevaluá ABC con signos vitales completos, apariencia y perfusión; compará con la línea de base.",

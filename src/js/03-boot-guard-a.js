@@ -1,0 +1,1 @@
+document.getElementById("nojs").hidden=true

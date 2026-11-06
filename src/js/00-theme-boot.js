@@ -1,0 +1,1 @@
+try{var _t=localStorage.getItem("arucip-theme");if(_t==="dark"||_t==="light")document.documentElement.dataset.theme=_t}catch(e){}

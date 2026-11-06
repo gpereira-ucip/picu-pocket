@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F6F2EA">
+<!--@script src/js/00-theme-boot.js-->
+<!--@script src/js/01-decimal-input.js-->
+<!--@script src/js/02-ios-sound.js-->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Arucip">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<title>Arucip, ayuda rápida para UCIP</title>
+<link rel="icon" type="image/png" sizes="64x64" href="<!--@datauri assets/favicon-64.png-->">
+<!--@style src/css/00-base.css--><!--@style src/css/01-burns.css-->
+<!--@style src/css/02-polish.css--><!--@style src/css/03-components.css--><!--@style src/css/04-checklist-items.css--><!--@style src/css/05-features.css--><!--@style src/css/06-tablet-quick-access.css-->
+</head><body><div class="nojs" id="nojs"><b>Arucip no se está ejecutando.</b> Este visor (por ejemplo la vista previa de WhatsApp o de Archivos) no corre aplicaciones. Abrí el archivo con Safari, Chrome u otro navegador, o usá el enlace web de la app.</div><!--@script src/js/03-boot-guard-a.js--><!--@script src/js/04-boot-guard-b.js-->
+<div class="cover out" id="cover" role="dialog" aria-modal="true" aria-label="Arucip" hidden><div class="cv-in">
+<img class="cv-em" src="<!--@datauri assets/emblem.svg-->" alt="">
+<h1 class="cv-wm" aria-label="Arucip"><img class="ph-wl" src="<!--@datauri assets/wordmark-light.png-->" alt=""><img class="ph-wd" src="<!--@datauri assets/wordmark-dark.png-->" alt=""></h1>
+<div class="cv-orn" aria-hidden="true"><i></i></div>
+<p class="cv-tag">Ayuda rápida para cuidados intensivos pediátricos</p>
+<button class="btn pri cv-go" id="cv-go" type="button">Entrar</button>
+<p class="cv-off">Funciona sin conexión</p>
+<div class="cv-col"><span>Con la colaboración de</span><div class="cv-fg"><img src="<!--@datauri assets/fundacion-garrahan.png-->" alt="Fundación Garrahan"></div></div>
+<details class="cv-team"><summary>Personas intervinientes</summary><div id="cv-team"></div></details>
+<p class="cv-by">Basada en AR-UCIP (Argentina). Realizada por Gonzalo Gabriel Pereira.</p>
+</div></div>
+<header><div class="wrap"><div class="ph"><div class="ph-main"><img class="ph-mark" src="<!--@datauri assets/emblem.svg-->" alt="Arucip"><div class="ph-bt"><h1 class="ph-wm" aria-label="Arucip"><img class="ph-wl" src="<!--@datauri assets/wordmark-light.png-->" alt=""><img class="ph-wd" src="<!--@datauri assets/wordmark-dark.png-->" alt=""></h1><p class="ph-tag">Ayuda rápida para cuidados intensivos pediátricos</p></div></div><div class="ph-chips"><div class="swm"><button class="sw" id="thm" type="button" role="switch" aria-checked="false" aria-label="Modo oscuro"></button><span>Modo oscuro</span></div><span class="ph-off">Funciona sin conexión</span><button class="mc rcp" id="mon-rcp" type="button" hidden><i></i>RCP en curso · 120 lpm</button></div><div class="paro-w"><button class="paro" id="paro" type="button" aria-label="PARO: iniciar RCP con metrónomo a 120 por minuto"><svg class="pb" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="pbx" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE066"/><stop offset=".5" stop-color="#FFC21A"/><stop offset="1" stop-color="#D99A00"/></linearGradient><linearGradient id="pco" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD84D"/><stop offset="1" stop-color="#C98A00"/></linearGradient><radialGradient id="prd" cx="36%" cy="28%" r="80%"><stop offset="0" stop-color="#FF7A6E"/><stop offset=".5" stop-color="#E02A2F"/><stop offset="1" stop-color="#8F0F18"/></radialGradient><radialGradient id="psc" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#9AA3A8"/></radialGradient><linearGradient id="phl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+<rect x="3" y="3" width="94" height="94" rx="15" fill="#A97400"/><rect x="3" y="2" width="94" height="93" rx="15" fill="url(#pbx)"/><rect x="5.5" y="4.5" width="89" height="88" rx="13" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.2"/>
+<g id="psw"><circle cx="15" cy="15" r="4.6" fill="#7A5500" opacity=".5"/><circle cx="15" cy="14.5" r="4" fill="url(#psc)"/><path d="M12.4 16.2 17.6 12.8" stroke="#5B656B" stroke-width="1.1" stroke-linecap="round"/></g><use href="#psw" x="70"/><use href="#psw" y="70"/><use href="#psw" x="70" y="70"/>
+<circle cx="50" cy="52" r="37" fill="#7A5500" opacity=".35"/><circle cx="50" cy="50" r="36" fill="url(#pco)"/><circle cx="50" cy="50" r="33.5" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="1"/><circle cx="50" cy="50" r="30" fill="#5C0A10"/>
+<circle cx="50" cy="49" r="28" fill="url(#prd)"/><path d="M53.30 30.29 A19 19 0 0 1 68.99 48.34" fill="none" stroke="#4A070C" stroke-opacity=".72" stroke-width="2.4" stroke-linecap="round"/><path d="M69.10 51.54 L65.29 45.47 L72.48 45.22Z" fill="#4A070C" fill-opacity=".78"/><path d="M64.55 61.21 A19 19 0 0 1 41.08 65.78" fill="none" stroke="#4A070C" stroke-opacity=".72" stroke-width="2.4" stroke-linecap="round"/><path d="M38.25 64.27 L45.41 64.00 L42.03 70.36Z" fill="#4A070C" fill-opacity=".78"/><path d="M32.15 55.50 A19 19 0 0 1 39.93 32.89" fill="none" stroke="#4A070C" stroke-opacity=".72" stroke-width="2.4" stroke-linecap="round"/><path d="M42.65 31.19 L39.30 37.52 L35.49 31.42Z" fill="#4A070C" fill-opacity=".78"/><circle cx="50" cy="49" r="9" fill="none" stroke="#fff" stroke-opacity=".10" stroke-width="1.2"/><ellipse cx="42" cy="34" rx="15" ry="8" fill="url(#phl)" transform="rotate(-24 42 34)"/></svg></button><label class="paro-l" for="paro">Emergencia</label></div><div class="pk-ecg" aria-hidden="true"><svg viewBox="0 0 1680 48" preserveAspectRatio="none"><path d="M0 30 H30 q4 -6 9 0 H50 l3 5 4 -26 5 34 4 -13 H86 q6 -9 15 0 H120 M120 30 H150 q4 -6 9 0 H170 l3 5 4 -26 5 34 4 -13 H206 q6 -9 15 0 H240 M240 30 H270 q4 -6 9 0 H290 l3 5 4 -26 5 34 4 -13 H326 q6 -9 15 0 H360 M360 30 H390 q4 -6 9 0 H410 l3 5 4 -26 5 34 4 -13 H446 q6 -9 15 0 H480 M480 30 H510 q4 -6 9 0 H530 l3 5 4 -26 5 34 4 -13 H566 q6 -9 15 0 H600 M600 30 H630 q4 -6 9 0 H650 l3 5 4 -26 5 34 4 -13 H686 q6 -9 15 0 H720 M720 30 H750 q4 -6 9 0 H770 l3 5 4 -26 5 34 4 -13 H806 q6 -9 15 0 H840 M840 30 H870 q4 -6 9 0 H890 l3 5 4 -26 5 34 4 -13 H926 q6 -9 15 0 H960 M960 30 H990 q4 -6 9 0 H1010 l3 5 4 -26 5 34 4 -13 H1046 q6 -9 15 0 H1080 M1080 30 H1110 q4 -6 9 0 H1130 l3 5 4 -26 5 34 4 -13 H1166 q6 -9 15 0 H1200 M1200 30 H1230 q4 -6 9 0 H1250 l3 5 4 -26 5 34 4 -13 H1286 q6 -9 15 0 H1320 M1320 30 H1350 q4 -6 9 0 H1370 l3 5 4 -26 5 34 4 -13 H1406 q6 -9 15 0 H1440 M1440 30 H1470 q4 -6 9 0 H1490 l3 5 4 -26 5 34 4 -13 H1526 q6 -9 15 0 H1560 M1560 30 H1590 q4 -6 9 0 H1610 l3 5 4 -26 5 34 4 -13 H1646 q6 -9 15 0 H1680"/></svg></div></div></div></header>
+<main>
+<section class="view" id="v-ck"><h2>Checklists</h2><p class="sub">Verbalizá y tildá cada ítem. Al completar todo aparece la habilitación.</p><div id="cks"></div><button class="btn w" id="rall">Reiniciar todos los checklists</button></section>
+<section class="view" id="v-calc" hidden><h2>Calculadoras</h2><p class="sub">Cálculos rápidos, sin conexión.</p><div id="calcs"></div></section>
+<section class="view" id="v-tools" hidden><h2>Herramientas ARUCIP</h2>
+<div class="srch"><i data-i="search"></i><input id="q" type="search" placeholder="Buscar herramienta o escala" autocomplete="off" enterkeyhint="search"></div>
+<div id="tl"></div><p class="sub" id="none" hidden>Sin resultados.</p></section>
+<section class="view" id="v-burn" hidden></section>
+<section class="view" id="v-bib" hidden><h2>La Biblia</h2><p class="sub">Fórmulas, dosis y preparaciones de la unidad. Se incluyen solo datos sin discrepancias entre las fuentes consultadas. Los marcados con ✔ se contrastaron con AHA PALS o con revisiones pediátricas. Verificá siempre las dosis en la fuente original.</p>
+<div class="srch"><i data-i="search"></i><input id="bq" type="search" placeholder="Buscar en La Biblia" autocomplete="off" enterkeyhint="search"></div>
+<div id="bl"></div><p class="sub" id="bnone" hidden>Sin resultados.</p></section>
+<section class="view" id="v-pocus" hidden><h2>POCUS</h2><p class="sub">Ecografía a la cabecera del paciente. eFAST paso a paso, con las imágenes de la guía de POCUS 101. Funciona sin conexión.</p><div id="pc"></div></section>
+<section class="view" id="v-cards" hidden><h2>Cards</h2><p class="sub">Tablas de medicación para situaciones críticas, por peso. Elegí el peso en la lista y la cara de la tarjeta. Colores originales.</p>
+<div class="cwr"><button class="cn" id="cprev" type="button" aria-label="Peso anterior">‹</button><label class="csel"><span>Peso del paciente</span><select id="cwsel"></select></label><button class="cn" id="cnext" type="button" aria-label="Peso siguiente">›</button></div>
+<label class="csrch"><input id="cq" type="search" placeholder="Buscar fármaco (ej.: midazolam)" autocomplete="off" aria-label="Buscar fármaco"></label>
+<div class="cs" id="cside" role="group" aria-label="Cara de la tarjeta"><button type="button" data-s="f">Paro y Status<small>Paro, arritmias, estado convulsivo, anafilaxia</small></button><button type="button" data-s="r">Analgosedación e infusiones<small>Infusiones, ATB, sedoanalgesia, antídotos</small></button></div>
+<div class="ctx" id="cimg" role="region" hidden></div>
+<p class="chint" id="chint">Transcripción de las tarjetas de paro y medicamentos de alto riesgo publicadas por el Hospital Garrahan. No es material oficial ni cuenta con aval, revisión o respaldo del hospital. Se transcribió a texto, sin imágenes, para que cargue rápido y se lea mejor en el celular. La transcripción puede contener errores de copia: verificá siempre contra la tarjeta original. Debido a los rápidos avances en las ciencias médicas, el diagnóstico, el tratamiento, el tipo de fármaco y la dosis deben verificarse en forma individual.</p>
+<p class="chint"><a href="https://farmacia.garrahan.gov.ar/Vademecum/Busqueda/" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600">Formulario farmacoterapéutico del Garrahan (Vademécum online)</a>, sitio externo que requiere conexión.</p>
+<p class="chint">Fuente: Tablas de medicación para situaciones críticas. Hospital de Pediatría Prof. Dr. Juan P. Garrahan. Autores: Lorenzini L (Área Farmacia), Boto A, Rino P (Área Emergencias). Comité de Medicamentos de Alto Riesgo. Última revisión: enero 2018. Licencia CC BY-NC-ND 4.0.</p></section>
+<div class="cz" id="cz" hidden><div class="czb"><span id="czt"></span><span class="czz"><button type="button" id="czpv" aria-label="Peso anterior">‹ kg</button><button type="button" id="czn" aria-label="Peso siguiente">kg ›</button><button type="button" id="czm" aria-label="Alejar">−</button><button type="button" id="czp" aria-label="Acercar">+</button><button type="button" id="czf">Ajustar</button></span><button type="button" id="czx">Cerrar</button></div><div class="czs"><img id="czi" alt=""></div></div>
+<section class="view" id="v-tips" hidden><h2>Tips</h2><p class="sub">Notas prácticas de la unidad (documento UTIP FIO TIPS, no es una guía oficial). En rojo: posibles errores, discrepancias o prácticas sin aval de sociedad científica; es una revisión asistida, sin validar. Verificá siempre las dosis en la fuente original. Por ahora solo en español.</p>
+<div class="srch"><i data-i="search"></i><input id="tq" type="search" placeholder="Buscar en Tips" autocomplete="off" enterkeyhint="search"></div>
+<div class="ttb"><button type="button" class="btn g" id="trv" aria-pressed="false"><span aria-hidden="true">⚠</span> Solo avisos en rojo</button><button type="button" class="btn g" id="tall">Abrir todo</button><button type="button" class="btn g" id="tnon">Cerrar todo</button></div><p class="hint" id="tcount" role="status" aria-live="polite"></p><div id="tix"></div><div id="tpl"></div><p class="sub" id="tnone" hidden>Sin resultados.</p></section>
+<section class="view" id="v-more" hidden><div class="card"><div class="lst"><a class="lk off" href="#" data-go="tools"><div><b>Herramientas</b><small>Escalas, scores, calculadoras por sistema y autocuidado</small></div><span data-i="next"></span></a><a class="lk off" href="#" data-go="bib"><div><b>La Biblia</b><small>Fórmulas, dosis y preparaciones de la unidad</small></div><span data-i="next"></span></a><a class="lk off" href="#" data-go="tips"><div><b>Tips</b><small>Notas prácticas de la unidad, con buscador</small></div><span data-i="next"></span></a><a class="lk off" href="#" data-tool="inst"><div><b>Instalar la app</b><small>Ícono en la pantalla de inicio, sin conexión</small></div><span data-i="next"></span></a><a class="lk off" href="#" data-tool="plan"><div><b>Plan de desarrollo: 13 objetivos</b><small>Lista numerada del proyecto y estado de cada objetivo</small></div><span data-i="next"></span></a><a class="lk off" href="#" data-tool="new"><div><b>Novedades de esta versión</b><small>Versión de prueba 0.49</small></div><span data-i="next"></span></a><a class="lk off" href="#" data-tool="about"><div><b>Acerca de esta versión</b><small>Autoría, aviso importante y fuentes citadas</small></div><span data-i="next"></span></a></div></div></section>
+<section class="view" id="v-tool" hidden><button class="btn g back" id="tback" type="button">‹ Volver</button><h2 id="tt"></h2><div id="tb"></div></section>
+</main>
+<nav class="tabs" aria-label="Secciones"><div>
+<button data-v="ck" aria-current="true"><i data-i="list"></i>Checklists</button>
+<button data-v="calc"><i data-i="calc"></i>Cálculos</button>
+<button data-v="pocus"><i data-i="probe"></i>POCUS</button>
+<button data-v="cards"><i data-i="cards"></i>Cards</button>
+<button data-v="burn"><i data-i="flame"></i>Quemados</button>
+<button data-v="more"><i data-i="more"></i>Más</button></div></nav>
+<!--@script src/js/05-credits.js--><!--@parts src/data/05-app script--><!--@script src/js/06-late-a.js--><!--@script src/js/07-late-b.js--><!--@script src/js/08-late-c.js--><!--@script src/js/09-late-d.js--><!--@script src/js/10-ui-shell.js-->
+<!--@style src/css/07-network-badge.css--><!--@style src/css/08-arucip-theme.css-->
+<!--@script src/js/11-net-tools.js-->
+<!--@parts src/data/12-i18n-es-en-pt script-->
+<!--@script src/js/13-service-worker.js--><!--@script src/js/14-cover.js-->
+</body></html>

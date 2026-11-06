@@ -1,0 +1,3 @@
+(function(){var n=document.getElementById("nojs");function show(t){try{n.hidden=false;n.innerHTML="<b>Arucip no pudo iniciar.</b><br>"+t+"<br>Enviá una captura de este mensaje a Gonzalo."}catch(x){}}
+window.addEventListener("error",function(e){if(!window.__booted)show((e&&e.message?e.message:"error")+(e&&e.lineno?" (línea "+e.lineno+")":""))});
+window.addEventListener("load",function(){if(!window.__booted)show("No terminó de cargar.")});})()
