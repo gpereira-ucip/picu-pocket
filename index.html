@@ -4246,19 +4246,32 @@ function favState(){var b=$("#fav-b");if(!b)return;var f=curKey&&isFav(curKey);b
 function toolBar(){var h=$("#tt");if(!h||$("#tact45"))return;var d=document.createElement("div");d.id="tact45";d.className="tact";
  d.innerHTML='<button type="button" class="btn g bsm" id="fav-b" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z"/></svg><span>Agregar a favoritos</span></button><button type="button" class="btn g bsm" id="shr-t"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L8 8m4-4l4 4M5 13v6h14v-6"/></svg><span>Compartir</span></button>';
  h.insertAdjacentElement("afterend",d);
- $("#fav-b").onclick=function(){if(!curKey)return;var f=favs();if(isFav(curKey)){f=f.filter(function(x){return x.k!==curKey})}else{f.unshift({k:curKey,t:curTitle||$("#tt").textContent})}sset("arucip-fav",JSON.stringify(f.slice(0,12)));favState();qaRender();toast(isFav(curKey)?"Agregado a favoritos":"Quitado")};
+ $("#fav-b").onclick=function(){if(!curKey)return;var f=favs();if(isFav(curKey)){f=f.filter(function(x){return x.k!==curKey})}else{f.unshift({k:curKey,t:curTitle||$("#tt").textContent})}sset("arucip-fav",JSON.stringify(f.slice(0,30)));favState();qaRender();toast(isFav(curKey)?"Agregado a favoritos":"Quitado")};
  $("#shr-t").onclick=function(){shareText(resultText($("#tt").textContent,$("#tb")),$("#tt").textContent)};
  var foot=document.createElement("p");foot.className="tfoot";foot.innerHTML='Arucip · apoyo a la decisión, no reemplaza el criterio clínico. <a href="#" id="tf-rep">¿Encontraste un error?</a>';var tb=$("#tb");tb.insertAdjacentElement("afterend",foot);
  $("#tf-rep").onclick=function(e){e.preventDefault();repSheet("Herramienta: "+($("#tt").textContent||""))}}
 var qaEd=false;
-function qaRender(){var q=$("#qa45");if(!q)return;var f=favs(),r=jget("arucip-rec",[]).filter(function(x){return !f.some(function(y){return y.k===x.k})}).slice(0,6);
- if(!f.length&&!r.length){qaEd=false;q.hidden=false;q.innerHTML='<div class="card"><div class="calc"><p class="hint" style="margin:0">Todavía no tenés favoritos. Abrí una herramienta y tocá la estrella «Agregar a favoritos».</p></div></div>';return}q.hidden=false;
- var chip=function(x,star){return '<a class="qa-chip'+(star?" fav":"")+'" href="#" data-tool="'+esc(x.k)+'">'+(star?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z"/></svg>':"")+'<span>'+esc(x.t)+'</span></a>'};
- var head='<div class="qa-hd"><div class="qa-h">Favoritos</div><button type="button" class="qa-ed" id="qa-ed" aria-pressed="'+(qaEd?"true":"false")+'">'+(qaEd?"Listo":"Editar")+'</button></div>';
- if(!qaEd){q.innerHTML=head+'<div class="qa-row">'+f.map(function(x){return chip(x,true)}).join("")+r.map(function(x){return chip(x,false)}).join("")+'</div>';return}
+var SECS={ck:"Checklists",calc:"Cálculos",pocus:"POCUS",burn:"Quemados",tools:"Herramientas",bib:"Fórmulas y preparaciones",tips:"Notas prácticas"};
+function secInfo(g){var a=document.querySelector('#v-more a[data-go="'+g+'"]');return {t:a&&a.querySelector("b")?a.querySelector("b").textContent:(SECS[g]||g),d:a&&a.querySelector("small")?a.querySelector("small").textContent:""}}
+function moreStars(){$$("#v-more [data-fav-go]").forEach(function(b){var on=isFav("go:"+b.dataset.favGo);b.setAttribute("aria-pressed",String(on));b.setAttribute("aria-label",(on?"Quitar de favoritos: ":"Agregar a favoritos: ")+(SECS[b.dataset.favGo]||""))})}
+var STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z"/></svg>';
+function qaRender(){var q=$("#qa45");moreStars();if(!q)return;var f=favs(),r=jget("arucip-rec",[]).filter(function(x){return !f.some(function(y){return y.k===x.k})}).slice(0,6);
+ if(!f.length&&!r.length){qaEd=false;q.hidden=false;q.innerHTML='<div class="card"><div class="calc"><p class="hint" style="margin:0">Todavía no tenés favoritos. Tocá la estrella de cualquier apartado o herramienta para fijarlo acá.</p></div></div>';return}q.hidden=false;
+ var chip=function(x){return '<a class="qa-chip" href="#" data-tool="'+esc(x.k)+'"><span>'+esc(x.t)+'</span></a>'};
+ var head='<div class="qa-hd"><div class="qa-h">Fijados</div><button type="button" class="qa-ed" id="qa-ed" aria-pressed="'+(qaEd?"true":"false")+'">'+(qaEd?"Listo":"Editar")+'</button></div>';
+ var card=function(x){var go=x.k.indexOf("go:")===0,g=go?x.k.slice(3):"",i=go?secInfo(g):{t:x.t,d:"Herramienta"};
+  return '<div class="fv"><a class="lk off fv-a" href="#" '+(go?'data-go="'+esc(g)+'"':'data-tool="'+esc(x.k)+'"')+'><div><b>'+esc(i.t)+'</b><small>'+esc(i.d)+'</small></div><span data-i="next"></span></a><button type="button" class="fv-un" data-un="'+esc(x.k)+'" aria-pressed="true" aria-label="Quitar de favoritos: '+esc(i.t)+'">'+STAR+'</button></div>'};
+ if(!qaEd){q.innerHTML=head+(f.length?'<div class="fv-l">'+f.map(card).join("")+'</div>':'<p class="hint">Todavía no fijaste nada.</p>')+(r.length?'<div class="qa-sub">Recientes</div><div class="qa-row">'+r.map(chip).join("")+'</div>':"");iconsIn(q);return}
  var li=function(x,btns){return '<li class="qa-li"><span>'+esc(x.t)+'</span>'+btns+'</li>'};
  q.innerHTML=head+(f.length?'<ul class="qa-list">'+f.map(function(x,i){return li(x,'<button type="button" data-qa="up" data-i="'+i+'" aria-label="Subir"'+(i?"":" disabled")+'>↑</button><button type="button" data-qa="down" data-i="'+i+'" aria-label="Bajar"'+(i<f.length-1?"":" disabled")+'>↓</button><button type="button" data-qa="del" data-i="'+i+'" aria-label="Quitar de favoritos">✕</button>')}).join("")+'</ul>':"")
   +(r.length?'<div class="qa-sub">Recientes</div><ul class="qa-list">'+r.map(function(x){return li(x,'<button type="button" data-qa="pin" data-k="'+esc(x.k)+'" aria-label="Fijar en favoritos">☆</button>')}).join("")+'</ul>':"")}
+function iconsIn(root){$$("[data-i]",root).forEach(function(s){if(!s.firstChild)s.innerHTML=ic(s.dataset.i)})}
+document.addEventListener("click",function(e){var s=e.target.closest?e.target.closest("[data-fav-go],[data-un]"):null;if(!s)return;e.preventDefault();e.stopPropagation();
+ var k=s.dataset.favGo?"go:"+s.dataset.favGo:s.dataset.un,f=favs();
+ if(isFav(k)){f=f.filter(function(x){return x.k!==k});toast("Quitado de favoritos")}else{f.push({k:k,t:s.dataset.favGo?(SECS[s.dataset.favGo]||k):k});toast("Fijado en favoritos")}
+ sset("arucip-fav",JSON.stringify(f.slice(0,30)));favState();qaRender()},true);
+if(!sget("arucip-fav-init","")){sset("arucip-fav-init","1");var f0=favs();if(!isFav("go:burn")){f0.unshift({k:"go:burn",t:"Quemados"});sset("arucip-fav",JSON.stringify(f0))}}
+$$("#v-more a.lk[data-go]").forEach(function(a){var g=a.dataset.go;if(!SECS[g])return;var b=document.createElement("button");b.type="button";b.className="fav-s";b.dataset.favGo=g;b.innerHTML=STAR;var w=document.createElement("div");w.className="fv";a.parentNode.insertBefore(w,a);w.appendChild(a);w.appendChild(b);a.classList.add("fv-a")});
 document.addEventListener("click",function(e){var b=e.target.closest?e.target.closest("#qa45 button"):null;if(!b)return;
  if(b.id==="qa-ed"){qaEd=!qaEd;qaRender();var n=$("#qa-ed");if(n)n.focus();return}
  var a=b.dataset.qa;if(!a||b.disabled)return;var f=favs(),i=parseInt(b.dataset.i,10),foc=null;
@@ -4267,7 +4280,7 @@ document.addEventListener("click",function(e){var b=e.target.closest?e.target.cl
  else if(a==="del"){f.splice(i,1)}
  else if(a==="pin"){var k=b.dataset.k,x=jget("arucip-rec",[]).filter(function(y){return y.k===k})[0];if(x&&!isFav(k)){f.unshift({k:x.k,t:x.t})}}
  else return;
- sset("arucip-fav",JSON.stringify(f.slice(0,12)));favState();qaRender();
+ sset("arucip-fav",JSON.stringify(f.slice(0,30)));favState();qaRender();
  if(foc){var nb=$("#qa45 "+foc);if(nb)nb.focus()}else{var eb=$("#qa-ed");if(eb)eb.focus()}});
 
 /* ---------- 5. buscador global ---------- */

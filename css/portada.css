@@ -40,3 +40,23 @@
 .tabs button{line-height:1.05;font-size:.62rem;padding-left:2px;padding-right:2px;text-wrap:balance}
 .tabs button i{margin-bottom:2px}
 .cv-n b{font-size:.62rem;line-height:1.1;text-align:center}
+
+/* Favoritos: apartados fijados como tarjetas (iguales a las de «Más») */
+.fv-l{display:grid;gap:12px;margin-bottom:6px}
+.fv{position:relative}
+.fv .fv-a{padding-right:58px}
+.fv-un,.fav-s{position:absolute;right:46px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;border-radius:12px;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:var(--mut);-webkit-tap-highlight-color:transparent}
+.fv-un svg,.fav-s svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.fv-un[aria-pressed=true] svg,.fav-s[aria-pressed=true] svg{fill:#D9A441;stroke:#D9A441}
+.fv-un[aria-pressed=true],.fav-s[aria-pressed=true]{color:#D9A441}
+#v-more .lst>.lk.has-s{padding-right:58px}
+#v-more .lst{position:relative}
+
+/* Tarjetas fijadas: mismo aspecto que las de «Más» */
+#v-fav .lk{border:1px solid var(--line)!important;border-radius:20px;background:var(--surf);padding:17px 92px 17px 20px;box-shadow:var(--sh1,0 1px 2px rgba(30,43,48,.05));position:relative;overflow:hidden}
+#v-fav .lk::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:4px;border-radius:0 4px 4px 0;background:linear-gradient(180deg,var(--acc),var(--terra,#C27F62))}
+#v-fav .lk b{font-size:1.02rem}
+#v-fav .lk:active{transform:scale(.99);background:var(--tint)}
+#v-more .fv .lk{padding-right:92px!important}
+.fv-un,.fav-s{right:44px}
+.lk span[data-i]{position:absolute;right:14px;top:50%;transform:translateY(-50%)}
