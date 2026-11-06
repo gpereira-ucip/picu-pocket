@@ -82,7 +82,7 @@
         '</ul><div class="hl-l">' + s.t.map(link).join("") + "</div></div></details>";
     }).join("");
     host.innerHTML =
-      '<h2>Emergencias y valoración inicial</h2><p class="sub">Orden de trabajo ante un paciente que ingresa: evaluá con el ABC y abrí lo que necesites.</p>' +
+      '<h2>Triage y valoración inicial</h2><p class="sub">Orden de trabajo ante un paciente que ingresa: evaluá con el ABC y abrí lo que necesites.</p>' +
       '<div class="card tri-t"><div class="calc"><h3 class="th" style="margin-top:0">' + esc(T.tri.n) + '</h3><p class="hint" style="margin-top:0">' + esc(T.tri.d) + '</p><ul class="hub-ul">' + li(T.tri.pts) + "</ul></div></div>" +
       '<div class="abc-w">' + abc + "</div>" +
       '<div class="card"><div class="calc"><h3 class="th" style="margin-top:0">Después del ABC</h3><ul class="hub-ul">' + li(T.prox) + "</ul></div></div>" +
@@ -94,7 +94,7 @@
   function renderSys() {
     var v = $("#v-sys"), html;
     if (!sysState) {
-      html = '<a class="btn g back" href="#" data-go="casos">‹ Motivos de ingreso</a><h2>Aparatos y sistemas</h2><p class="sub">Elegí el sistema y vas a ver todo lo que la app tiene para él.</p><div class="hub-grid">' +
+      html = '<h2>Aparatos y sistemas</h2><p class="sub">Elegí el sistema y vas a ver todo lo que la app tiene para él.</p><div class="hub-grid">' +
         D.SYS.map(function (s) {
           return '<button class="tile" type="button" data-sys="' + s.id + '"><span class="tile-i">' + svg(s.ic) + '</span><b>' + esc(s.n) + "</b><small>" + esc(s.d) + "</small></button>";
         }).join("") + "</div>" + NOTE;
@@ -130,14 +130,13 @@
         var m = D.CASES.filter(function (c) { return nz(c.n + " " + c.g.map(function (i) { return gname(i).n; }).join(" ")).indexOf(q) >= 0; });
         res = m.length ? '<div class="cr-l">' + m.map(caseRow).join("") + "</div>" : '<p class="sub">Sin resultados.</p>';
       }
-      html = '<h2>Motivos de ingreso</h2><p class="sub">Motivos de ingreso a terapia intensiva pediátrica, por aspecto. Elegí el motivo y vas a ver qué hacer al recibir al paciente y qué herramientas de la app te sirven.</p>' +
+      html = '<h2>Casos clínicos</h2><p class="sub">Motivos de ingreso a terapia intensiva pediátrica. Elegí el motivo y vas a ver qué hacer al recibir al paciente y qué herramientas de la app te sirven.</p>' +
         '<div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.500-3.500"/></svg><input id="cs-q" type="search" placeholder="Buscar motivo de ingreso" autocomplete="off" enterkeyhint="search" value="' + esc(cs.q) + '"></div>' +
         (q.length > 1 ? res :
           '<h3 class="hub-h">Frecuentes</h3><div class="cr-l">' + D.CASES.filter(function (c) { return c.top; }).map(caseRow).join("") + "</div>" +
           '<h3 class="hub-h">Motivos de ingreso por grupo</h3><div class="hub-grid">' + D.GROUPS.map(function (g) {
             return '<button class="tile" type="button" data-grp="' + g.id + '"><span class="tile-i">' + svg(g.ic) + "</span><b>" + esc(g.n) + "</b><small>" + casesOf(g.id).length + " motivos · " + esc(g.d) + "</small></button>";
-          }).join("") + "</div>" +
-          '<h3 class="hub-h">Por aparato o sistema</h3><a class="hl" href="#" data-go="sys"><span class="hl-t"><b>Aparatos y sistemas</b><small>Todo lo que tiene la app para cada sistema</small></span>' + CHEV + "</a>") + NOTE;
+          }).join("") + "</div>") + NOTE;
     }
     v.innerHTML = html;
     var inp = $("#cs-q");
@@ -145,20 +144,7 @@
     if (!inp || !cs.q) scrollTo(0, 0);
   }
 
-  /* ---------- INDICACIONES Y CÁLCULOS (día a día) ---------- */
-  function renderInd() {
-    var v = $("#v-ind");
-    if (!v || !D.IND) return;
-    v.innerHTML = '<h2>Indicaciones y cálculos</h2><p class="sub">Para el trabajo diario en sala: balances, nutrición, analgosedación, infusiones y controles.</p>' +
-      D.IND.map(function (g) {
-        return '<h3 class="hub-h">' + esc(g.n) + '</h3><div class="hl-l">' + g.t.map(link).join("") + "</div>";
-      }).join("") +
-      '<p class="hint hub-note">Indicaciones diarias y periodicidad de estudios complementarios (qué pedir y cuándo): contenido pendiente de redacción y validación por el servicio.</p>' + NOTE;
-  }
-
   /* ---------- Eventos ---------- */
-  var emp = function () { var p = document.getElementById("paro"); if (p) p.click(); };
-  document.addEventListener("click", function (e) { if (e.target.closest && e.target.closest("#em-paro")) emp(); });
   document.addEventListener("click", function (e) {
     var t = e.target;
     if (!t.closest) return;
@@ -183,18 +169,18 @@
   });
 
   /* ---------- Arranque ---------- */
-  function init() { renderTriage(); renderSys(); renderCasos(); renderInd(); }
+  function init() { renderTriage(); renderSys(); renderCasos(); }
   if (document.readyState === "complete") init(); else window.addEventListener("load", init);
 
   /* Traducciones de los títulos de las secciones nuevas */
   try {
     var I = window.ARUCIP_I18N;
-    if (I && I.langs.en) Object.assign(I.langs.en.dict, { "Triage": "Triage", "Sistemas": "Systems", "Casos": "Cases", "Emergencias": "Emergency", "Motivos": "Reasons", "Indicaciones": "Orders", "Favoritos": "Favorites", "Motivos de ingreso": "Admission reasons", "Indicaciones y cálculos": "Orders and calculations", "Favoritos y uso frecuente": "Favorites and frequent use",
+    if (I && I.langs.en) Object.assign(I.langs.en.dict, { "Triage": "Triage", "Sistemas": "Systems", "Casos": "Cases",
       "Triage y valoración inicial": "Triage and initial assessment", "Aparatos y sistemas": "Organ systems", "Casos clínicos": "Clinical cases",
       "Vía aérea": "Airway", "Respiración": "Breathing", "Circulación": "Circulation", "Neurológico": "Neurologic", "Exposición y entorno": "Exposure and environment",
       "Siempre a mano": "Always at hand", "Al recibirlo": "On reception", "Herramientas y escalas": "Tools and scores", "Checklists": "Checklists", "Calculadoras": "Calculators", "Frecuentes": "Common",
       "Equipo": "Team" });
-    if (I && I.langs.pt) Object.assign(I.langs.pt.dict, { "Triage": "Triagem", "Sistemas": "Sistemas", "Casos": "Casos", "Emergencias": "Emergências", "Motivos": "Motivos", "Indicaciones": "Prescrições", "Favoritos": "Favoritos", "Motivos de ingreso": "Motivos de internação", "Indicaciones y cálculos": "Prescrições e cálculos", "Favoritos y uso frecuente": "Favoritos e uso frequente",
+    if (I && I.langs.pt) Object.assign(I.langs.pt.dict, { "Triage": "Triagem", "Sistemas": "Sistemas", "Casos": "Casos",
       "Triage y valoración inicial": "Triagem e avaliação inicial", "Aparatos y sistemas": "Aparelhos e sistemas", "Casos clínicos": "Casos clínicos",
       "Vía aérea": "Via aérea", "Respiración": "Respiração", "Circulación": "Circulação", "Neurológico": "Neurológico", "Exposición y entorno": "Exposição e ambiente",
       "Siempre a mano": "Sempre à mão", "Al recibirlo": "Ao receber", "Herramientas y escalas": "Ferramentas e escalas", "Checklists": "Checklists", "Calculadoras": "Calculadoras", "Frecuentes": "Frequentes",

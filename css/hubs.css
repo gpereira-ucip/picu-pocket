@@ -41,10 +41,3 @@
 .abc-b{padding:0 14px 14px}
 .abc-b .hl-l{margin-top:12px}
 .tri-t{margin-top:12px}
-
-/* Emergencias: accesos grandes a PARO y PALS */
-.em-b{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
-.em-b>*{display:flex;flex-direction:column;gap:2px;min-height:64px;padding:12px 14px;border-radius:14px;text-align:left;text-decoration:none;font:inherit;cursor:pointer;border:1px solid #D9A441;color:inherit;background:transparent}
-.em-b b{font-size:1.05rem}.em-b small{opacity:.8;font-size:.78rem}
-.em-paro{background:#B3261E!important;border-color:#B3261E!important;color:#fff!important}
-@media (max-width:360px){.em-b{grid-template-columns:1fr}}
