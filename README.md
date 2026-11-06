@@ -34,3 +34,8 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo Gabriel Pereira.
 - Service worker «red primero» (idea de Jorge): ya no hace falta subir la versión de CACHE al publicar; solo editar ASSETS si se agregan o quitan archivos.
 - Íconos de la app (PWA) reemplazados por los que mandó Jorge Selandari (cabeza con engranajes, «AR-UCIP»), «por ahora». Los de «Volver a ARUCIP» quedan en `assets/volver/` (sin usar todavía), junto con `icon-349` y `icon-maskable-640` en `assets/`.
 - Pendientes que salieron de la charla con Jorge (para acordar con él y Eduardo antes de tocar): botones inferiores (Emergencias, Favoritos, Aspectos y Sistemas, Calidad y Seguridad, Autocuidado), capítulos como etiquetas, campo «paciente actual» (peso/edad/género/talla), formulario de prompt a IAR1, texto predictivo en la búsqueda.
+
+## v0.53 · portada nueva
+- Portada rehecha según el diseño que pidió Gonzalo: emblema de la cabeza con engranajes, título ARUCI + P con vara de Esculapio, tagline, botón «Entrar», panel con interruptor de modo claro/oscuro, botón EMERGENCIA (abre el modo PARO) y ECG animado, y «Con la colaboración de» Fundación Garrahan.
+- Se toca el logo del encabezado para volver a verla. El ECG respeta «reducir movimiento».
+- Se quitaron de la portada los 5 accesos (están en la barra inferior de la app).

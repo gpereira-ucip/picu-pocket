@@ -8,7 +8,7 @@
 var CACHE = "arucip";
 var TIMEOUT_MS = 4000;
 var ASSETS = ["./", "index.html", "css/arucip.css", "css/hubs.css", "js/data.js", "js/hubs.js", "js/migrate.js", "js/cover.js",
-  "assets/arucip-mark.svg", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
+  "assets/arucip-mark.svg", "assets/emblem.svg", "assets/fundacion-garrahan.png", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {

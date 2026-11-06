@@ -1,32 +1,30 @@
-/* Arucip · portada. Se muestra una vez por sesión. Los botones replican la barra inferior
-   (Triage, Sistemas, Casos, Cards, Más) y "Emergencia" abre directamente el modo PARO. */
+/* Arucip · portada. Se muestra una vez por sesión y al tocar el logo del encabezado.
+   "Entrar" abre la app; "Emergencia" abre directamente el modo PARO; el interruptor cambia el tema claro/oscuro. */
 (function () {
   var c = document.getElementById("cover");
   if (!c) return;
-  var ic = window.ARUCIP_ICONS;
-  if (ic) Array.prototype.forEach.call(c.querySelectorAll("[data-ic]"), function (s) { s.innerHTML = ic.svg(s.getAttribute("data-ic")); });
-  try { if (sessionStorage.getItem("arucip-cover") === "1") { c.hidden = true; return; } } catch (e) {}
+  var KEY = "arucip-cover";
+  function seen() { try { return sessionStorage.getItem(KEY) === "1"; } catch (e) { return false; } }
+  function mark() { try { sessionStorage.setItem(KEY, "1"); } catch (e) {} }
+  function open() { c.hidden = false; void c.offsetWidth; c.classList.remove("out"); document.documentElement.style.overflow = "hidden"; }
   function close(cb) {
-    try { sessionStorage.setItem("arucip-cover", "1"); } catch (e) {}
-    c.classList.add("out");
-    setTimeout(function () { c.hidden = true; if (cb) cb(); }, 420);
+    mark(); c.classList.add("out"); document.documentElement.style.overflow = "";
+    setTimeout(function () { c.hidden = true; if (cb) cb(); }, 400);
   }
-  Array.prototype.forEach.call(c.querySelectorAll("[data-tab]"), function (b) {
-    b.onclick = function () {
-      close(function () { var t = document.querySelector('.tabs button[data-v="' + b.getAttribute("data-tab") + '"]'); if (t) t.click(); });
-    };
-  });
-  document.getElementById("cv-paro").onclick = function () {
-    close(function () { var p = document.getElementById("paro"); if (p) p.click(); });
-  };
-  /* Traducciones de la portada (el resto de la app ya está traducido en index.html). */
-  try {
-    var I = window.ARUCIP_I18N;
-    if (I && I.langs.en) Object.assign(I.langs.en.dict, {
-      "Emergencia · iniciar RCP": "Emergency · start CPR",
-      "Apoyo a la decisión · basada en AR-UCIP (Argentina)": "Decision support · based on AR-UCIP (Argentina)"});
-    if (I && I.langs.pt) Object.assign(I.langs.pt.dict, {
-      "Emergencia · iniciar RCP": "Emergência · iniciar RCP",
-      "Apoyo a la decisión · basada en AR-UCIP (Argentina)": "Apoio à decisão · baseada no AR-UCIP (Argentina)"});
-  } catch (e) {}
+  document.getElementById("cv-go").onclick = function () { close(); };
+  document.getElementById("cv-paro").onclick = function () { close(function () { var p = document.getElementById("paro"); if (p) p.click(); }); };
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !c.hidden) close(); });
+  /* Interruptor de tema: reutiliza el de la app (#thm) para que ambos queden sincronizados. */
+  var sw = document.getElementById("cv-thm"), thm = document.getElementById("thm");
+  function sync() { sw.setAttribute("aria-checked", document.documentElement.dataset.mode === "dark" ? "true" : "false"); }
+  sw.onclick = function () { if (thm) thm.click(); sync(); };
+  new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ["data-mode", "data-theme"] });
+  sync();
+  var m = document.querySelector(".ph-mark");
+  if (m) {
+    m.setAttribute("role", "button"); m.setAttribute("tabindex", "0"); m.setAttribute("aria-label", "Portada");
+    m.addEventListener("click", open);
+    m.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+  }
+  if (seen()) c.hidden = true; else open();
 })();
