@@ -7,6 +7,9 @@
 - Sin dosis nuevas. Todo contenido clínico nuevo va marcado ⚕ «pendiente de revisión médica».
 - Antes de subir: `NODE_PATH=$(npm root -g) node tests/smoke.js` debe terminar en «Todo bien».
 - Pendientes y plan: ver `docs/PENDIENTES.md`.
+- **El HTML que se le entrega al usuario es SIEMPRE `arucip.html` generado desde este repositorio**: `python3 tools/build_html.py` (después subirlo con el commit). Ningún otro HTML representa a Arucip.
+- Trabajá y subí en lotes chicos (commit + push después de cada lote): si la sesión se corta por falta de uso disponible, no se pierde nada.
+- Cada corrida programada empieza sin memoria de las conversaciones con Gonzalo: lo acordado está en este README y en `docs/PENDIENTES.md`. Si se acuerda algo nuevo, se escribe ahí.
 
 
 Ayuda rápida para cuidados intensivos pediátricos. PWA sin dependencias que funciona sin conexión.
