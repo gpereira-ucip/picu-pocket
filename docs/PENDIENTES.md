@@ -11,7 +11,8 @@ ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
 - Nuevo ⚕: revisar las asociaciones signo/síntoma → motivo (SYMP en js/data.js).
 - Nuevo: «Indicaciones diarias» y «Estudios: qué pedir y cuándo» requieren redacción y validación del servicio.
 - Nuevo: reporte de eventos y normas dentro de Calidad y seguridad (idea de Jorge, sin diseñar).
-- Motivos de ingreso con guía propia: 59 de 87.
+- Motivos de ingreso con guía propia: 65 de 87.
+- Corrida 6/11 noche: guías «Al recibirlo» nuevas (⚕ pendientes de revisión médica, sin dosis) para muerte encefálica, delirium, trauma raquimedular, sospecha de maltrato, inhalación de humo/CO/cianuro y ahogamiento. Lo ambiental que falta: golpe de calor/hipotermia/electrocución y mordeduras/picaduras.
 
 Referencias:  [HECHO]  [PARCIAL]  [PENDIENTE]
 ⚕ = necesita revisión de un médico antes de darse por bueno. No se agregaron dosis nuevas.
