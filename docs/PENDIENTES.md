@@ -39,7 +39,7 @@ Hecho hasta hoy:
 - Se quitó "Funciona sin conexión" y las palabras "Biblia" y "Tips".
   La Biblia pasó a "Fórmulas y preparaciones" y Tips a "Notas prácticas"; ambos están en Más,
   dentro del apartado "Otras recomendaciones".
-- Personas intervinientes: Equipo (Jorge Selandari, Eduardo Motto, Gonzalo Gabriel Pereira), con roles cortos.
+- Personas intervinientes: Equipo (Jorge Selandari, Eduardo Motto, Gonzalo G. Pereira), con roles cortos.
 - Motivos de ingreso: 87 en 12 grupos, todas con guía "Al recibirlo" propia (⚕ a revisar).
 - Service worker "red primero" (idea de Jorge): no hace falta subir la versión del caché al publicar.
 - Íconos de la app de Jorge instalados.
@@ -259,3 +259,44 @@ LO QUE DEPENDE DE OTRAS PERSONAS
   monetización, logo original con transparencia real, imagen exacta del botón de emergencia.
 - Administrador de la organización "arucip" en GitHub: instalar la app de Claude para poder subir a arucip/pruebas.
 - Gonzalo: aprobar la portada y la botonera, aprobar subir a la rama de respaldo, pasar la página de Jotform guardada.
+
+==========================================================================
+C. PEDIDOS DE GONZALO (WhatsApp 7/11, 22:03–22:37) · a respetar y avanzar de a lotes
+==========================================================================
+Acordado: en los créditos se escribe «Gonzalo G. Pereira» (ya aplicado en el código).
+Los puntos de diseño/estética los pidió Gonzalo mismo, pero se muestran primero en un HTML aparte antes de cambiar la app (regla del README).
+Todo contenido clínico nuevo: ⚕ pendiente de revisión médica; sin dosis salvo las que valide el servicio.
+
+Buscador y navegación
+ 90. [PENDIENTE] Buscador predictivo bueno: «tec» debe llevar a «traumatismo encéfalo craneano» (siglas, sinónimos, tildes, errores). En Motivos de ingreso debe andar a la perfección.
+ 91. [PENDIENTE] Portada: sacar la línea inferior «Basada en AR-UCIP» (la app es Arucip).
+ 92. [PENDIENTE] Botón «Volver» en todas las pantallas menos la portada, al lugar inmediatamente anterior.
+ 93. [PENDIENTE] Todos los botones del mismo tamaño.
+ 94. [PENDIENTE] Motivos de ingreso: sacar el apartado «Frecuentes»; dejar el buscador predictivo.
+ 95. [PENDIENTE] Cards: si ya hay un peso de paciente cargado (ej. 30 kg), al abrir Cards ir directo a ese peso.
+
+Calculadora de leches
+ 96. [PENDIENTE] Los mL no pueden tener decimales: redondeo lógico; si es estético y necesario, mostrar el valor exacto chico aclarando que es redondeo.
+
+Emergencias
+ 97. [PENDIENTE] Incluir el triángulo de evaluación pediátrica. Gonzalo mandó una imagen de referencia (triángulo: azul = apariencia, verde = trabajo respiratorio, rojo = circulación a la piel). Dibujarlo propio en SVG, sin copiar la imagen (posibles derechos del PALS), y mostrarlo primero en un HTML aparte. Aclarar que «apariencia» = estado neurológico, con tildes. Si la combinación requiere reanimación, el botón se titula «Paro».
+ 98. [PENDIENTE] Quitar el apartado redundante de «Paro» y los botones de la secuencia ABC; aclarar cuándo hacer CAB (secuencia de paro).
+ 99. [PENDIENTE] Buscar bibliografía para agregar «F» de fluidos en quemados y «F» de familia en general (quemados: fluidos y familia). Verificar si figura SAMPLE.
+100. [PENDIENTE] Reemplazar «Evaluación y algoritmos»: pedir el peso del paciente y calcular todo lo que sigue en función de él; no se pasa de letra hasta resolver la anterior; checklist por letra; aclarar «evaluar–intervenir» del PALS; adjuntar el PDF de PALS (verificar licencia/derechos antes de incluirlo).
+101. [PENDIENTE] Circulación: agregar la guía ecográfica para colocar un acceso vascular.
+102. [A VERIFICAR POR MÉDICO] Tubo endotraqueal: Gonzalo indicó que el con balón es ~0,5 más chico que el sin balón. Su mensaje escribe la misma cuenta (edad/4 + 3,5) para ambos: confirmar con él. Referencia habitual: con balón edad/4 + 3,5; sin balón edad/4 + 4.
+
+Indicaciones y cálculos (mini programa de planilla del paciente)
+103. [PENDIENTE] Lista de pacientes (nombre, cama o HC; guardado opcional) y, al tocar uno, se despliega su planilla por horarios de 2 h (periodicidad modificable): ingresos y egresos, ritmo diurético, otras pérdidas (DVE, vómitos, etc.), ingresos enterales vs parenterales. Solo se ve el paciente elegido.
+104. [PENDIENTE] Aporte de líquidos por kg y por m², contando los líquidos de los antibióticos y recordando el mantenimiento de accesos (mL/h de la arteria, etc.).
+105. [PENDIENTE] Contador de rescates de analgosedación.
+106. [PENDIENTE] ⚕ Apartado de medidas generales de cuidados (cabecera, protecciones, quién requiere o no protección gástrica, etc.).
+107. [PENDIENTE] ⚕ Guía de infectología: antibióticos según fiebre y estado del paciente (lo redacta y valida el servicio).
+108. [PENDIENTE] ⚕ Cada cuánto pedir laboratorios (lo define el servicio).
+109. [PENDIENTE] Registro de gases en sangre por paciente con horario, correlación con capnografía y datos del respirador (volumen minuto).
+110. [PENDIENTE] ⚕ Nutrición parenteral: cálculos y cuándo se indica.
+111. [PENDIENTE] ⚕ Quemados con inhalación: tiosulfato (indicaciones, cálculo y cuánto pasar); dosis a validar por médicos antes de incluir.
+
+Aparatos y sistemas · cardio
+112. [PENDIENTE] ⚕ Marcapasos: explicación. Tipos de cirugía cardiovascular y qué hacer en cada una para el seguimiento posoperatorio (ej. cambio del soplo); cosas de ECMO a tener en cuenta.
+113. [PENDIENTE] Un último punto de Gonzalo quedó cortado («La posibilidad…»): preguntarle cuál era.

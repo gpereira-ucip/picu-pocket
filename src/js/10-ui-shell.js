@@ -28,7 +28,7 @@ applyFs();
 /* ---------- 2. aviso inicial ---------- */
 function ack(){if(sget("picu-ack","")==="1")return;
  var o=document.createElement("div");o.id="ack45";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");
- o.innerHTML='<div class="ack-b"><h3>Antes de empezar</h3><p><b>Arucip</b> es una ayuda rápida para profesionales de cuidados intensivos pediátricos. No reemplaza el criterio clínico, los protocolos de tu servicio ni la lectura de la fuente original.</p><p>La información puede contener errores o estar desactualizada. <b>Verificá siempre las dosis</b> antes de indicarlas o prepararlas.</p><p class="ack-s">Basada en AR-UCIP (Argentina). Realizada por Gonzalo Gabriel Pereira, especialista en pediatría y terapia intensiva pediátrica.</p><button type="button" class="btn pri w" id="ack-ok">Entendido, continuar</button></div>';
+ o.innerHTML='<div class="ack-b"><h3>Antes de empezar</h3><p><b>Arucip</b> es una ayuda rápida para profesionales de cuidados intensivos pediátricos. No reemplaza el criterio clínico, los protocolos de tu servicio ni la lectura de la fuente original.</p><p>La información puede contener errores o estar desactualizada. <b>Verificá siempre las dosis</b> antes de indicarlas o prepararlas.</p><p class="ack-s">Basada en AR-UCIP (Argentina). Realizada por Gonzalo G. Pereira, especialista en pediatría y terapia intensiva pediátrica.</p><button type="button" class="btn pri w" id="ack-ok">Entendido, continuar</button></div>';
  document.body.appendChild(o);$("#ack-ok").onclick=function(){sset("picu-ack","1");o.remove()}}
 
 /* ---------- 3. Más: ajustes y reportar ---------- */

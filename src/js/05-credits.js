@@ -9,7 +9,7 @@ window.ARUCIP_CREDITS=[
   ["Debora Farberman",""],
   ["María Laura Flores Tonfi",""]]},
  {g:"Realización de Arucip",p:[
-  ["Gonzalo Gabriel Pereira","Médico especialista en pediatría y terapia intensiva pediátrica. Compiló y adaptó la aplicación."]]},
+  ["Gonzalo G. Pereira","Médico especialista en pediatría y terapia intensiva pediátrica. Compiló y adaptó la aplicación."]]},
  {g:"Autores de fuentes y herramientas citadas",p:[
   ["Boto A","Tablas de medicación del Hospital Garrahan (Área Emergencias)"],
   ["Dr. Rodrigo Carmona","Herramienta de muerte bajo criterios neurológicos (Hospital Garrahan)"],
