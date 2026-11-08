@@ -5,7 +5,7 @@ Hola Jorge. La app ya está subida al repositorio **arucip/pruebas** (rama `main
 ## Parte 1 · Encender el sitio (desde la compu)
 
 1. Abrí **https://github.com/arucip/pruebas** e iniciá sesión con tu usuario.
-2. Arriba a la derecha del repositorio tocá **Settings** (el engranaje). Si no aparece, tu usuario no es administrador del repo: avisale a Gonza.
+2. Arriba a la derecha del repositorio tocá **Settings** (el engranaje). Si no aparece, tu usuario no es administrador del repo: avisale a Gonzalo.
 3. En el menú de la izquierda, tocá **Pages** (dentro de «Code and automation»).
 4. En **Build and deployment → Source** elegí **Deploy from a branch**.
 5. En **Branch** elegí **main** y, al lado, la carpeta **/ (root)**. Tocá **Save**.
@@ -28,16 +28,16 @@ Si en el paso 6 sigue diciendo «Your site is being built», esperá unos minuto
 2. Botón **Compartir** → **Agregar a pantalla de inicio**.
 3. Abrí el ícono y comprobá lo mismo que en Android.
 
-## Parte 3 · Avisarle a Gonza
+## Parte 3 · Avisarle a Gonzalo
 
-Mandale a Gonza por WhatsApp:
+Mandale a Gonzalo por WhatsApp:
 - Si la dirección abre la portada.
 - Si se instaló en Android y/o iPhone, y si funcionó sin conexión.
 - Cualquier cosa rara que veas (captura de pantalla, si podés).
 
 ## Cómo se actualiza después
 
-No hay que hacer nada. Cada vez que Gonza trabaja con Claude, la versión nueva se publica en el repositorio y el sitio se actualiza solo (puede tardar 1 o 2 minutos). La app, al abrirse con internet, toma la versión nueva.
+No hay que hacer nada. Cada vez que Gonzalo trabaja con Claude, la versión nueva se publica en el repositorio y el sitio se actualiza solo (puede tardar 1 o 2 minutos). La app, al abrirse con internet, toma la versión nueva.
 
 ## Si algo falla
 
