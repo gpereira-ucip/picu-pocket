@@ -14,6 +14,7 @@ ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
 - Motivos de ingreso con guía propia: 71 de 87.
 - Corrida 7/11 mañana: guías nuevas (⚕ pendientes de revisión médica, sin dosis) para golpe de calor/hipotermia/electrocución, mordeduras y picaduras, estado hiperosmolar, error congénito del metabolismo, insuficiencia suprarrenal y nefrótico complicado.
 - Corrida 6/11 noche: guías «Al recibirlo» nuevas (⚕ pendientes de revisión médica, sin dosis) para muerte encefálica, delirium, trauma raquimedular, sospecha de maltrato, inhalación de humo/CO/cianuro y ahogamiento. Lo ambiental que falta: golpe de calor/hipotermia/electrocución y mordeduras/picaduras.
+- Corrida 8/11: guías «Al recibirlo» nuevas (⚕ pendientes de revisión médica, sin dosis) para rabdomiólisis, abdomen agudo, pancreatitis, NEC/obstrucción, desnutrición/realimentación y soporte nutricional (77 de 87). Faltan 10: HLH, TMO, cáusticos, CO, plaguicidas, alcohol/opioides, cirugía mayor, trasplante, paliativos y traslado crítico.
 
 Referencias:  [HECHO]  [PARCIAL]  [PENDIENTE]
 ⚕ = necesita revisión de un médico antes de darse por bueno. No se agregaron dosis nuevas.
