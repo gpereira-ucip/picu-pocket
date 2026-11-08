@@ -23,9 +23,9 @@
 .cv-d{display:none!important}
 :root[data-mode=dark] .cv-d{display:block!important}
 :root[data-mode=dark] .cv-l{display:none!important}
-.cv-em{border-radius:0!important;filter:drop-shadow(0 14px 18px rgba(23,56,74,.22))!important;width:min(52vw,200px)!important;height:auto}
-.cv-wm img{width:min(80vw,340px)!important}
-.cv-wm{margin-top:18px!important}
+.cv-em{border-radius:0!important;filter:drop-shadow(0 14px 18px rgba(23,56,74,.22))!important;width:min(52vw,200px,20vh)!important;height:auto}
+.cv-wm img{width:min(80vw,340px,46vh)!important}
+.cv-wm{margin-top:clamp(8px,2.4vh,18px)!important}
 
 /* Logo nuevo en el encabezado (versión clara y oscura) con relieve suave */
 .ph-md{display:none!important}
@@ -117,3 +117,25 @@
 .cv-more{margin-top:16px;padding:11px 22px;border-radius:999px;border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);background:color-mix(in srgb,var(--surf) 70%,transparent);color:inherit;font:inherit;font-weight:700;font-size:.88rem;cursor:pointer}
 .cv-more:active{transform:scale(.97)}
 .cv-by{text-align:center;margin-left:auto;margin-right:auto}
+
+/* Portada más compacta: los tamaños dependen del alto de la pantalla; en pantallas bajas (PC, celulares) el logo va a la izquierda de ARUCIP */
+.cover .cv-brand{display:flex;flex-direction:column;align-items:center}
+.cover .cv-orn{margin:clamp(8px,2vh,18px) 0 clamp(6px,1.5vh,12px)}
+.cover .cv-search{margin-top:clamp(8px,1.8vh,16px)}
+@media (max-height:860px){
+  .cover .cv-in{max-width:470px}
+  .cover .cv-brand{flex-direction:row;justify-content:center;gap:14px;width:100%}
+  .cover .cv-em{width:min(26vw,110px,17vh)!important}
+  .cover .cv-wm{margin:0!important}
+  .cover .cv-wm img{width:min(56vw,250px,32vh)!important}
+}
+@media (max-height:700px){
+  .cover{padding-top:calc(14px + env(safe-area-inset-top))!important;padding-bottom:calc(10px + env(safe-area-inset-bottom))!important}
+  .cover .cv-orn{margin:6px 0 4px}
+  .cover .cv-tag{font-size:.92rem}
+  .cover .cv-panel{padding-top:8px}
+  .cover .cv-nav{margin-top:10px}
+  .cover .cv-more{margin-top:8px;padding:8px 20px}
+  .cover .cv-by{margin-top:6px}
+}
+.cover .cv-by{max-width:none}
