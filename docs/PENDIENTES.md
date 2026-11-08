@@ -22,6 +22,7 @@ ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
 - 8/11: PWA subida a arucip/pruebas (main) y script tools/publicar_pruebas.sh. Falta (D) activar GitHub Pages en Settings → Pages (rama main, carpeta raíz) y probar la instalación en Android/iOS. Items 2 y 3 destrabados.
 - 8/11: ícono nuevo (alternativa B: emblema + ARUCIP, colores de la portada) en icon-*.png y apple-touch-icon.png, v0.56. Ojo: tools/make_assets.js regenera los íconos viejos si se vuelve a correr; no usarlo para íconos.
 - 8/11 (pedido de Jorge vía Gonzalo): portada achicada (tamaños según alto de pantalla; logo a la izquierda de ARUCIP en pantallas bajas) v0.57; «Auspicio» → «Agradecimientos: Agradecemos la colaboración desinteresada de la Fundación Garrahan» (⚕ no clínico: Jorge/Gonzalo confirmar el texto). PENDIENTE: código QR en la portada (Jorge lo pide para ver el espacio del diseño): definir a qué apunta (¿https://arucip.github.io/pruebas/?) y dónde va.
+- 8/11: Gonzalo eligió el ícono A (solo emblema, sin letras) en lugar del B; v0.58.
 
 Referencias:  [HECHO]  [PARCIAL]  [PENDIENTE]
 ⚕ = necesita revisión de un médico antes de darse por bueno. No se agregaron dosis nuevas.
