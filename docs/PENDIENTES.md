@@ -23,6 +23,7 @@ ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
 - 8/11: ícono nuevo (alternativa B: emblema + ARUCIP, colores de la portada) en icon-*.png y apple-touch-icon.png, v0.56. Ojo: tools/make_assets.js regenera los íconos viejos si se vuelve a correr; no usarlo para íconos.
 - 8/11 (pedido de Jorge vía Gonzalo): portada achicada (tamaños según alto de pantalla; logo a la izquierda de ARUCIP en pantallas bajas) v0.57; «Auspicio» → «Agradecimientos: Agradecemos la colaboración desinteresada de la Fundación Garrahan» (⚕ no clínico: Jorge/Gonzalo confirmar el texto). PENDIENTE: código QR en la portada (Jorge lo pide para ver el espacio del diseño): definir a qué apunta (¿https://arucip.github.io/pruebas/?) y dónde va.
 - 8/11: Gonzalo eligió el ícono A (solo emblema, sin letras) en lugar del B; v0.58.
+- 8/11: [HECHO] QR para compartir la app (Más › La app › Compartir la app (QR); apunta a https://arucip.github.io/pruebas/; assets/qr-app.svg). Si cambia la URL, regenerar el QR. Quitado «Basada en AR-UCIP» del cartel «Antes de empezar». v0.59.
 
 Referencias:  [HECHO]  [PARCIAL]  [PENDIENTE]
 ⚕ = necesita revisión de un médico antes de darse por bueno. No se agregaron dosis nuevas.
