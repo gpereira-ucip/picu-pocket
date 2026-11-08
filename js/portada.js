@@ -36,7 +36,7 @@
   });
   /* Buscador general de la portada: al elegir un resultado se cierra la portada y se abre ese contenido. */
   var sh = document.getElementById("cv-search");
-  if (sh && window.ARUCIP_SEARCH) window.ARUCIP_SEARCH.mount(sh, { scope: "all", placeholder: "Buscar en toda la app: signo, motivo, herramienta…", before: go });
+  if (sh && window.ARUCIP_SEARCH) window.ARUCIP_SEARCH.mount(sh, { scope: "all", placeholder: "Ej.: fiebre, shock, midazolam…", before: go });
   /* Apartados de «Más» que abren una categoría de Herramientas (Autocuidado, Calidad y seguridad, IA). */
   document.addEventListener("click", function (e) {
     var a = e.target.closest ? e.target.closest("a[data-cat]") : null;
