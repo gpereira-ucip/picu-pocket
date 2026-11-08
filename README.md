@@ -9,6 +9,7 @@
 - Pendientes y plan: ver `docs/PENDIENTES.md`.
 - **El HTML que se le entrega al usuario es SIEMPRE `arucip.html` generado desde este repositorio**: `python3 tools/build_html.py` (después subirlo con el commit). Ningún otro HTML representa a Arucip.
 - Trabajá y subí en lotes chicos (commit + push después de cada lote): si la sesión se corta por falta de uso disponible, no se pierde nada.
+- **Publicación (PWA en GitHub Pages)**: el sitio de Jorge es `arucip/pruebas` (rama `main`, raíz). Después de subir cambios a esta rama, publicar con `tools/publicar_pruebas.sh <clon de pruebas>` (cada ejecución = una versión nueva, con el commit de origen). Requiere agregar `arucip/pruebas` a la sesión (add_repo, con push).
 - Cada corrida programada empieza sin memoria de las conversaciones con Gonzalo: lo acordado está en este README y en `docs/PENDIENTES.md`. Si se acuerda algo nuevo, se escribe ahí.
 
 
