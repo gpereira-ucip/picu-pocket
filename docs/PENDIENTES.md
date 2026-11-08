@@ -20,6 +20,7 @@ ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
 - Corrida 8/11 (4.º lote): enlaces nuevos (campo t) en 23 casos que tenían 2–3 herramientas (trq, epc, cat, hid, me, gol, mal, hip, nat, nef, rab, hda, pan, nec, lis, cid, ane, hlh, tph, tcc, tco, top, apn), solo a herramientas ya existentes. ⚕ revisar que la asociación sea pertinente.
 - Pedido de Gonzalo (8/11): pie de la portada rehecho a pedido suyo (cambio visual autorizado): se quitó «Basada en AR-UCIP» y «Personas intervinientes»; ahora hay botón «Más información y créditos» (abre Acerca de esta versión, que incluye ahora el listado de personas) y firma «Realizada por Gonzalo G. Pereira, con Jorge Selandari y Eduardo Motto». El logo de la Fundación Garrahan enlaza a fundaciongarrahan.org.ar (⚕ no clínico: confirmar que es la URL correcta).
 - 8/11: PWA subida a arucip/pruebas (main) y script tools/publicar_pruebas.sh. Falta (D) activar GitHub Pages en Settings → Pages (rama main, carpeta raíz) y probar la instalación en Android/iOS. Items 2 y 3 destrabados.
+- 8/11: ícono nuevo (alternativa B: emblema + ARUCIP, colores de la portada) en icon-*.png y apple-touch-icon.png, v0.56. Ojo: tools/make_assets.js regenera los íconos viejos si se vuelve a correr; no usarlo para íconos.
 
 Referencias:  [HECHO]  [PARCIAL]  [PENDIENTE]
 ⚕ = necesita revisión de un médico antes de darse por bueno. No se agregaron dosis nuevas.
