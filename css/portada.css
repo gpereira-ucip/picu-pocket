@@ -111,3 +111,9 @@
 .cv-search .ps-in{height:48px}
 .cv-search .ps-r{max-height:min(40vh,330px)}
 .tabs button{font-size:.58rem}
+
+/* Pie de la portada: acceso a créditos y firma; el logo de la Fundación Garrahan es un enlace a su sitio */
+.cv-fgl{display:block;line-height:0;border-radius:inherit}
+.cv-more{margin-top:16px;padding:11px 22px;border-radius:999px;border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);background:color-mix(in srgb,var(--surf) 70%,transparent);color:inherit;font:inherit;font-weight:700;font-size:.88rem;cursor:pointer}
+.cv-more:active{transform:scale(.97)}
+.cv-by{text-align:center;margin-left:auto;margin-right:auto}

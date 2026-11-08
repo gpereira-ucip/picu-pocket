@@ -24,6 +24,11 @@
   Array.prototype.forEach.call(c.querySelectorAll("[data-tab]"), function (b) {
     b.onclick = function () { go(function () { var t = document.querySelector('.tabs button[data-v="' + b.getAttribute("data-tab") + '"]'); if (t) t.click(); }); };
   });
+  /* «Más información y créditos»: cierra la portada y abre «Acerca de esta versión» (equipo, aviso y fuentes). */
+  var more = document.getElementById("cv-more");
+  if (more) more.onclick = function () {
+    go(function () { var a = document.createElement("a"); a.setAttribute("data-tool", "about"); document.body.appendChild(a); a.click(); a.remove(); });
+  };
   /* El logo del encabezado (claro u oscuro) vuelve a la portada. */
   var first = document.querySelector(".ph-mark");
   Array.prototype.forEach.call(document.querySelectorAll(".ph-mark"), function (m) {
