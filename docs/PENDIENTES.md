@@ -17,6 +17,7 @@ ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
 - Corrida 8/11: guías «Al recibirlo» nuevas (⚕ pendientes de revisión médica, sin dosis) para rabdomiólisis, abdomen agudo, pancreatitis, NEC/obstrucción, desnutrición/realimentación y soporte nutricional (77 de 87). Faltan 10: HLH, TMO, cáusticos, CO, plaguicidas, alcohol/opioides, cirugía mayor, trasplante, paliativos y traslado crítico.
 - Corrida 8/11 (2.º lote): HLH, TMO, cáusticos/hidrocarburos y monóxido de carbono (81 de 87). Faltan 6: plaguicidas, alcohol/opioides, cirugía mayor, trasplante, paliativos y traslado crítico.
 - Corrida 8/11 (3.er lote): plaguicidas, alcohol/opioides, cirugía mayor, trasplante, paliativos y traslado crítico: las 87 tienen guía «Al recibirlo» (⚕ todas pendientes de revisión médica).
+- Corrida 8/11 (4.º lote): enlaces nuevos (campo t) en 23 casos que tenían 2–3 herramientas (trq, epc, cat, hid, me, gol, mal, hip, nat, nef, rab, hda, pan, nec, lis, cid, ane, hlh, tph, tcc, tco, top, apn), solo a herramientas ya existentes. ⚕ revisar que la asociación sea pertinente.
 
 Referencias:  [HECHO]  [PARCIAL]  [PENDIENTE]
 ⚕ = necesita revisión de un médico antes de darse por bueno. No se agregaron dosis nuevas.
