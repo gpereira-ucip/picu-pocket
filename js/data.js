@@ -32,10 +32,10 @@ window.ARUCIP_DATA = (function () {
     tri: {
       n: "Triángulo de evaluación pediátrica",
       d: "Primera impresión en segundos, antes de tocar al paciente.",
-      pts: ["Apariencia: tono, interacción, consuelo, mirada, llanto o voz.",
+      pts: ["Apariencia (estado neurológico): tono, interacción, consuelo, mirada, llanto o voz.",
             "Trabajo respiratorio: posturas, tiraje, aleteo, ruidos anormales.",
             "Circulación cutánea: palidez, cianosis, piel moteada.",
-            "Si alguno está alterado, pasá directo al ABC y pedí ayuda."],
+            "Si alguno está alterado, pasá directo al ABC y pedí ayuda. Si la combinación indica que hay que reanimar, usá el botón PARO."],
       t: ["t:pals"]
     },
     abc: [

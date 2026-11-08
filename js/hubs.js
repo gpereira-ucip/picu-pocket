@@ -73,6 +73,14 @@
   var NOTE = '<p class="hint hub-note">Apoyo a la decisión: no reemplaza el criterio clínico ni el protocolo de tu servicio. Verificá siempre las dosis en la fuente original.</p>';
   var back = '<button class="btn g back" type="button" data-hb>‹ Volver</button>';
 
+  var TRI_SVG = '<svg class="tri-svg" viewBox="0 0 300 232" role="img" aria-label="Triángulo de evaluación pediátrica: apariencia, trabajo respiratorio y circulación a la piel" style="display:block;width:min(100%,340px);margin:6px auto 12px">' +
+    '<polygon points="150,12 286,200 14,200" fill="none" stroke="#17384A" stroke-width="3" stroke-linejoin="round"/>' +
+    '<polygon points="150,12 286,200 150,200" fill="#C2402F" fill-opacity=".16"/><polygon points="150,12 14,200 150,200" fill="#1F7A5A" fill-opacity=".16"/>' +
+    '<circle cx="150" cy="12" r="10" fill="#1F5368"/><circle cx="14" cy="200" r="10" fill="#1F7A5A"/><circle cx="286" cy="200" r="10" fill="#C2402F"/>' +
+    '<g font-family="inherit" font-weight="700" text-anchor="middle" fill="currentColor"><text x="150" y="82" font-size="15" fill="#1F5368">Apariencia</text><text x="150" y="100" font-size="11" font-weight="500">estado neurológico</text>' +
+    '<text x="82" y="160" font-size="13" fill="#1F7A5A">Trabajo</text><text x="82" y="176" font-size="13" fill="#1F7A5A">respiratorio</text>' +
+    '<text x="212" y="160" font-size="12" fill="#C2402F">Circulación</text><text x="212" y="176" font-size="13" fill="#C2402F">a la piel</text></g>' +
+    '<text x="150" y="226" font-size="10" text-anchor="middle" fill="currentColor" opacity=".7">Evaluación en segundos, antes de tocar al paciente</text></svg>';
   /* ---------- TRIAGE ---------- */
   function renderTriage() {
     var T = D.TRIAGE, host = $("#tri-body");
@@ -83,8 +91,9 @@
         '</ul><div class="hl-l">' + s.t.map(link).join("") + "</div></div></details>";
     }).join("");
     host.innerHTML =
-      '<h2>Emergencias</h2><p class="sub">Orden de trabajo ante un paciente que ingresa: evaluá con el ABC y abrí lo que necesites.</p><div class="em-b"><button class="em-paro" type="button" id="em-paro"><b>PARO</b><small>RCP con metrónomo y registro</small></button><a class="em-pals" href="#" data-tool="pals"><b>Secuencia PALS</b><small>Evaluación y algoritmos pediátricos</small></a></div><div class="hl-l" style="margin:6px 0 10px"><a class="hl" href="#" data-go="cards"><span class="hl-t"><b>Cards: medicación por peso</b><small>Tablas para situaciones críticas</small></span>' + CHEV + '</a></div>' +
-      '<div class="card tri-t"><div class="calc"><h3 class="th" style="margin-top:0">' + esc(T.tri.n) + '</h3><p class="hint" style="margin-top:0">' + esc(T.tri.d) + '</p><ul class="hub-ul">' + li(T.tri.pts) + "</ul></div></div>" +
+      '<h2>Emergencias</h2><p class="sub">Orden de trabajo ante un paciente que ingresa: evaluá con el ABC y abrí lo que necesites.</p><div class="hl-l" style="margin:6px 0 10px"><a class="hl" href="#" data-go="cards"><span class="hl-t"><b>Cards: medicación por peso</b><small>Tablas para situaciones críticas</small></span>' + CHEV + '</a><a class="hl" href="#" data-tool="pals"><span class="hl-t"><b>Secuencia PALS</b><small>Evaluación y algoritmos pediátricos</small></span>' + CHEV + '</a></div>' +
+      '<div class="card tri-t"><div class="calc"><h3 class="th" style="margin-top:0">' + esc(T.tri.n) + '</h3><p class="hint" style="margin-top:0">' + esc(T.tri.d) + '</p>' + TRI_SVG + '<ul class="hub-ul">' + li(T.tri.pts) + '</ul><button class="btn pri w" type="button" id="em-paro">PARO: si hay que reanimar</button><p class="hint">⚕ Pendiente de revisión médica.</p></div></div>' +
+      '<div class="card cab-n"><div class="calc"><h3 class="th" style="margin-top:0">¿ABC o CAB?</h3><p class="hint" style="margin-top:0">⚕ Pendiente de revisión médica.</p><ul class="hub-ul"><li><b>Paciente que responde, respira y tiene pulso:</b> seguí el orden A-B-C-D-E.</li><li><b>No responde y no respira (o solo boquea) o no tiene pulso:</b> es un paro. No sigas con el ABC: iniciá compresiones (<b>C-A-B</b>) con el botón EMERGENCIA de arriba.</li></ul></div></div>' +
       '<div class="abc-w">' + abc + "</div>" +
       '<div class="card"><div class="calc"><h3 class="th" style="margin-top:0">Después del ABC</h3><ul class="hub-ul">' + li(T.prox) + "</ul></div></div>" +
       base() + NOTE;
@@ -137,7 +146,6 @@
       var others = ["ad", "pr", "ca"].map(function (id) { return D.SYS.filter(function (x) { return x.id === id; })[0]; }).filter(Boolean);
       html = '<h2>Motivos de ingreso</h2><p class="sub">Motivos de ingreso a terapia intensiva pediátrica, por aspecto. Buscá por aparato, signo, síntoma o motivo.</p>' +
         '<div id="cs-search"></div>' +
-        '<h3 class="hub-h">Frecuentes</h3><div class="cr-l">' + D.CASES.filter(function (c) { return c.top; }).map(caseRow).join("") + "</div>" +
         '<h3 class="hub-h">Por aspecto o aparato</h3><div class="hub-grid">' + D.GROUPS.map(function (g) {
           return '<button class="tile" type="button" data-grp="' + g.id + '"><span class="tile-i">' + svg(g.ic) + "</span><b>" + esc(g.n) + "</b><small>" + casesOf(g.id).length + " motivos · " + esc(g.d) + "</small></button>";
         }).join("") + "</div>" +

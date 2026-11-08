@@ -12,6 +12,8 @@
   var esc = function (s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); };
   var SEARCH_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
 
+  /* Siglas y nombres alternativos de los motivos (⚕ a revisar por el servicio). Coincidencia exacta de sigla = primer resultado. */
+  var ACR = { shs: "shock septico", ic: "icc ic falla cardiaca", mio: "miocarditis", cch: "cc cardiopatia congenita", pcv: "pop cec posoperatorio cardiaco", arr: "tsv tv fv arritmia", hp: "hp hpp crisis hipertension pulmonar", tap: "taponamiento", hta: "crisis hipertensiva", ana: "shock anafilactico", pcr: "pcr paro rcp posparo", kaw: "pims misc mis-c kawasaki", bro: "bva irab bronquiolitis", asm: "asma status asmatico", neu: "nac neumonia empiema", sdr: "sdra pards ards", ira: "ira iresp", vaa: "crup laringitis epiglotitis", pnt: "neumotorax hemotorax", tos: "coqueluche pertussis", fex: "vad via aerea dificil", trq: "tqt traqueostomia", epc: "fq dbp fibrosis quistica displasia", sep: "sepsis", men: "meningitis meningoencefalitis", pbl: "sts fascitis shock toxico", inm: "nf neutropenia febril", cat: "iacs clabsi bacteriemia", end: "dengue hantavirus", ee: "ee status epileptico", tec: "tec tce tceg tcec traumatismo trauma encefalocraneano encefalo craneano craneoencefalico traumatismo-encefalo-craneano", hte: "hic pic hipertension endocraneana coma", acv: "acv hsa stroke", hid: "dvp dve valvula", nqx: "nqx neuroquirurgico", gbs: "gbs guillain", hie: "hie posparo", me: "mbcn muerte encefalica", del: "delirium", pol: "politrauma", tto: "trauma toracico abdominal", trm: "raquimedular", que: "quemado quemadura", inh: "humo co cianuro", aho: "ahogamiento sumersion", gol: "golpe calor hipotermia electrocucion", ani: "ofidio alacran arana mordedura picadura", mal: "maltrato abuso", cad: "cad dka cetoacidosis", ehh: "hhs hiperosmolar", hip: "hipoglucemia", ecm: "eim ecm error congenito metabolismo", sup: "suprarrenal addison", nat: "hiponatremia hipernatremia", lra: "lra aki falla renal", suh: "suh shu hus", hk: "hiperkalemia hiperpotasemia", nef: "nefrotico", rab: "rabdomiolisis", fha: "fha falla hepatica", hda: "hda sangrado digestivo", abd: "abdomen agudo", pan: "pancreatitis", nec: "nec enterocolitis", des: "desnutricion realimentacion", nut: "np nutricion parenteral enteral", lis: "lisis tumoral", mas: "mediastino", cid: "cid coagulopatia", ane: "drepanocitica anemia", hlh: "hlh hemofagocitico", tph: "tmo trasplante medula", tmd: "intox intoxicacion", tcc: "caustico hidrocarburo", tco: "co monoxido", top: "opp organofosforado plaguicida", tal: "alcohol opioide drogas", pmy: "cirugia mayor", ptx: "trasplante", pvo: "orl via aerea quirurgica", dep: "tqt dependencia tecnologica", pal: "paliativos", apn: "apnea alte bruen", det: "pews alerta temprana deterioro", trs: "traslado" };
   var IDX = null;
   function gname(id) { return D.GROUPS.filter(function (g) { return g.id === id; })[0]; }
   function H() { return window.ARUCIP_HUBS || {}; }
@@ -23,7 +25,7 @@
     D.CASES.forEach(function (c) {
       var gs = c.g.map(function (i) { return gname(i).n; });
       motivos.push({ k: "Motivo de ingreso", l: c.n, sub: gs.join(" · "), h: nz(c.n), kw: nz((sym[c.id] || []).join(" ") + " " + gs.join(" ") + " " + c.g.map(function (g) { return (D.ALIAS || {})[g] || ""; }).join(" ")), r: c.top ? 0.5 : 0,
-        syms: sym[c.id] || [], go: function () { H().openCase(c.id); } });
+        syms: sym[c.id] || [], ac: nz(ACR[c.id] || ""), go: function () { H().openCase(c.id); } });
     });
     D.GROUPS.forEach(function (g) {
       var n = D.CASES.filter(function (c) { return c.g.indexOf(g.id) >= 0; }).length;
@@ -56,7 +58,7 @@
       var b = a.querySelector("b"), k = a.getAttribute("data-tool");
       if (!b || seen[k]) return; seen[k] = 1;
       var det = a.closest("details"), cat = det && det.querySelector("summary b") ? det.querySelector("summary b").textContent.trim() : "Herramienta";
-      todo.push({ k: "Herramienta", l: b.textContent.trim(), sub: cat, h: nz(b.textContent), kw: nz(cat), r: -0.5, syms: [], go: function () { var el = document.querySelector('[data-tool="' + k + '"]'); if (el) el.click(); } });
+      todo.push({ k: "Herramienta", l: b.textContent.trim(), sub: cat, h: nz(b.textContent), kw: nz(cat + " " + k + " " + ((typeof SYN !== "undefined" && SYN[k]) || "")), r: -0.5, syms: [], go: function () { var el = document.querySelector('[data-tool="' + k + '"]'); if (el) el.click(); } });
     });
     [["#cks > details", "ck", "Checklist"], ["#calcs > details", "calc", "Calculadora"], ["#pc > details", "pocus", "POCUS"], ["#v-burn details", "burn", "Quemados"]].forEach(function (g) {
       $$(g[0]).forEach(function (d) {
@@ -81,7 +83,9 @@
     var s = 0, words = e.h.split(/[^a-z0-9]+/);
     for (var i = 0; i < toks.length; i++) {
       var t = toks[i], ok = 0;
-      if (e.h.indexOf(t) === 0) ok = 6;
+      if (e.ac && e.ac.split(/[^a-z0-9]+/).indexOf(t) >= 0) ok = 9;
+      else if (e.ac && t.length >= 3 && e.ac.split(/[^a-z0-9]+/).some(function (w) { return w.indexOf(t) === 0; })) ok = 3;
+      else if (e.h.indexOf(t) === 0) ok = 6;
       else if (words.some(function (w) { return w.indexOf(t) === 0; })) ok = 4;
       else if (t.length >= 4 && e.h.indexOf(t) >= 0) ok = 2;
       else if (e.kw && e.kw.split(/[^a-z0-9]+/).some(function (w) { return w.indexOf(t) === 0; })) ok = 1.5;

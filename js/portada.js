@@ -56,4 +56,48 @@
     new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ["data-mode", "data-theme"] });
     sync();
   }
+
+  /* «‹ Volver» en las pantallas principales (todas menos la portada): lleva a la sección anterior; si no hay, a la portada. */
+  (function () {
+    var stack = [], cur = null, going = false, ROOTS = ["triage", "ind", "fav", "casos", "more"];
+    function curTab() {
+      var v = document.querySelector(".view:not([hidden])");
+      if (!v) return null;
+      var id = v.id.slice(2);
+      return window.ARUCIP_TAB ? window.ARUCIP_TAB(id) : id;
+    }
+    function ensure() {
+      ROOTS.forEach(function (r) {
+        var v = document.getElementById("v-" + r);
+        if (!v) return;
+        var f = v.firstElementChild;
+        if (f && (f.classList.contains("back") || f.hasAttribute("data-rb"))) return;
+        if (v.querySelector(".back")) return;
+        var b = document.createElement("button");
+        b.className = "btn g back"; b.type = "button"; b.setAttribute("data-rb", ""); b.textContent = "‹ Volver";
+        v.insertBefore(b, v.firstChild);
+      });
+    }
+    function onChange() {
+      var n = curTab();
+      if (n && n !== cur) { if (cur && !going) stack.push(cur); cur = n; }
+      going = false;
+      ensure();
+    }
+    new MutationObserver(onChange).observe(document.body, { subtree: true, attributes: true, attributeFilter: ["hidden"] });
+    ROOTS.forEach(function (r) {
+      var v = document.getElementById("v-" + r);
+      if (v) new MutationObserver(ensure).observe(v, { childList: true });
+    });
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest ? e.target.closest("[data-rb]") : null;
+      if (!b) return;
+      var prev = stack.pop();
+      if (prev) {
+        var t = document.querySelector('.tabs button[data-v="' + prev + '"]');
+        going = true; if (t) t.click();
+      } else { var m = document.querySelector(".ph-mark"); if (m) m.click(); }
+    });
+    cur = curTab(); ensure();
+  })();
 })();

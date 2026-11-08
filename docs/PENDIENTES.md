@@ -25,6 +25,7 @@ ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
 - 8/11: Gonzalo eligió el ícono A (solo emblema, sin letras) en lugar del B; v0.58.
 - 8/11: [HECHO] QR para compartir la app (Más › La app › Compartir la app (QR); apunta a https://arucip.github.io/pruebas/; assets/qr-app.svg). Si cambia la URL, regenerar el QR. Quitado «Basada en AR-UCIP» del cartel «Antes de empezar». v0.59.
 - 8/11 (pedido de Gonzalo): portada v0.60: botonera igual a la barra inferior de la app (misma posición y formato); buscador más grande con título «Buscá en toda la app». El texto sobre la Fundación Garrahan queda a cargo de Jorge.
+- 8/11 (v0.61): [HECHO] buscador con siglas (ACR en js/buscador.js, ⚕ a revisar), «Volver» en pantallas principales, sin «Frecuentes», leches sin decimales por toma, triángulo de evaluación (SVG propio, ⚕), ¿ABC o CAB? (⚕) y sin bloque PARO/PALS repetido (PALS quedó como enlace). Pendiente de esos pedidos: botones del mismo tamaño, Cards con el peso cargado (requiere «paciente actual»), botones de la secuencia ABC (no se tocaron; confirmar con Gonzalo qué quiso decir).
 
 Referencias:  [HECHO]  [PARCIAL]  [PENDIENTE]
 ⚕ = necesita revisión de un médico antes de darse por bueno. No se agregaron dosis nuevas.
