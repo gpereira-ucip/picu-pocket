@@ -16,6 +16,7 @@ ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
 - Corrida 6/11 noche: guías «Al recibirlo» nuevas (⚕ pendientes de revisión médica, sin dosis) para muerte encefálica, delirium, trauma raquimedular, sospecha de maltrato, inhalación de humo/CO/cianuro y ahogamiento. Lo ambiental que falta: golpe de calor/hipotermia/electrocución y mordeduras/picaduras.
 - Corrida 8/11: guías «Al recibirlo» nuevas (⚕ pendientes de revisión médica, sin dosis) para rabdomiólisis, abdomen agudo, pancreatitis, NEC/obstrucción, desnutrición/realimentación y soporte nutricional (77 de 87). Faltan 10: HLH, TMO, cáusticos, CO, plaguicidas, alcohol/opioides, cirugía mayor, trasplante, paliativos y traslado crítico.
 - Corrida 8/11 (2.º lote): HLH, TMO, cáusticos/hidrocarburos y monóxido de carbono (81 de 87). Faltan 6: plaguicidas, alcohol/opioides, cirugía mayor, trasplante, paliativos y traslado crítico.
+- Corrida 8/11 (3.er lote): plaguicidas, alcohol/opioides, cirugía mayor, trasplante, paliativos y traslado crítico: las 87 tienen guía «Al recibirlo» (⚕ todas pendientes de revisión médica).
 
 Referencias:  [HECHO]  [PARCIAL]  [PENDIENTE]
 ⚕ = necesita revisión de un médico antes de darse por bueno. No se agregaron dosis nuevas.
@@ -39,7 +40,7 @@ Hecho hasta hoy:
   La Biblia pasó a "Fórmulas y preparaciones" y Tips a "Notas prácticas"; ambos están en Más,
   dentro del apartado "Otras recomendaciones".
 - Personas intervinientes: Equipo (Jorge Selandari, Eduardo Motto, Gonzalo Gabriel Pereira), con roles cortos.
-- Motivos de ingreso: 87 en 12 grupos, 52 con guía "Al recibirlo" propia (35 faltan).
+- Motivos de ingreso: 87 en 12 grupos, todas con guía "Al recibirlo" propia (⚕ a revisar).
 - Service worker "red primero" (idea de Jorge): no hace falta subir la versión del caché al publicar.
 - Íconos de la app de Jorge instalados.
 - Pruebas automáticas (Playwright): sin errores de consola y sin enlaces rotos.
