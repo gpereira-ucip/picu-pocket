@@ -78,7 +78,7 @@ const ok = (c, m) => { console.log((c ? "OK   " : "FALLA") + " " + m); if (!c) f
   /* app */
   p = await open(); await p.click("[data-tab=triage]"); await p.waitForTimeout(700); await ack(p);
   ok((await p.evaluate(() => [...document.querySelectorAll(".tabs button")].map((x) => x.textContent.trim()))).join("|") === "Emergencias|Motivos de ingreso|Indicaciones y cálculos|Favoritos|Más", "botonera: Emergencias · Motivos de ingreso · Indicaciones y cálculos · Favoritos · Más");
-  ok(await p.evaluate(() => !!document.querySelector("#v-triage .em-paro") && !!document.querySelector('#v-triage [data-tool="pals"]')), "Emergencias tiene PARO y Secuencia PALS");
+  ok(await p.evaluate(() => !!document.querySelector("#v-triage #em-paro") && !!document.querySelector("#v-triage .tri-svg") && !!document.querySelector('#v-triage [data-tool="pals"]')), "Emergencias tiene triángulo, botón PARO y Secuencia PALS");
   await p.click("#v-triage [data-go=cards]"); await p.waitForTimeout(300);
   ok((await view(p)) === "v-cards" && (await p.evaluate(() => document.querySelector(".tabs [aria-current=true]").dataset.v)) === "triage", "Cards se abre dentro de Emergencias");
   await p.click(".tabs [data-v=casos]"); await p.waitForTimeout(300);
