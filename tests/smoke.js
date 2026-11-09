@@ -44,6 +44,18 @@ const ok = (c, m) => { console.log((c ? "OK   " : "FALLA") + " " + m); if (!c) f
     Object.keys(D.SYMP).forEach((s) => D.SYMP[s].forEach((i) => { if (!ids.has(i)) out.push("SYMP " + s + " " + i); }));
     return out;
   });
+  const integ = await p.evaluate(() => {
+    const D = window.ARUCIP_DATA, out = [], seen = {}, gids = new Set(D.GROUPS.map((g) => g.id));
+    D.CASES.forEach((c) => {
+      if (seen[c.id]) out.push("id repetido " + c.id); seen[c.id] = 1;
+      if (!c.n) out.push("sin nombre " + c.id);
+      (c.g || []).forEach((g) => { if (!gids.has(g)) out.push("grupo inexistente " + c.id + " " + g); });
+      if (!c.g || !c.g.length) out.push("sin grupo " + c.id);
+      if (!c.rec || !c.rec.length) out.push("sin guía Al recibirlo " + c.id);
+    });
+    return out;
+  });
+  ok(integ.length === 0, "integridad de data.js (ids, grupos, guías)" + (integ.length ? ": " + integ.join(", ") : ""));
   ok(bad.length === 0, "enlaces e ids válidos" + (bad.length ? ": " + bad.join(", ") : ""));
   const stat = await p.evaluate(() => ({ n: ARUCIP_DATA.CASES.length, rec: ARUCIP_DATA.CASES.filter((c) => c.rec).length }));
   console.log("     motivos:", stat.n, "con guía propia:", stat.rec);
