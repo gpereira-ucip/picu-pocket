@@ -93,9 +93,18 @@
     host.innerHTML =
       '<h2>Emergencias</h2><p class="sub">Orden de trabajo ante un paciente que ingresa: evaluá con el ABC y abrí lo que necesites.</p><div class="hl-l" style="margin:6px 0 10px"><a class="hl" href="#" data-go="cards"><span class="hl-t"><b>Cards: medicación por peso</b><small>Tablas para situaciones críticas</small></span>' + CHEV + '</a><a class="hl" href="#" data-tool="pals"><span class="hl-t"><b>Secuencia PALS</b><small>Evaluación y algoritmos pediátricos</small></span>' + CHEV + '</a></div>' +
       '<div class="card tri-t"><div class="calc"><h3 class="th" style="margin-top:0">' + esc(T.tri.n) + '</h3><p class="hint" style="margin-top:0">' + esc(T.tri.d) + '</p>' + TRI_SVG + '<ul class="hub-ul">' + li(T.tri.pts) + '</ul><button class="btn pri w" type="button" id="em-paro">PARO: si hay que reanimar</button><p class="hint">⚕ Pendiente de revisión médica.</p></div></div>' +
-      '<div class="card cab-n"><div class="calc"><h3 class="th" style="margin-top:0">¿ABC o CAB?</h3><p class="hint" style="margin-top:0">⚕ Pendiente de revisión médica.</p><ul class="hub-ul"><li><b>Paciente que responde, respira y tiene pulso:</b> seguí el orden A-B-C-D-E.</li><li><b>No responde y no respira (o solo boquea) o no tiene pulso:</b> es un paro. No sigas con el ABC: iniciá compresiones (<b>C-A-B</b>) con el botón EMERGENCIA de arriba.</li></ul></div></div>' +
-      '<div class="abc-w">' + abc + "</div>" +
-      '<div class="card"><div class="calc"><h3 class="th" style="margin-top:0">Después del ABC</h3><ul class="hub-ul">' + li(T.prox) + "</ul></div></div>" +
+      '<div class="card cab-n"><div class="calc"><h3 class="th" style="margin-top:0">Enfoque sistemático: paso a paso</h3><p class="hint" style="margin-top:0">⚕ Pendiente de revisión médica. Estructura basada en el algoritmo de enfoque sistemático del PALS, redactada con palabras propias.</p><ol class="hub-ol">' +
+        '<li><b>Impresión inicial</b> (triángulo de arriba): apariencia, respiración y circulación, antes de tocar al paciente.</li>' +
+        '<li><b>¿No responde o necesita una intervención inmediata?</b> Sí: pedí ayuda y activá el equipo de emergencias. No: seguí con el punto 5.</li>' +
+        '<li><b>¿Respira y tiene pulso?</b> Si no respira (o solo boquea) o no tiene pulso: es un paro. Iniciá compresiones (<b>C-A-B</b>) con el botón EMERGENCIA de arriba y seguí el algoritmo de paro.</li>' +
+        '<li><b>No respira pero tiene pulso:</b> abrí y mantené la vía aérea, ventilá, dá oxígeno y conectá monitor y saturómetro. Si el pulso es lento con mala perfusión a pesar de oxigenar y ventilar, tratalo como paro (compresiones).</li>' +
+        '<li><b>Responde, con afectación grave de vía aérea, respiración o circulación:</b> mantené la vía aérea, ventilá y oxigená según necesite, y conectá monitor y saturómetro.</li>' +
+        '<li><b>Evaluar:</b> evaluación primaria (ABCDE, abajo), evaluación secundaria y estudios diagnósticos.</li>' +
+        '<li><b>Identificar</b> el problema (respiratorio, shock, neurológico, otro) y su gravedad.</li>' +
+        '<li><b>Intervenir</b> y volver a evaluar: repetí este ciclo hasta que el paciente se estabilice.</li>' +
+        '<li><b>Si en cualquier momento aparece un paro:</b> C-A-B. Tras recuperar la circulación, cuidados posparo y retomá evaluar–identificar–intervenir.</li></ol></div></div>' +
+      '<h3 class="hub-h">Evaluación primaria: ABCDE</h3><div class="abc-w">' + abc + "</div>" +
+      '<div class="card"><div class="calc"><h3 class="th" style="margin-top:0">Después de evaluar</h3><ul class="hub-ul">' + li(T.prox) + "</ul></div></div>" +
       base() + NOTE;
   }
 
