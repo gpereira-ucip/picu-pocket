@@ -100,4 +100,45 @@
     });
     cur = curTab(); ensure();
   })();
+  /* «‹ Volver» también en las pantallas secundarias (Checklists, Calculadoras, Cards, POCUS, Quemados, Herramientas,
+     Fórmulas y Notas): vuelve a la pantalla desde la que se llegó, aunque no sea una pestaña de la barra. */
+  (function () {
+    var SEC = ["ck", "calc", "tools", "burn", "bib", "pocus", "cards", "tips"], hist = [], cur = null, going = false;
+    function curView() { var v = document.querySelector(".view:not([hidden])"); return v ? v.id.slice(2) : null; }
+    function ensure() {
+      SEC.forEach(function (r) {
+        var v = document.getElementById("v-" + r);
+        if (!v || v.querySelector(".back")) return;
+        var b = document.createElement("button");
+        b.className = "btn g back"; b.type = "button"; b.setAttribute("data-sb", ""); b.textContent = "‹ Volver";
+        v.insertBefore(b, v.firstChild);
+      });
+    }
+    function onChange() {
+      var n = curView();
+      if (n && n !== cur) {
+        if (!going) {
+          if (hist.length && hist[hist.length - 1] === n) hist.pop();
+          else if (cur && cur !== "tool") { hist.push(cur); if (hist.length > 30) hist.shift(); }
+        }
+        cur = n;
+      }
+      going = false;
+      ensure();
+    }
+    new MutationObserver(onChange).observe(document.body, { subtree: true, attributes: true, attributeFilter: ["hidden"] });
+    SEC.forEach(function (r) {
+      var v = document.getElementById("v-" + r);
+      if (v) new MutationObserver(ensure).observe(v, { childList: true });
+    });
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest ? e.target.closest("[data-sb]") : null;
+      if (!b) return;
+      var prev = hist.pop();
+      going = true;
+      if (prev && window.ARUCIP_GO) window.ARUCIP_GO(prev);
+      else { var t = document.querySelector('.tabs button[data-v="triage"]'); if (t) t.click(); }
+    });
+    cur = curView(); ensure();
+  })();
 })();

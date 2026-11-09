@@ -106,6 +106,21 @@ const ok = (c, m) => { console.log((c ? "OK   " : "FALLA") + " " + m); if (!c) f
   }
   ok(words.length === 0, "sin «Biblia», «Tips», «Picu Pocket» ni «Funciona sin conexión»" + (words.length ? ": " + words.slice(0, 3).join(" | ") : ""));
 
+  /* «Volver» en pantallas secundarias */
+  p = await open(); await p.click("[data-tab=triage]"); await p.waitForTimeout(500); await ack(p);
+  await p.evaluate(() => window.ARUCIP_GO("cards")); await p.waitForTimeout(200);
+  ok(await p.evaluate(() => !!document.querySelector("#v-cards [data-sb]")), "Cards tiene «Volver»");
+  await p.click("#v-cards [data-sb]"); await p.waitForTimeout(300);
+  ok((await view(p)) === "v-triage", "Volver desde Cards lleva a Emergencias");
+  await p.click('.tabs button[data-v="more"]'); await p.waitForTimeout(200);
+  await p.evaluate(() => window.ARUCIP_GO("calc")); await p.waitForTimeout(200);
+  ok(await p.evaluate(() => !!document.querySelector("#v-calc [data-sb]")), "Calculadoras tiene «Volver»");
+  await p.click("#v-calc [data-sb]"); await p.waitForTimeout(300);
+  ok((await view(p)) === "v-more", "Volver desde Calculadoras lleva a donde se estaba");
+  for (const v of ["ck", "tools", "burn", "bib", "pocus", "tips"]) {
+    await p.evaluate((x) => window.ARUCIP_GO(x), v); await p.waitForTimeout(150);
+    ok(await p.evaluate((x) => !!document.querySelector("#v-" + x + " .back"), v), "«Volver» en " + v);
+  }
   ok(errs.length === 0, "sin errores de consola" + (errs.length ? ": " + errs.slice(0, 3).join(" | ") : ""));
   await b.close();
   console.log(fails ? "\n" + fails + " prueba(s) con falla" : "\nTodo bien");
