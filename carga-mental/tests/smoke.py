@@ -6,6 +6,7 @@ Levanta un servidor local, abre la app en un celular simulado (390x844) y recorr
   2. Migración: datos guardados con el formato de v1.0.0 → no se pierde nada y queda copia.
   3. Accesos directos del ícono (?go=chat, ?go=anotar).
   4. Vista de Daniela.
+  5. Diseño: íconos SVG, avatares, contraste AA y modo oscuro (automático y manual), con capturas /tmp/cm-dark-*.png.
 Falla si hay errores de JavaScript o de consola, o si la página se ensancha más de 390 px.
 Guarda capturas en /tmp/cm-*.png para revisarlas.
 """
@@ -208,6 +209,55 @@ with sync_playwright() as p:
     check(pg.locator('.verlink').count() == 1, 'Daniela no ve el acceso a Novedades')
     pg.screenshot(path='/tmp/cm-daniela.png', full_page=True)
     width_ok(pg, 'Daniela')
+    ctx.close()
+
+    # ---------- 5. Diseño: íconos, avatares y modo oscuro (v1.2.0) ----------
+    CONTRAST = """() => {
+      const cs = getComputedStyle(document.documentElement), v = n => cs.getPropertyValue(n).trim();
+      const lum = h => { h = h.replace('#',''); if(h.length === 3) h = h.split('').map(x => x + x).join(''); const c = [0,2,4].map(i => parseInt(h.slice(i,i+2),16)/255).map(x => x <= .03928 ? x/12.92 : Math.pow((x+.055)/1.055, 2.4)); return .2126*c[0]+.7152*c[1]+.0722*c[2]; };
+      const ratio = (a,b) => { const x = lum(v(a)), y = lum(v(b)); return (Math.max(x,y)+.05)/(Math.min(x,y)+.05); };
+      return {ink:ratio('--ink','--bg'), mut:ratio('--mut','--bg'), mutCard:ratio('--mut','--card'), pri:ratio('--pri-on','--pri'), priTx:ratio('--pri-tx','--card'), warn:ratio('--warn','--warnbg'), bad:ratio('--bad','--badbg'), ok:ratio('--ok','--okbg'), bg:v('--bg')};
+    }"""
+    for scheme in ['light', 'dark']:
+        ctx = b.new_context(viewport={'width': 390, 'height': 844}, color_scheme=scheme)
+        pg = ctx.new_page()
+        pg.on('pageerror', lambda e: errs.append(f'[tema] JS: {e}'))
+        pg.on('console', lambda m: errs.append(f'[tema] consola: {m.text}') if m.type == 'error' else None)
+        pg.goto(URL); pg.wait_for_timeout(300)
+        pg.evaluate("localStorage.setItem('cm_me','gonzalo'); localStorage.setItem('cm_seen', VERSION)")
+        pg.reload(); pg.wait_for_timeout(1800)
+        c = pg.evaluate(CONTRAST)
+        for k, val in c.items():
+            if k != 'bg': check(val >= 4.5, f'Contraste {scheme} {k}={val:.2f} (mínimo 4.5)')
+        bg = pg.evaluate("getComputedStyle(document.body).backgroundColor")
+        check((bg == 'rgb(26, 20, 17)') == (scheme == 'dark'), f'Modo {scheme} automático: fondo {bg}')
+        check(pg.locator('nav svg.ic').count() == 5, 'La barra inferior no tiene los 5 íconos SVG')
+        check(pg.locator('nav b').count() == 0, 'Quedaron emojis en la barra inferior')
+        check(pg.locator('#who .av').count() == 1, 'El botón de usuario no muestra el avatar')
+        check(pg.locator('main h3 .hic svg').count() >= 3, 'Los títulos de Hoy no tienen íconos')
+        for name in ['Hoy', 'Compras', 'Casa', 'Joaco', 'Mensajes']:
+            pg.locator(f'nav >> text={name}').first.click(); pg.wait_for_timeout(200)
+            pg.screenshot(path=f'/tmp/cm-{scheme}-{name.lower()}.png', full_page=True)
+            width_ok(pg, f'{scheme}/{name}')
+        pg.locator('nav >> text=Joaco').click(); pg.wait_for_timeout(150)
+        check(pg.locator('.week .pp.v .av').count() == 10, 'La semana de Joaco no usa avatares')
+        ctx.close()
+    # Elegir el tema a mano desde Ajustes (gana sobre el del teléfono y se recuerda)
+    ctx = b.new_context(viewport={'width': 390, 'height': 844}, color_scheme='light')
+    pg = ctx.new_page(); pg.on('pageerror', lambda e: errs.append(f'[tema manual] JS: {e}'))
+    pg.goto(URL); pg.wait_for_timeout(300)
+    pg.evaluate("localStorage.setItem('cm_me','dani'); localStorage.setItem('cm_seen', VERSION)")
+    pg.reload(); pg.wait_for_timeout(1800)
+    pg.locator('#who').click(); pg.wait_for_timeout(200)
+    pg.locator('#sheet .seg >> text=Oscuro').click(); pg.wait_for_timeout(200)
+    check(pg.evaluate("document.documentElement.dataset.theme") == 'dark', 'Elegir «Oscuro» no cambió el tema')
+    check(pg.evaluate("document.querySelector('meta[name=theme-color]').content") == '#2f231d', 'La barra del teléfono no cambió de color')
+    pg.screenshot(path='/tmp/cm-dark-ajustes.png', full_page=True)
+    pg.reload(); pg.wait_for_timeout(600)
+    check(pg.evaluate("document.documentElement.dataset.theme") == 'dark', 'El modo oscuro no se recordó al recargar')
+    pg.locator('#who').click(); pg.wait_for_timeout(200)
+    pg.locator('#sheet .seg >> text=Automático').click(); pg.wait_for_timeout(200)
+    check(pg.evaluate("document.documentElement.dataset.theme") is None and pg.evaluate("localStorage.getItem('cm_theme')") is None, '«Automático» no volvió al tema del teléfono')
     ctx.close()
 
     b.close()

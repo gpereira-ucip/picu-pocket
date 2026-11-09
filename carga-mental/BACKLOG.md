@@ -12,11 +12,11 @@ Las marcadas 🔑 necesitan algo de Gonzalo (una cuenta, una clave, un dato). En
 - [x] 5. Accesos directos del ícono (shortcuts del manifest): "Anotar compra", "Mensajes", "Hoy". — ✔ 2026-11-09 (v1.1.0)
 
 ## Estética
-- [ ] 6. Sistema de diseño: tokens de color, espacios, radios y sombras en tono arcilla, coherentes con el logo.
-- [ ] 7. Tipografía más cuidada (pila de fuentes del sistema bien elegida, pesos y escala) y jerarquía clara de títulos.
-- [ ] 8. Íconos SVG propios en la barra inferior y en las secciones, en lugar de emojis.
-- [ ] 9. Avatares redondos con inicial y color por persona, en lugar de pastillas de texto.
-- [ ] 10. Modo oscuro automático (según el sistema) y manual.
+- [x] 6. Sistema de diseño: tokens de color, espacios, radios y sombras en tono arcilla, coherentes con el logo. — ✔ 2026-11-09 (v1.2.0)
+- [x] 7. Tipografía más cuidada (pila de fuentes del sistema bien elegida, pesos y escala) y jerarquía clara de títulos. — ✔ 2026-11-09 (v1.2.0)
+- [x] 8. Íconos SVG propios en la barra inferior y en las secciones, en lugar de emojis. — ✔ 2026-11-09 (v1.2.0)
+- [x] 9. Avatares redondos con inicial y color por persona, en lugar de pastillas de texto. — ✔ 2026-11-09 (v1.2.0)
+- [x] 10. Modo oscuro automático (según el sistema) y manual. — ✔ 2026-11-09 (v1.2.0)
 - [ ] 11. Barra inferior con indicador activo animado y globitos con cantidad de pendientes.
 - [ ] 12. Animación de tilde al marcar y festejo sutil (confeti) al completar un ciclo o una lista.
 - [ ] 13. Vibración corta al completar algo (navigator.vibrate).
