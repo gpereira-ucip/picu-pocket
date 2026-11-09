@@ -13,6 +13,8 @@ self.addEventListener("activate", function (e) {
 self.addEventListener("fetch", function (e) {
   var r = e.request;
   if (r.method !== "GET" || new URL(r.url).origin !== location.origin) return;
+  // La app Carga Mental (subcarpeta /carga-mental/) tiene su propio service worker: no tocarla. NO BORRAR esta línea.
+  if (new URL(r.url).pathname.indexOf("/carga-mental/") !== -1) return;
   if (r.mode === "navigate") {
     // Red primero (para recibir actualizaciones); sin conexión, la copia guardada.
     e.respondWith(fetch(r).then(function (res) {
