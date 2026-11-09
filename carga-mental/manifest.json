@@ -27,5 +27,47 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "id": "./",
+  "shortcuts": [
+    {
+      "name": "Anotar compra",
+      "short_name": "Anotar",
+      "description": "Agregar algo que falta a la lista",
+      "url": "./?go=anotar",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Mensajes",
+      "short_name": "Mensajes",
+      "description": "Mensajes de la familia",
+      "url": "./?go=chat",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Hoy",
+      "short_name": "Hoy",
+      "description": "Qué le toca hoy a cada uno",
+      "url": "./?go=hoy",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
   ]
 }

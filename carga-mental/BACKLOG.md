@@ -5,11 +5,11 @@ Formato al terminar: `- [x] 12. Texto… — ✔ 2026-11-10 (v1.3.0)`.
 Las marcadas 🔑 necesitan algo de Gonzalo (una cuenta, una clave, un dato). En ese caso se deja todo preparado, se anota qué falta y se sigue con la próxima.
 
 ## Base y visibilidad del progreso
-- [ ] 1. Pantalla "Novedades y progreso": versión, cambios de cada día y barra X/100. Se abre sola la primera vez que se entra a una versión nueva.
-- [ ] 2. Pruebas automáticas ampliadas (tests/smoke.py): cada flujo principal, migración de datos y cero errores de consola.
-- [ ] 3. Migraciones de datos versionadas: los datos guardados nunca se pierden al actualizar.
-- [ ] 4. Botón "Instalar app" (beforeinstallprompt) y guía de instalación para Android.
-- [ ] 5. Accesos directos del ícono (shortcuts del manifest): "Anotar compra", "Mensajes", "Hoy".
+- [x] 1. Pantalla "Novedades y progreso": versión, cambios de cada día y barra X/100. Se abre sola la primera vez que se entra a una versión nueva. — ✔ 2026-11-09 (v1.1.0)
+- [x] 2. Pruebas automáticas ampliadas (tests/smoke.py): cada flujo principal, migración de datos y cero errores de consola. — ✔ 2026-11-09 (v1.1.0)
+- [x] 3. Migraciones de datos versionadas: los datos guardados nunca se pierden al actualizar. — ✔ 2026-11-09 (v1.1.0)
+- [x] 4. Botón "Instalar app" (beforeinstallprompt) y guía de instalación para Android. — ✔ 2026-11-09 (v1.1.0)
+- [x] 5. Accesos directos del ícono (shortcuts del manifest): "Anotar compra", "Mensajes", "Hoy". — ✔ 2026-11-09 (v1.1.0)
 
 ## Estética
 - [ ] 6. Sistema de diseño: tokens de color, espacios, radios y sombras en tono arcilla, coherentes con el logo.

@@ -1,4 +1,4 @@
-const CACHE = 'carga-mental-v2';
+const CACHE = 'carga-mental-v1.1.0';
 const SHELL = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'cover.jpg'];
 
 self.addEventListener('install', e => {
@@ -21,7 +21,8 @@ self.addEventListener('fetch', e => {
   // App shell + Firebase SDK scripts: stale-while-revalidate
   e.respondWith(
     caches.open(CACHE).then(async c => {
-      const hit = await c.match(req);
+      // Los accesos directos (./?go=…) usan la misma página guardada
+      const hit = await c.match(req, {ignoreSearch: req.mode === 'navigate'});
       const net = fetch(req).then(r => { if (r && r.ok) c.put(req, r.clone()); return r; }).catch(() => hit);
       return hit || net;
     })

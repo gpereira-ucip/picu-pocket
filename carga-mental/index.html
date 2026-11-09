@@ -86,6 +86,22 @@ label.f{display:block;font-size:12px;color:var(--mut);margin:10px 0 3px}
 .big{font-size:22px}
 .legend{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
 .credit{text-align:center;color:var(--mut);font-size:12px;margin:18px 0}
+.newsv{border-top:1px solid var(--line);padding:10px 0 4px}
+.newsv:first-of-type{border-top:0}
+.newsv h4{margin:0 0 4px;font-size:14px;display:flex;justify-content:space-between;gap:8px}
+.newsv h4 span{font-weight:400;color:var(--mut);font-size:12px}
+.newsv ul{margin:4px 0 6px;padding-left:20px}
+.newsv li{margin:3px 0;font-size:14px}
+.newsv.cur{background:var(--pri2);border-radius:12px;padding:10px 12px;border-top:0}
+.prog{display:flex;align-items:center;gap:10px;margin:6px 0 12px}
+.prog .bar{flex:1;height:12px;margin:0}
+.prog b{font-size:20px;color:var(--pri);white-space:nowrap}
+.verlink{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:10px 14px;margin:10px 0;font:inherit;color:var(--ink)}
+.verlink .bar{flex:1;margin:0}
+.verlink small{color:var(--mut);font-size:12px;white-space:nowrap}
+.install{border-color:var(--pri);background:var(--pri2)}
+.howto{padding-left:22px;margin:6px 0}
+.howto li{margin:6px 0}
 </style>
 </head>
 <body>
@@ -103,7 +119,23 @@ label.f{display:block;font-size:12px;color:var(--mut);margin:10px 0 3px}
 <script>
 'use strict';
 /* ============ Constantes ============ */
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
+const SCHEMA = 1; // versión de la estructura de datos guardados (ver MIGRATIONS)
+/* Novedades: la primera es la versión actual. "hechas" = ítems del plan de 100 tildados hasta esa versión. */
+const NEWS = [
+  {v:'1.1.0', d:'2026-11-09', hechas:5, items:[
+    'Nueva pantalla de Novedades y progreso: muestra qué cambió y cuántas de las 100 mejoras ya están hechas. Se abre sola cuando hay una versión nueva.',
+    'Tus datos quedan protegidos al actualizar: la app guarda una copia antes de adaptar la información a la versión nueva.',
+    'Botón «Instalar app» y guía paso a paso para Android.',
+    'Accesos directos: dejá apretado el ícono del camión para ir directo a «Anotar compra», «Mensajes» u «Hoy».',
+    'Pruebas automáticas más completas antes de cada publicación.'
+  ]},
+  {v:'1.0.0', d:'2026-11-09', hechas:0, items:[
+    'Primera versión: compras por negocio con alertas, tareas por etapas, semana de Joaco según las guardias, mochila, salud, indicaciones para Daniela y mensajes.',
+    'Portada e ícono con el camión de la carga mental.',
+    'Plan de 100 mejoras, que se van sumando día a día.'
+  ]}
+];
 const DAY = 86400000;
 const COLS = ['stores','items','tasks','checks','salud','indic','areas','msgs','weeks','log'];
 const M = {
@@ -196,11 +228,35 @@ function seed(){
 }
 
 /* ============ Estado + persistencia local ============ */
-const LS = {data:'cm_data', me:'cm_me', cfg:'cm_fb', code:'cm_code', tab:'cm_tab'};
+const LS = {data:'cm_data', me:'cm_me', cfg:'cm_fb', code:'cm_code', tab:'cm_tab', seen:'cm_seen', noInst:'cm_noinst'};
+/* Migraciones: cada número lleva los datos de la versión anterior a esa. Nunca borran nada:
+   solo completan lo que falta. Antes de migrar se guarda una copia en cm_backup_v{n}. */
+const MIGRATIONS = {
+  1(D){ // v1.0.0 (sin número de esquema) → esquema 1
+    COLS.forEach(c => { if(!D[c] || typeof D[c] !== 'object') D[c] = {}; });
+    const b = seed();
+    ['mochila','daniela'].forEach(k => { if(!D.checks[k]) D.checks[k] = b.checks[k]; });
+    const mo = D.checks.mochila; if(!Array.isArray(mo.list)) mo.list = b.checks.mochila.list; if(!mo.done || typeof mo.done !== 'object') mo.done = {}; if(mo.date == null) mo.date = '';
+    if(!D.weeks.base || !D.weeks.base.days) D.weeks.base = b.weeks.base;
+    [1,2,3,4,5].forEach(x => { if(!D.weeks.base.days[x]) D.weeks.base.days[x] = b.weeks.base.days[x]; });
+    if(!Object.keys(D.stores).length) D.stores = b.stores;
+    Object.values(D.items).forEach(i => { if(!i.state) i.state = 'ok'; if(!(i.every > 0)) i.every = 7; if(!D.stores[i.store]) i.store = Object.keys(D.stores)[0]; });
+    Object.values(D.tasks).forEach(t => { if(!t.kind) t.kind = t.steps ? 'cycle' : 'rec'; if(t.kind === 'cycle'){ if(!Array.isArray(t.steps)) t.steps = ['Hacer']; if(!t.cur) t.cur = {}; } else if(!(t.every > 0)) t.every = 7; if(!t.owner) t.owner = 'ambos'; });
+    Object.values(D.indic).forEach(n => { if(!n.kind) n.kind = 'tarea'; });
+  }
+};
+function migrate(D){
+  const from = +D._v || 0; if(from >= SCHEMA) return false;
+  try { localStorage.setItem('cm_backup_v' + from, JSON.stringify(D)); } catch(e) {}
+  for(let v = from + 1; v <= SCHEMA; v++) MIGRATIONS[v](D);
+  D._v = SCHEMA; return true;
+}
 let S;
 try { S = JSON.parse(localStorage.getItem(LS.data)); } catch(e) {}
-if(!S){ S = seed(); }
+let fresh = false;
+if(!S || typeof S !== 'object'){ S = seed(); S._v = SCHEMA; fresh = true; }
 COLS.forEach(c => S[c] = S[c] || {});
+if(migrate(S) || fresh) try { localStorage.setItem(LS.data, JSON.stringify(S)); } catch(e) {}
 let me = localStorage.getItem(LS.me) || '';
 let tab = localStorage.getItem(LS.tab) || 'hoy';
 let storeFilter = 'todos';
@@ -273,7 +329,7 @@ async function connect(){
         first = false; save(); render();
       }, e => { syncState = 'error'; renderSync(); console.warn(e); });
     }
-    syncState = 'nube'; save(); render();
+    MIGRATIONS[1](S); syncState = 'nube'; save(); render();
   }catch(e){ console.warn(e); syncState = 'error'; renderSync(); }
 }
 async function notify(title, body){
@@ -339,7 +395,39 @@ const A = {
   close(){ $('#modal').classList.add('hidden'); },
   open(html){ $('#sheet').innerHTML = html; $('#modal').classList.remove('hidden'); },
 
-  setMe(p){ me = p; localStorage.setItem(LS.me, p); if(p === 'daniela') tab = 'daniela'; A.close(); render(); },
+  setMe(p){ const first = !me; me = p; localStorage.setItem(LS.me, p); if(p === 'daniela') tab = 'daniela'; A.close(); render(); if(first) setTimeout(maybeNews, 300); },
+
+  // Novedades y progreso
+  news(){
+    const done = NEWS[0].hechas, pct = Math.round(done);
+    try { localStorage.setItem(LS.seen, VERSION); } catch(e) {}
+    A.open(`<h3>🆕 Novedades y progreso</h3>
+      <p class="muted">Versión ${VERSION} · Cada día se suman mejoras del plan de 100.</p>
+      <div class="prog"><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${done}" aria-label="Mejoras hechas"><i style="width:${pct}%"></i></div><b>${done}/100</b></div>
+      ${NEWS.map((n, i) => `<div class="newsv ${i === 0 ? 'cur' : ''}"><h4>v${esc(n.v)}${i === 0 ? ' · lo nuevo' : ''} <span>${fdate(n.d)}</span></h4><ul>${n.items.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`).join('')}
+      <div class="btns"><button class="pri" onclick="A.close()">¡Genial!</button></div>`);
+  },
+
+  // Instalar la app
+  install(){
+    if(!installEvt) return A.installHelp();
+    const ev = installEvt; installEvt = null;
+    ev.prompt();
+    ev.userChoice.then(r => { if(r && r.outcome === 'accepted') toast('Instalando… 📲'); render(); }).catch(() => {});
+  },
+  installHelp(){
+    A.open(`<h3>📲 Instalar Carga Mental en Android</h3>
+      <p class="muted">Así queda el ícono del camión en la pantalla del teléfono y se abre como una app, sin barra del navegador.</p>
+      <ol class="howto">
+        <li>Abrí <b>${esc(location.host + location.pathname)}</b> en <b>Chrome</b>.</li>
+        <li>Tocá los tres puntitos <b>⋮</b> arriba a la derecha.</li>
+        <li>Elegí <b>«Instalar app»</b> (en algunos teléfonos dice «Agregar a la pantalla principal»).</li>
+        <li>Confirmá con <b>Instalar</b>. Listo: buscá el camión en tu pantalla.</li>
+      </ol>
+      <p class="muted">Truco: si dejás apretado el ícono aparecen accesos directos a «Anotar compra», «Mensajes» y «Hoy».</p>
+      <div class="btns">${installEvt ? `<button class="pri" onclick="A.install()">Instalar ahora</button>` : ''}<button onclick="A.close()">Entendido</button></div>`);
+  },
+  hideInstall(){ try { localStorage.setItem(LS.noInst, '1'); } catch(e) {} render(); toast('Lo encontrás en ⚙ cuando quieras'); },
 
   // Compras
   filter(s){ storeFilter = s; render(); },
@@ -494,6 +582,10 @@ const A = {
       <p class="muted">Permiso: <b>${perm}</b>. Te avisa cuando otro marca algo o manda un mensaje.</p>
       <div class="btns"><button onclick="A.perm()">Activar notificaciones</button></div>
 
+      <h3 style="margin-top:16px">📲 App en el teléfono</h3>
+      <p class="muted">${isStandalone() ? 'Ya la estás usando instalada 👌' : 'Instalala para tenerla a un toque, como cualquier app.'}</p>
+      <div class="btns">${isStandalone() ? '' : `<button onclick="A.install()">Instalar app</button>`}<button onclick="A.installHelp()">Cómo instalarla</button><button onclick="A.news()">🆕 Novedades y progreso</button></div>
+
       <h3 style="margin-top:16px">💾 Copia de seguridad</h3>
       <div class="btns"><button onclick="A.exportJ()">Exportar</button><button onclick="document.getElementById('f_imp').click()">Importar</button><input type="file" id="f_imp" accept=".json" hidden onchange="A.importJ(this)"></div>
       <div class="btns"><button onclick="A.close()">Cerrar</button></div>
@@ -521,10 +613,24 @@ const A = {
   exportJ(){ const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(S, null, 1)], {type:'application/json'})); a.download = `carga-mental-${dk()}.json`; a.click(); },
   importJ(inp){
     const f = inp.files[0]; if(!f) return; const r = new FileReader();
-    r.onload = () => { try { const d = JSON.parse(r.result); COLS.forEach(c => { if(d[c]) Object.values(d[c]).forEach(o => { S[c][o.id] = o; if(fs) remotePath(c).doc(o.id).set(o); }); }); save(); A.close(); render(); toast('Importado ✔'); } catch(e) { toast('Archivo inválido'); } };
+    r.onload = () => { try { const d = JSON.parse(r.result); if(!d || typeof d !== 'object') throw 0; if(!(+d._v >= SCHEMA)){ COLS.forEach(c => d[c] = d[c] || {}); for(let v = (+d._v || 0) + 1; v <= SCHEMA; v++) MIGRATIONS[v](d); } COLS.forEach(c => { if(d[c]) Object.values(d[c]).forEach(o => { S[c][o.id] = o; if(fs) remotePath(c).doc(o.id).set(o); }); }); save(); A.close(); render(); toast('Importado ✔'); } catch(e) { toast('Archivo inválido'); } };
     r.readAsText(f);
   }
 };
+
+/* ============ Novedades e instalación ============ */
+let installEvt = null;
+const isStandalone = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; if(tab === 'hoy') render(); });
+addEventListener('appinstalled', () => { installEvt = null; toast('¡App instalada! 🎉'); render(); });
+function maybeNews(){
+  if(!me || document.querySelector('#modal:not(.hidden)')) return;
+  if(localStorage.getItem(LS.seen) !== VERSION) A.news();
+}
+function verLink(){
+  const d = NEWS[0].hechas;
+  return `<button class="verlink" onclick="A.news()"><span>🆕</span><div class="bar" aria-hidden="true"><i style="width:${d}%"></i></div><small>v${VERSION} · ${d}/100 mejoras</small></button>`;
+}
 
 /* ============ Vistas ============ */
 function vHoy(){
@@ -558,8 +664,11 @@ function vHoy(){
   h += `<div class="card"><h3>✋ Te toca</h3>${mineL.length ? mineL.map(row).join('') : '<p class="muted">Nada pendiente para vos 🙌</p>'}</div>`;
   if(rest.length) h += `<div class="card"><h3>👀 Lo de los demás</h3>${rest.map(row).join('')}</div>`;
 
+  if(!isStandalone() && !localStorage.getItem(LS.noInst)) h += `<div class="card install"><h3>📲 Instalá Carga Mental</h3><p class="muted">Tenela a un toque en el teléfono, con el ícono del camión.</p><div class="btns"><button class="pri" onclick="A.install()">Instalar</button><button onclick="A.installHelp()">Cómo se hace</button><button onclick="A.hideInstall()">Ahora no</button></div></div>`;
+
   const logs = Object.values(S.log).sort((a,b) => b.at - a.at).slice(0, 10);
   h += `<div class="card"><h3>🕑 Últimos movimientos</h3>${logs.length ? logs.map(l => `<div class="log">${P(l.by)} ${esc(l.act)} <span class="meta">· ${ago(l.at)}</span></div>`).join('') : '<p class="muted">Todavía no hay movimientos.</p>'}</div>`;
+  h += verLink();
   return h;
 }
 
@@ -606,6 +715,7 @@ function vDaniela(embedded){
   <div class="card"><h3>Tareas para hacer</h3>${block('tarea')}${!isD ? `<div class="row" style="margin-top:8px"><input type="text" id="in_tarea" placeholder="Ej: limpiar vidrios del balcón" onkeydown="if(event.key==='Enter')A.addIndic('tarea')"><button class="b" onclick="A.addIndic('tarea')">+</button></div>` : ''}</div>
   <div class="card"><h3>Para cocinar</h3>${block('comida')}${!isD ? `<div class="row" style="margin-top:8px"><input type="text" id="in_comida" placeholder="Ej: tarta de verduras" onkeydown="if(event.key==='Enter')A.addIndic('comida')"><button class="b" onclick="A.addIndic('comida')">+</button></div>` : ''}</div>`;
   if(!isD) h += `<div class="btns"><button class="pri" onclick="A.shareDaniela()">📲 Mandar indicaciones por WhatsApp</button><button onclick="A.clearIndic()">Limpiar las hechas</button></div>`;
+  if(isD && !embedded) h += verLink();
   return h;
 }
 
@@ -672,10 +782,19 @@ function render(){
 (function boot(){
   const m = location.hash.match(/#join=(.+)/);
   if(m){
-    try { const j = JSON.parse(decodeURIComponent(escape(atob(m[1])))); localStorage.setItem(LS.cfg, JSON.stringify(j.c)); localStorage.setItem(LS.code, j.h); S = seed(); save(); } catch(e) { console.warn(e); }
+    try { const j = JSON.parse(decodeURIComponent(escape(atob(m[1])))); localStorage.setItem(LS.cfg, JSON.stringify(j.c)); localStorage.setItem(LS.code, j.h); S = seed(); S._v = SCHEMA; save(); } catch(e) { console.warn(e); }
+    history.replaceState(null, '', location.pathname);
+  }
+  // Accesos directos del ícono (manifest shortcuts): ?go=hoy | chat | anotar
+  const go = new URLSearchParams(location.search).get('go');
+  if(go){
+    if(['hoy','compras','casa','joaco','chat'].includes(go)) tab = go;
+    if(go === 'anotar') tab = 'compras';
     history.replaceState(null, '', location.pathname);
   }
   render();
+  if(go === 'anotar' && me && me !== 'daniela') setTimeout(() => A.itemForm(null, storeFilter !== 'todos' ? storeFilter : 'super'), 200);
+  else setTimeout(maybeNews, 1600);
   setTimeout(() => { const sp = $('#splash'); sp.classList.add('out'); setTimeout(() => sp.remove(), 600); }, 1400);
   if(!me) A.open(`<div class="welcome"><img src="cover.jpg" alt=""></div><h3>¡Bienvenido/a! 🏡</h3><p class="muted">Para que se vea quién hace qué, elegí quién usa este teléfono:</p>
     ${['gonzalo','dani','daniela'].map(p => `<button class="b" style="display:block;width:100%;margin:6px 0;text-align:left;border-left:6px solid ${M[p].c}" onclick="A.setMe('${p}')"><b>${M[p].n}</b> — ${M[p].r}</button>`).join('')}`);
