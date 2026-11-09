@@ -73,7 +73,16 @@ window.ARUCIP_DATA = (function () {
     prox: ["Peso: balanza, cinta o estimación por edad; todo lo que sigue depende de él.",
            "Monitor completo, acceso vascular y laboratorio inicial.",
            "Pedí ayuda y asigná roles (líder, vía aérea, accesos, registro).",
-           "Pase estructurado (I-PASS) al transferir al paciente."]
+           "Pase estructurado (I-PASS) al transferir al paciente."],
+    nov: ["Compresiones de calidad: reducí al mínimo las interrupciones y las pausas.",
+          "Lactante: comprimí con la base de una mano o con la maniobra de dos pulgares y manos alrededor del tórax; ya no se recomienda la maniobra de dos dedos.",
+          "Cuerpo extraño con obstrucción grave en niños: ciclos de golpes en la espalda alternados con compresiones abdominales. En lactantes: golpes en la espalda alternados con compresiones en el pecho (no abdominales), hasta que se expulse el objeto o deje de responder.",
+          "Paro con ritmo no desfibrilable: dar la adrenalina lo antes posible.",
+          "Con vía aérea avanzada colocada: considerá monitorear el CO₂ espirado para evaluar la calidad de la RCP, pero no uses un único valor para decidir suspender la reanimación.",
+          "Si hay línea arterial durante la RCP, la presión diastólica puede orientar la calidad de las compresiones (valores a confirmar en la guía).",
+          "Taquicardia supraventricular con compromiso que no responde a maniobras vagales, adenosina ni cardioversión y sin experto disponible: puede considerarse procainamida, amiodarona o sotalol por vía IV.",
+          "Después del paro: evitá la hipotensión; el pronóstico neurológico se evalúa con varias modalidades y nunca con una sola prueba. Planificá el seguimiento físico, cognitivo y emocional durante el primer año.",
+          "Prevención: reuniones breves de seguridad en pacientes de alto riesgo y debriefing después de cada reanimación."]
   };
 
   /* ---------- SISTEMAS: aparatos y sistemas ---------- */

@@ -105,6 +105,7 @@
         '<li><b>Si en cualquier momento aparece un paro:</b> C-A-B. Tras recuperar la circulación, cuidados posparo y retomá evaluar–identificar–intervenir.</li></ol></div></div>' +
       '<h3 class="hub-h">Evaluación primaria: ABCDE</h3><div class="abc-w">' + abc + "</div>" +
       '<div class="card"><div class="calc"><h3 class="th" style="margin-top:0">Después de evaluar</h3><ul class="hub-ul">' + li(T.prox) + "</ul></div></div>" +
+      '<div class="card"><div class="calc"><h3 class="th" style="margin-top:0">Novedades de las guías AHA 2025 (pediatría)</h3><p class="hint" style="margin-top:0">⚕ Pendiente de revisión médica. Resumen cualitativo de «Aspectos destacados de las Guías AHA 2025 para RCP y ACE», redactado con palabras propias y sin dosis.</p><ul class="hub-ul">' + li(T.nov) + "</ul></div></div>" +
       base() + NOTE;
   }
 
