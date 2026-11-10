@@ -1,7 +1,8 @@
 ARUCIP · PENDIENTES Y PLAN DE TRABAJO
-Actualizado el 6/11/2026 · versión de prueba 0.53 (portada nueva y botonera nueva)
+Lista original del 6/11/2026 (v0.53) · estados revisados el 11/11/2026 (v0.61). Lo más nuevo está en «ACTUALIZACIÓN», acá abajo.
 
 ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
+- Corrida 11/11 mañana: (a) tests/smoke.js ahora falla si una guía «Al recibirlo» o un texto de Emergencias trae una dosis (número + unidad tipo mg/kg, mL/kg, J/kg…): ítem 77, parcial (cubre js/data.js; no audita las herramientas viejas de index.html). (b) ⚕ A REVISAR POR MÉDICO: la única dosis que hay en las guías es anterior a la regla y quedó como excepción explícita del chequeo: Shock séptico, «Fluidos en alícuotas de 10–20 mL/kg con reevaluación después de cada una». No se tocó; que el servicio diga si se deja, se cambia o se reemplaza por «según la herramienta». (c) README: tabla de estructura al día (css/portada.css, js/portada.js, js/buscador.js, tests, tools). (d) Esta lista: estados viejos corregidos (no cambió ningún acuerdo) y plan por día reemplazado por «Qué sigue». Sin cambios clínicos ni de estética.
 - Corrida 10/11 noche: CHANGELOG.md creado (ítem 13). tests/smoke.js informa las herramientas sin ningún caso (ítem 10): solo quedan las de Más/Autocuidado/IA/app (maslach, bienestar, mindf, salud, violencia, collapse, iar1, simu, ialado, inst, qr, plan, new, about), que no son clínicas y no corresponden a casos. Sin cambios clínicos ni de estética.
 - Corrida 10/11 (mensajes de Gonzalo del 9/11): (a) «Indicaciones y cálculos» reordenada como pidió: Cuidados generales (⚕ en preparación, lo redacta el servicio) · EAB y electrolitos · Setting del respirador · Inotrópicos y vasoactivos · Analgosedación · Antibióticos (⚕ en preparación) · resto (js/data.js IND; los grupos con «pend» se muestran como texto en preparación). Las fórmulas/herramientas enlazadas son las que ya existían; no se redactó contenido clínico. (b) «No anda la leche concentrada»: probado en navegador (Calcular meta y Aporte actual con B!, D!, PRE!…): calcula bien volumen y nutrientes; NO se pudo reproducir. Pedir a Gonzalo en qué pantalla y con qué datos falla. (c) «No anda bien el predictivo»: probado (tec, tce, sepsis, asma, bronq, kawasaki, sri, pards, cad, lra…) y devuelve lo esperado; NO se pudo reproducir. Pedir ejemplos concretos de lo que no encuentra (ítems 90 y 19). (d) «Albúmina en quemados y situaciones anexas»: pendiente, es contenido clínico ⚕ (indicaciones/dosis) a redactar y validar por el servicio; sin dosis inventadas.
 - Corrida 10/11 mañana: README con «Cómo agregar un caso, una guía o un enlace» y «Cómo se arma arucip.html» (ítems 8 y 12). Sin cambios de contenido clínico ni de estética. Las 87 guías y los enlaces ya están completos; lo que sigue de código sin depender de otros: ítem 13 (CHANGELOG), 10 (herramientas sin ningún caso).
@@ -63,35 +64,34 @@ Hecho hasta hoy:
 - Pruebas automáticas (Playwright): sin errores de consola y sin enlaces rotos.
 
 Estado de la publicación:
-- Todo lo de la portada/botonera/favoritos está solo en una copia de trabajo y en los HTML enviados.
-  NO está subido a GitHub.
-- La rama de respaldo (ccr-3af3e921-vfklyp) tiene hasta la v0.52 con 46 guías.
-- Subir a arucip/pruebas: (D) falta que un administrador de la organización "arucip" instale la app de Claude.
+- Todo está subido a la rama de trabajo ccr-3af3e921-vfklyp (v0.61, 87 guías) y arucip.html se regenera desde ahí.
+- PWA subida a arucip/pruebas (8/11) con tools/publicar_pruebas.sh. (D) Falta confirmar GitHub Pages activo y
+  probar la instalación en Android/iOS.
 
 ==========================================================================
 A. TÉCNICO (1–45)
 ==========================================================================
- 1. [PENDIENTE] Subir portada, botonera y favoritos a la rama de respaldo (esperando tu OK).
- 2. [PENDIENTE] (D) Habilitar a Claude en la organización "arucip" o subir a mano.
- 3. [PENDIENTE] (D) Publicar en GitHub Pages (arucip/pruebas) y probar la instalación como app en Android e iOS.
+ 1. [HECHO]     Portada, botonera y favoritos subidos a la rama de trabajo.
+ 2. [HECHO]     PWA subida a arucip/pruebas (8/11); se publica con tools/publicar_pruebas.sh.
+ 3. [PARCIAL]   (D) Confirmar GitHub Pages activo (arucip/pruebas) y probar la instalación como app en Android e iOS.
  4. [PENDIENTE] Definir una sola rama de trabajo: hoy hay un diseño en una rama y el contenido en otra.
  5. [PENDIENTE] Dejar "main" (PICU Pocket) congelada con una etiqueta v0.49.
  6. [HECHO]     Service worker red primero (falta probarlo con una actualización real una vez publicado).
  7. [PENDIENTE] Aviso dentro de la app: "Hay versión nueva, recargá".
  8. [HECHO]     Script de armado reproducible (tools/build_html.py), documentado en el README (10/11).
- 9. [PARCIAL]   Pruebas automáticas (hay scripts de prueba; falta dejarlos en la carpeta tests/ del repo).
+ 9. [HECHO]     Pruebas automáticas en tests/smoke.js.
 10. [HECHO]     Chequeo de integridad de data.js: tests/smoke.js ya verifica ids repetidos, grupos inexistentes, casos sin guía y referencias rotas (9/11). Falta: herramientas sin ningún caso.
-11. [PENDIENTE] Actualizar "Novedades" y la versión (dice 0.51; corresponde 0.53).
+11. [HECHO]     "Novedades" y versión al día (0.61).
 12. [HECHO]     README con cómo agregar un caso, una guía o una herramienta, paso a paso.
 13. [HECHO]     CHANGELOG.md por versión (10/11).
 14. [PENDIENTE] (D) docs/COMO-REPLICAR.md: proceso Jotform → app (falta la página de Jotform guardada).
 15. [PENDIENTE] (D) Inventario del contenido de Jotform contra la app: qué falta y qué difiere.
 16. [PENDIENTE] Fuente por ítem (autor, enlace, fecha) en data.js.
 17. [PENDIENTE] Campo "revisado por / fecha" en cada contenido clínico.
-18. [PENDIENTE] Búsqueda global con texto predictivo (pedido de Jorge). Hoy hay buscador en Emergencias.
-19. [PENDIENTE] Búsqueda tolerante a acentos y errores de tipeo.
-20. [PENDIENTE] Siglas y sinónimos en la búsqueda (SRI, PARDS, CAD…).
-21. [PENDIENTE] Capítulos como etiquetas: un tema con varias etiquetas, no carpetas (pedido de Jorge).
+18. [HECHO]     Búsqueda global con texto predictivo en la portada (js/buscador.js).
+19. [HECHO]     Búsqueda tolerante a acentos y a un error de tipeo.
+20. [HECHO]     Siglas y sinónimos en la búsqueda (⚕ revisar ACR, SYMP_SYN y ALIAS). Gonzalo avisó que «no anda bien»: faltan sus ejemplos.
+21. [PARCIAL]   Capítulos como etiquetas: un tema con varias etiquetas, no carpetas (pedido de Jorge).
 22. [PARCIAL]   Favoritos gestionados por el usuario: hecho para apartados de "Más" y herramientas.
                Falta poder fijar casos de Motivos de ingreso y capítulos de Aparatos y sistemas.
 23. [PENDIENTE] Campo "paciente actual": peso, edad, género y talla, todos opcionales (pedido de Jorge).
@@ -101,10 +101,8 @@ A. TÉCNICO (1–45)
 27. [PENDIENTE] Formulario de prompt para IAR1: los 4 campos, prompt mínimo, detallado y texto libre (pedido de Jorge).
 28. [PENDIENTE] Copiar o compartir el prompt armado.
 29. [PENDIENTE] Revisión de privacidad: ningún dato identificable en los prompts.
-30. [PARCIAL]   Botonera: quedó Emergencias · Aparatos y sistemas · Motivos de ingreso · Favoritos · Más.
-               Jorge propone Emergencias · Favoritos · Aspectos y Sistemas · Calidad y Seguridad · Autocuidado.
-               (D) Falta acordarlo entre Jorge, Eduardo y vos.
-31. [PARCIAL]   Migrar a la estructura definitiva sin perder enlaces (Cards ya está dentro de Emergencias).
+30. [HECHO]     Botonera acordada con Jorge: Emergencias · Motivos de ingreso · Indicaciones y cálculos · Favoritos · Más.
+31. [HECHO]     Migrar a la estructura definitiva sin perder enlaces (Cards ya está dentro de Emergencias).
 32. [PENDIENTE] Enlaces directos a cada caso y herramienta (por ejemplo #casos/shs).
 33. [PENDIENTE] Botón compartir enlace de una herramienta.
 34. [PARCIAL]   Lista de "recientes" (ya existe dentro de Favoritos).
@@ -125,27 +123,27 @@ A. TÉCNICO (1–45)
 ==========================================================================
 B. CLÍNICO (48–87)
 ==========================================================================
-Guías "Al recibirlo" que todavía faltan (35 motivos), por lote:
-48. [PENDIENTE] ⚕ Neurológico: posoperatorio neuroquirúrgico, encefalopatía hipóxico-isquémica, muerte encefálica y procuración, delirium.
-49. [PENDIENTE] ⚕ Trauma: tórax y abdomen, raquimedular, sospecha de maltrato.
-50. [PENDIENTE] ⚕ Ambiental: humo/CO/cianuro, ahogamiento, golpe de calor/hipotermia/electrocución, mordeduras y picaduras.
-51. [PENDIENTE] ⚕ Endocrino: estado hiperosmolar, error congénito del metabolismo, insuficiencia suprarrenal, trastornos del sodio.
-52. [PENDIENTE] ⚕ Renal: síndrome urémico hemolítico, nefrótico complicado, rabdomiólisis.
-53. [PENDIENTE] ⚕ Digestivo: abdomen agudo, pancreatitis, enterocolitis necrotizante, desnutrición y realimentación, soporte nutricional.
-54. [PENDIENTE] ⚕ Hemato-oncológico: HLH y complicaciones de trasplante de médula.
-55. [PENDIENTE] ⚕ Tóxico: intoxicación medicamentosa, cáusticos, monóxido de carbono, plaguicidas, alcohol y opioides.
-56. [PENDIENTE] ⚕ Posoperatorio y otros: cirugía mayor, trasplante, cuidados paliativos, deterioro en sala, traslado crítico.
-   (Ya hechas, a revisar por un médico: 52 guías en total, incluidas las de vía aérea quirúrgica, apneas,
+Guías "Al recibirlo": los ítems 48 a 56 están ESCRITOS (87 de 87); lo que queda en todos es la revisión médica ⚕ (ítem 58):
+48. [HECHO]     ⚕ Neurológico: posoperatorio neuroquirúrgico, encefalopatía hipóxico-isquémica, muerte encefálica y procuración, delirium.
+49. [HECHO]     ⚕ Trauma: tórax y abdomen, raquimedular, sospecha de maltrato.
+50. [HECHO]     ⚕ Ambiental: humo/CO/cianuro, ahogamiento, golpe de calor/hipotermia/electrocución, mordeduras y picaduras.
+51. [HECHO]     ⚕ Endocrino: estado hiperosmolar, error congénito del metabolismo, insuficiencia suprarrenal, trastornos del sodio.
+52. [HECHO]     ⚕ Renal: síndrome urémico hemolítico, nefrótico complicado, rabdomiólisis.
+53. [HECHO]     ⚕ Digestivo: abdomen agudo, pancreatitis, enterocolitis necrotizante, desnutrición y realimentación, soporte nutricional.
+54. [HECHO]     ⚕ Hemato-oncológico: HLH y complicaciones de trasplante de médula.
+55. [HECHO]     ⚕ Tóxico: intoxicación medicamentosa, cáusticos, monóxido de carbono, plaguicidas, alcohol y opioides.
+56. [HECHO]     ⚕ Posoperatorio y otros: cirugía mayor, trasplante, cuidados paliativos, deterioro en sala, traslado crítico.
+   (A revisar por un médico: las 87 guías, incluidas las de vía aérea quirúrgica, apneas,
     dependencia tecnológica, partes blandas, inmunocomprometido e infección asociada a dispositivos.)
-57. [PENDIENTE] Sumar herramientas enlazadas a los casos que hoy tienen 3 o menos.
-58. [PENDIENTE] ⚕ Revisión médica de las 52 guías ya escritas, con una lista de validación para Jorge y Eduardo.
+57. [HECHO]     Sumar herramientas enlazadas a los casos que hoy tienen 3 o menos.
+58. [PENDIENTE] ⚕ Revisión médica de las 87 guías ya escritas, con una lista de validación para Jorge y Eduardo.
 59. [PENDIENTE] Marca visible en cada guía: "validada" o "pendiente de validación".
 60. [PENDIENTE] ⚕ "Banderas rojas" por caso (cuándo escalar).
 61. [PENDIENTE] ⚕ "Diagnósticos que no hay que perder" por caso.
 62. [PENDIENTE] ⚕ "Qué pedir" (laboratorio e imágenes) por caso, sin dosis.
 63. [PENDIENTE] ⚕ Metas hemodinámicas y ventilatorias por caso (valores a validar).
-64. [PENDIENTE] Enlazar cada caso con sus Cards (anafilaxia, arritmias, hiperkalemia…).
-65. [PENDIENTE] Enlazar "Al recibirlo" con el pase I-PASS y el registro.
+64. [HECHO]     Enlazar cada caso con sus Cards (anafilaxia, arritmias, hiperkalemia…).
+65. [HECHO]     Enlazar "Al recibirlo" con el pase I-PASS (base común BASE).
 66. [PENDIENTE] ⚕ Revisar con el equipo cada paso del ABC de Emergencias.
 67. [PENDIENTE] (D) Armar los capítulos que propuso Jorge en Aparatos y sistemas: Sedoanalgesia, HEN y renal,
     Respiratorio, Cardiovascular y ECMO, Trauma, Quemados y piel, Imágenes, Multisistémicos, IA.
@@ -159,7 +157,7 @@ Guías "Al recibirlo" que todavía faltan (35 motivos), por lote:
 74. [PENDIENTE] Mostrar la fuente y la versión de cada fórmula.
 75. [PENDIENTE] ⚕ Alertas de rango en peso, edad y talla (hay que definir los rangos).
 76. [PENDIENTE] Estimación de peso y edad coherente entre herramientas.
-77. [PENDIENTE] Auditoría: que ninguna pantalla muestre una dosis que no esté ya validada en la app.
+77. [PARCIAL]   Auditoría: que ninguna pantalla muestre una dosis que no esté ya validada en la app. Hecho para guías y Emergencias (chequeo automático, 11/11); falta index.html.
 78. [PENDIENTE] ⚕ Auditoría de todas las dosis existentes contra sus fuentes.
 79. [PENDIENTE] Fecha de "última revisión" visible en cada herramienta.
 80. [PENDIENTE] Pantalla de fuentes y bibliografía.
@@ -177,7 +175,7 @@ C. DISEÑO (88–122)
 ==========================================================================
  88. [PENDIENTE] (D) Aprobación final de la portada: logo, panel, botones.
  89. [HECHO]     Encabezado unificado con el logo nuevo (claro y oscuro) en todas las pantallas.
- 90. [PENDIENTE] Botonera definitiva de 5 botones (ver punto 30).
+ 90. [HECHO]     Botonera definitiva de 5 botones (ver punto 30).
  91. [PENDIENTE] Set de íconos propio y coherente para la botonera.
  92. [PENDIENTE] Pantalla "Hoy" con accesos y recientes.
  93. [PENDIENTE] Motivos de ingreso: buscador arriba, grupos como tarjetas y "Frecuentes".
@@ -246,36 +244,30 @@ D. ESTÉTICA (123–152)
 152. [PENDIENTE] Revisión estética final contra tus capturas, con lista de aprobación.
 
 ==========================================================================
-PLAN POR DÍA (la rutina automática corre a las 07:40 y a las 21:40 hasta el 12/11/2026)
+QUÉ SIGUE (la rutina automática corre a las 07:40 y a las 21:40, SIN fecha de fin: pedido de Gonzalo, 10/11/2026)
 ==========================================================================
 Regla: ningún cambio de diseño sube a la rama sin aprobación; primero se muestra en un HTML aparte.
-
-Vie 6/11 noche : 1, 4, 5, 11, 46 (cerrar y respaldar lo hecho hoy)
-Sáb 7  mañana  : 6 (probar), 7, 8, 9, 10
-Sáb 7  noche   : 48, 49, 50
-Dom 8  mañana  : 51, 52, 53
-Dom 8  noche   : 54, 55, 56
-Lun 9  mañana  : 57, 59, 64, 65
-Lun 9  noche   : 60, 61, 62, 84
-Mar 10 mañana  : 68, 69, 70, 71, 72
-Mar 10 noche   : 122, 93, 98 (si se acuerda la botonera: 30, 31, 90)
-Mié 11 mañana  : 18, 19, 20, 21
-Mié 11 noche   : 23, 24, 25, 26
-Jue 12 mañana  : 27, 28, 29, 102
-Jue 12 noche   : 12, 13, 3 (si hay acceso), resumen final y cierre de la tarea automática
-
-Después del 12/11 (hay que extender la fecha de la tarea o seguir en sesiones manuales):
-- Revisión médica de todas las guías (58, 60–63, 73, 78) y validación con Jorge y Eduardo.
-- Diseño y estética restantes (puntos 88–152).
-- Monetización y licencias (43–45), cuando decidan.
+Las prioridades 1 a 3 de la rutina están completas (87 guías, enlaces, pruebas). Lo que la rutina puede seguir
+haciendo sola, de a un paso por corrida (propuesta; nada de esto está implementado):
+- 77: extender la auditoría de dosis a index.html (solo listar qué pantalla muestra qué dosis y su fuente; no cambiar nada).
+- 47 y 46: limpieza de traducciones sin uso y de textos con nombres viejos (hoy no hay ninguno visible; quedan claves internas).
+- 35: prueba automática de que todo lo que usa la app está en ASSETS de sw.js (sin conexión).
+- 32: enlaces directos a cada caso (#casos/shs). Es funcional, no visual, pero cambia la navegación: necesita el OK de Gonzalo.
+- 16 y 17: campos «fuente» y «revisado por / fecha» en data.js (estructura vacía, para que el servicio los complete).
+- 58: armar docs/VALIDACION.md, la lista de las 87 guías para que Jorge y Eduardo tilden cuáles quedan validadas.
+Lo que NO puede avanzar sin personas:
+- Revisión médica ⚕ de todo lo clínico (58, 60–63, 66, 73, 78, 85) y el contenido que redacta el servicio (106–111).
+- Respuestas de Gonzalo: ejemplos de «no anda el predictivo» y «no anda la leche concentrada»; ítem 113 (mensaje cortado);
+  ítem 102 (tubo con/sin balón); OK para 23–26 (paciente actual) y 103–105, 109 (planilla), que requieren diseño.
+- Diseño y estética (88–152) y monetización (43–45).
 
 ==========================================================================
 LO QUE DEPENDE DE OTRAS PERSONAS
 ==========================================================================
 - Jorge y Eduardo: botonera definitiva, capítulos de Aparatos y sistemas, validación médica de todas las guías,
   monetización, logo original con transparencia real, imagen exacta del botón de emergencia.
-- Administrador de la organización "arucip" en GitHub: instalar la app de Claude para poder subir a arucip/pruebas.
-- Gonzalo: aprobar la portada y la botonera, aprobar subir a la rama de respaldo, pasar la página de Jotform guardada.
+- Administrador de la organización "arucip" en GitHub: confirmar GitHub Pages activo en arucip/pruebas.
+- Gonzalo: pasar la página de Jotform guardada y los ejemplos de lo que no anda (predictivo, leche concentrada).
 
 ==========================================================================
 C. PEDIDOS DE GONZALO (WhatsApp 7/11, 22:03–22:37) · a respetar y avanzar de a lotes
@@ -285,19 +277,19 @@ Los puntos de diseño/estética los pidió Gonzalo mismo, pero se muestran prime
 Todo contenido clínico nuevo: ⚕ pendiente de revisión médica; sin dosis salvo las que valide el servicio.
 
 Buscador y navegación
- 90. [PENDIENTE] Buscador predictivo bueno: «tec» debe llevar a «traumatismo encéfalo craneano» (siglas, sinónimos, tildes, errores). En Motivos de ingreso debe andar a la perfección.
- 91. [PENDIENTE] Portada: sacar la línea inferior «Basada en AR-UCIP» (la app es Arucip).
- 92. [PENDIENTE] Botón «Volver» en todas las pantallas menos la portada, al lugar inmediatamente anterior.
+ 90. [PARCIAL]   (hecho con siglas/sinónimos; Gonzalo avisó que no anda bien, faltan ejemplos) Buscador predictivo bueno: «tec» debe llevar a «traumatismo encéfalo craneano» (siglas, sinónimos, tildes, errores). En Motivos de ingreso debe andar a la perfección.
+ 91. [HECHO]     Portada: sacar la línea inferior «Basada en AR-UCIP» (la app es Arucip).
+ 92. [HECHO]     Botón «Volver» en todas las pantallas menos la portada, al lugar inmediatamente anterior.
  93. [PENDIENTE] Todos los botones del mismo tamaño.
- 94. [PENDIENTE] Motivos de ingreso: sacar el apartado «Frecuentes»; dejar el buscador predictivo.
+ 94. [HECHO]     Motivos de ingreso: sacar el apartado «Frecuentes»; dejar el buscador predictivo.
  95. [PENDIENTE] Cards: si ya hay un peso de paciente cargado (ej. 30 kg), al abrir Cards ir directo a ese peso.
 
 Calculadora de leches
- 96. [PENDIENTE] Los mL no pueden tener decimales: redondeo lógico; si es estético y necesario, mostrar el valor exacto chico aclarando que es redondeo.
+ 96. [HECHO]     Los mL no pueden tener decimales: redondeo lógico; si es estético y necesario, mostrar el valor exacto chico aclarando que es redondeo.
 
 Emergencias
- 97. [PENDIENTE] Incluir el triángulo de evaluación pediátrica. Gonzalo mandó una imagen de referencia (triángulo: azul = apariencia, verde = trabajo respiratorio, rojo = circulación a la piel). Dibujarlo propio en SVG, sin copiar la imagen (posibles derechos del PALS), y mostrarlo primero en un HTML aparte. Aclarar que «apariencia» = estado neurológico, con tildes. Si la combinación requiere reanimación, el botón se titula «Paro».
- 98. [PENDIENTE] Quitar el apartado redundante de «Paro» y los botones de la secuencia ABC; aclarar cuándo hacer CAB (secuencia de paro).
+ 97. [HECHO]     (⚕ revisar) Incluir el triángulo de evaluación pediátrica. Gonzalo mandó una imagen de referencia (triángulo: azul = apariencia, verde = trabajo respiratorio, rojo = circulación a la piel). Dibujarlo propio en SVG, sin copiar la imagen (posibles derechos del PALS), y mostrarlo primero en un HTML aparte. Aclarar que «apariencia» = estado neurológico, con tildes. Si la combinación requiere reanimación, el botón se titula «Paro».
+ 98. [PARCIAL]   Quitar el apartado redundante de «Paro» y los botones de la secuencia ABC; aclarar cuándo hacer CAB (secuencia de paro).
  99. [PENDIENTE] Buscar bibliografía para agregar «F» de fluidos en quemados y «F» de familia en general (quemados: fluidos y familia). Verificar si figura SAMPLE.
 100. [PENDIENTE] Reemplazar «Evaluación y algoritmos»: pedir el peso del paciente y calcular todo lo que sigue en función de él; no se pasa de letra hasta resolver la anterior; checklist por letra; aclarar «evaluar–intervenir» del PALS; adjuntar el PDF de PALS (verificar licencia/derechos antes de incluirlo).
 101. [PENDIENTE] Circulación: agregar la guía ecográfica para colocar un acceso vascular.

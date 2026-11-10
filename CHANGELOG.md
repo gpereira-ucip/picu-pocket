@@ -8,6 +8,7 @@ Resumen por versión (el detalle está en el README y en docs/PENDIENTES.md).
 - «Indicaciones y cálculos» reordenada: cuidados generales · EAB y electrolitos · respirador · inotrópicos · analgosedación · antibióticos (⚕ varios «en preparación»).
 - Los 87 motivos de ingreso tienen guía «Al recibirlo» (⚕) y 4 o más herramientas enlazadas.
 - Pruebas: chequeo de integridad de data.js en tests/smoke.js; README con cómo agregar casos y cómo se arma arucip.html.
+- 11/11: las pruebas fallan si una guía «Al recibirlo» o Emergencias trae una dosis; README y PENDIENTES al día (sin cambios en la app).
 
 ## 0.57–0.60 (8/11/2026)
 - Portada achicada, agradecimiento a la Fundación Garrahan, QR para compartir la app, buscador más grande, ícono A (solo emblema).
