@@ -21,12 +21,17 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo G. Pereira.
 | Archivo | Contenido |
 |---|---|
 | `index.html` | App completa (HTML, estilos y lógica base, i18n es/en/pt). |
-| `css/arucip.css` | Capa visual: logotipo, botones y portada. |
-| `css/hubs.css` | Estilos de Triage, Sistemas y Casos. |
-| `js/data.js` | Datos de Triage (ABC), Sistemas y Casos (motivos de ingreso → herramientas). Se edita acá para agregar casos. |
-| `js/hubs.js` | Arma las pantallas de Triage, Sistemas y Casos con enlaces a lo que ya tiene la app. |
+| `css/portada.css` | Capa visual: logotipo, botones y portada (aprobada: no tocar). |
+| `css/hubs.css` | Estilos de Emergencias, Motivos de ingreso e Indicaciones y cálculos. |
+| `js/data.js` | Datos de Emergencias (`TRIAGE`), aparatos (`SYS`), Motivos de ingreso (`CASES`, `GROUPS`, `SYMP`) e Indicaciones y cálculos (`IND`). Se edita acá para agregar casos. |
+| `js/hubs.js` | Arma las pantallas de Emergencias, Motivos de ingreso e Indicaciones y cálculos con enlaces a lo que ya tiene la app. |
+| `js/buscador.js` | Buscador general predictivo de la portada (siglas, sinónimos, tildes y un error de tipeo). |
+| `js/portada.js` | Lógica de la portada, «‹ Volver» de las pantallas secundarias y traducciones. |
 | `js/migrate.js` | Migra datos locales `picu-*` → `arucip-*` (se carga en `<head>`). |
-| `js/cover.js` | Lógica de la portada y sus traducciones. |
+| `tests/smoke.js` | Pruebas (Playwright): integridad de `data.js`, enlaces, botonera, buscador, «Volver», palabras prohibidas y guías sin dosis. |
+| `tools/build_html.py` | Arma `arucip.html` (un solo archivo) desde el repositorio. |
+| `tools/publicar_pruebas.sh` | Publica la PWA en `arucip/pruebas`. |
+| `CHANGELOG.md`, `docs/PENDIENTES.md` | Resumen por versión; pendientes y acuerdos. |
 | `assets/arucip-mark.svg` | Logotipo: «P» de UCIP con la vara de Esculapio (fuente de los íconos). |
 | `assets/arucip-mark-alt.svg` | Logotipo alternativo (cabeza con engranajes, libro y estetoscopio), sin usar todavía. |
 | `sw.js`, `manifest.webmanifest`, `icon-*.png` | PWA / sin conexión. Al publicar, cambiar `CACHE` en `sw.js`. |

@@ -62,6 +62,19 @@ const ok = (c, m) => { console.log((c ? "OK   " : "FALLA") + " " + m); if (!c) f
     return [...new Set([...document.querySelectorAll("[data-tool]")].map((e) => e.dataset.tool))].filter((i) => !used.has(i));
   });
   console.log("     herramientas sin ningún caso/grupo que las enlace (informativo):", huer.length ? huer.join(", ") : "ninguna");
+  /* ítem 77: las guías «Al recibirlo» y Emergencias no llevan dosis (número + unidad de dosis).
+     Excepción conocida y anterior a la regla: alícuotas de fluidos en shock séptico (⚕ a validar). */
+  const dosis = await p.evaluate(() => {
+    const D = window.ARUCIP_DATA, out = [];
+    const re = /\d+(?:[.,]\d+)?\s*(?:mg|mcg|µg|μg|ug|ng|g|mL|ml|L|mEq|mmol|UI|U|J|gammas?)(?:\s*\/\s*(?:kg|m2|m²|h|min|d[ií]a|dosis))+/i;
+    const re2 = /\d+(?:[.,]\d+)?\s*(?:mg|mcg|µg|μg|mEq|UI|J)(?![a-záéíóú])/i;
+    const PERM = ["Fluidos en alícuotas de 10–20 mL/kg"];
+    const ver = (donde, x) => { if (typeof x !== "string") return; if ((re.test(x) || re2.test(x)) && !PERM.some((k) => x.indexOf(k) === 0)) out.push(donde + ": " + x.slice(0, 60)); };
+    D.CASES.forEach((c) => (c.rec || []).forEach((x) => ver(c.id, x)));
+    (function walk(o, k) { if (typeof o === "string") ver("TRIAGE " + k, o); else if (o && typeof o === "object") Object.keys(o).forEach((j) => walk(o[j], k || j)); })(D.TRIAGE, "");
+    return out;
+  });
+  ok(dosis.length === 0, "guías «Al recibirlo» y Emergencias sin dosis" + (dosis.length ? ": " + dosis.join(" | ") : ""));
   ok(integ.length === 0, "integridad de data.js (ids, grupos, guías)" + (integ.length ? ": " + integ.join(", ") : ""));
   ok(bad.length === 0, "enlaces e ids válidos" + (bad.length ? ": " + bad.join(", ") : ""));
   const stat = await p.evaluate(() => ({ n: ARUCIP_DATA.CASES.length, rec: ARUCIP_DATA.CASES.filter((c) => c.rec).length }));
