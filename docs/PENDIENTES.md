@@ -2,6 +2,7 @@ ARUCIP · PENDIENTES Y PLAN DE TRABAJO
 Actualizado el 6/11/2026 · versión de prueba 0.53 (portada nueva y botonera nueva)
 
 ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
+- Corrida 10/11 noche: CHANGELOG.md creado (ítem 13). tests/smoke.js informa las herramientas sin ningún caso (ítem 10): solo quedan las de Más/Autocuidado/IA/app (maslach, bienestar, mindf, salud, violencia, collapse, iar1, simu, ialado, inst, qr, plan, new, about), que no son clínicas y no corresponden a casos. Sin cambios clínicos ni de estética.
 - Corrida 10/11 (mensajes de Gonzalo del 9/11): (a) «Indicaciones y cálculos» reordenada como pidió: Cuidados generales (⚕ en preparación, lo redacta el servicio) · EAB y electrolitos · Setting del respirador · Inotrópicos y vasoactivos · Analgosedación · Antibióticos (⚕ en preparación) · resto (js/data.js IND; los grupos con «pend» se muestran como texto en preparación). Las fórmulas/herramientas enlazadas son las que ya existían; no se redactó contenido clínico. (b) «No anda la leche concentrada»: probado en navegador (Calcular meta y Aporte actual con B!, D!, PRE!…): calcula bien volumen y nutrientes; NO se pudo reproducir. Pedir a Gonzalo en qué pantalla y con qué datos falla. (c) «No anda bien el predictivo»: probado (tec, tce, sepsis, asma, bronq, kawasaki, sri, pards, cad, lra…) y devuelve lo esperado; NO se pudo reproducir. Pedir ejemplos concretos de lo que no encuentra (ítems 90 y 19). (d) «Albúmina en quemados y situaciones anexas»: pendiente, es contenido clínico ⚕ (indicaciones/dosis) a redactar y validar por el servicio; sin dosis inventadas.
 - Corrida 10/11 mañana: README con «Cómo agregar un caso, una guía o un enlace» y «Cómo se arma arucip.html» (ítems 8 y 12). Sin cambios de contenido clínico ni de estética. Las 87 guías y los enlaces ya están completos; lo que sigue de código sin depender de otros: ítem 13 (CHANGELOG), 10 (herramientas sin ningún caso).
 - 18 [HECHO] Buscador general predictivo en la portada (js/buscador.js).
@@ -79,10 +80,10 @@ A. TÉCNICO (1–45)
  7. [PENDIENTE] Aviso dentro de la app: "Hay versión nueva, recargá".
  8. [HECHO]     Script de armado reproducible (tools/build_html.py), documentado en el README (10/11).
  9. [PARCIAL]   Pruebas automáticas (hay scripts de prueba; falta dejarlos en la carpeta tests/ del repo).
-10. [PARCIAL]   Chequeo de integridad de data.js: tests/smoke.js ya verifica ids repetidos, grupos inexistentes, casos sin guía y referencias rotas (9/11). Falta: herramientas sin ningún caso.
+10. [HECHO]     Chequeo de integridad de data.js: tests/smoke.js ya verifica ids repetidos, grupos inexistentes, casos sin guía y referencias rotas (9/11). Falta: herramientas sin ningún caso.
 11. [PENDIENTE] Actualizar "Novedades" y la versión (dice 0.51; corresponde 0.53).
 12. [HECHO]     README con cómo agregar un caso, una guía o una herramienta, paso a paso.
-13. [PENDIENTE] CHANGELOG.md por versión.
+13. [HECHO]     CHANGELOG.md por versión (10/11).
 14. [PENDIENTE] (D) docs/COMO-REPLICAR.md: proceso Jotform → app (falta la página de Jotform guardada).
 15. [PENDIENTE] (D) Inventario del contenido de Jotform contra la app: qué falta y qué difiere.
 16. [PENDIENTE] Fuente por ítem (autor, enlace, fecha) en data.js.

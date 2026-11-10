@@ -55,6 +55,13 @@ const ok = (c, m) => { console.log((c ? "OK   " : "FALLA") + " " + m); if (!c) f
     });
     return out;
   });
+  const huer = await p.evaluate(() => {
+    const D = window.ARUCIP_DATA, used = new Set();
+    const add = (a) => (a || []).forEach((r) => { const [t, id] = r.split(":"); if (t === "t") used.add(id); });
+    D.CASES.forEach((c) => add(c.t)); D.IND.forEach((g) => add(g.t)); D.SYS.forEach((s) => add(s.t));
+    return [...new Set([...document.querySelectorAll("[data-tool]")].map((e) => e.dataset.tool))].filter((i) => !used.has(i));
+  });
+  console.log("     herramientas sin ningún caso/grupo que las enlace (informativo):", huer.length ? huer.join(", ") : "ninguna");
   ok(integ.length === 0, "integridad de data.js (ids, grupos, guías)" + (integ.length ? ": " + integ.join(", ") : ""));
   ok(bad.length === 0, "enlaces e ids válidos" + (bad.length ? ": " + bad.join(", ") : ""));
   const stat = await p.evaluate(() => ({ n: ARUCIP_DATA.CASES.length, rec: ARUCIP_DATA.CASES.filter((c) => c.rec).length }));
