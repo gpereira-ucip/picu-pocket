@@ -6,7 +6,7 @@
 <title>Carga Mental</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#7c5440">
-<script>try{var t=localStorage.getItem("cm_theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
+<script>try{var t=localStorage.getItem("cm_theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;if(localStorage.getItem("cm_big")==="1")document.documentElement.dataset.big="1";}catch(e){}</script>
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
 <style>
@@ -220,6 +220,49 @@ nav button .nic{position:relative;display:grid;place-items:center;height:32px;wi
 .empty.sm .ill{width:48px;height:48px;margin:0}
 .empty.sm .ill .ic{width:24px;height:24px}
 .empty.sm .ill::after,.empty.sm .ill .sp{display:none}
+/* ---------- v1.4.0: accesibilidad, deshacer, botón + y anillos de progreso ---------- */
+button.b,.btns button{min-height:44px;min-width:44px}
+button.sm{min-height:44px;min-width:44px;padding:5px 12px}
+button.pp,.pp.v,#who{min-height:44px}
+.chips button,.seg button,details summary{min-height:44px}
+details summary{display:flex;align-items:center}
+input[type=text],input[type=number],input[type=date],select{min-height:44px}
+.chk{display:grid;place-items:center;width:44px;height:44px;flex:none;margin:-8px -10px -8px -10px;cursor:pointer}
+.chk input{margin:0}
+.grabzone{padding:0;margin:0}
+.grab{width:64px;height:44px;margin:-8px auto -14px;background:none;position:relative}
+.grab::before{content:"";position:absolute;left:10px;right:10px;top:17px;height:5px;border-radius:var(--rp);background:var(--line2)}
+#sheetbox:focus{outline:none}
+main{padding-bottom:150px}
+.btns.col{flex-direction:column}
+.btns.col button{display:flex;align-items:center;gap:10px;justify-content:flex-start;min-height:52px;text-align:left;font-size:var(--fs-md)}
+/* tamaño de letra grande (⚙ Ajustes → Apariencia) */
+:root[data-big="1"]{--fs-xs:14px;--fs-sm:16px;--fs-md:18px;--fs-lg:20px;--fs-xl:23px;--fs-2xl:27px}
+:root[data-big="1"] :is(nav button,.tag,.pp.v,.day,.msg .meta,.brand small,.badge){font-size:13px}
+:root[data-big="1"] :is(.day .lbl,.steps small){font-size:12px}
+:root[data-big="1"] :is(.newsv li,.newsv h4){font-size:16px}
+:root[data-big="1"] .day b{font-size:14px}
+/* aviso con «Deshacer» */
+#toast{display:flex;align-items:center;gap:var(--s3);bottom:calc(140px + env(safe-area-inset-bottom))}
+#toast.u{pointer-events:auto}
+#toast button{border:0;background:none;color:inherit;font:inherit;font-weight:700;text-decoration:underline;min-height:44px;min-width:44px;padding:0 var(--s2);margin:-12px -8px -12px 0}
+#toast.on{opacity:1}
+/* botón flotante + */
+.fab{position:fixed;right:var(--s4);bottom:calc(72px + env(safe-area-inset-bottom));width:56px;height:56px;border-radius:50%;border:0;background:var(--pri);color:var(--pri-on);box-shadow:var(--sh2);display:grid;place-items:center;z-index:4;animation:bpop .3s cubic-bezier(.3,1.6,.5,1);padding:0}
+.fab[hidden]{display:none}
+.fab .ic{width:28px;height:28px;stroke-width:2.4}
+.fab:active{transform:scale(.94)}
+/* anillos de progreso */
+.rings{display:flex;justify-content:space-around;gap:var(--s2);margin-top:var(--s2)}
+.ringw{display:flex;flex-direction:column;align-items:center;gap:var(--s1);font-size:var(--fs-xs);color:var(--mut);font-weight:600;min-width:0}
+.ring{width:76px;height:76px}
+.ring circle{fill:none;stroke-width:6}
+.ring .bg{stroke:var(--line)}
+.ring .v{stroke:var(--pri-tx);stroke-linecap:round;stroke-dasharray:var(--c);stroke-dashoffset:var(--o);transform:rotate(-90deg);transform-origin:32px 32px}
+.ring.full .v{stroke:var(--ok)}
+.ring.a .v{animation:ringin .9s cubic-bezier(.2,.8,.3,1)}
+.ring text{fill:var(--ink);font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+@keyframes ringin{from{stroke-dashoffset:var(--c)}}
 @media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important} }
 </style>
 </head>
@@ -229,19 +272,27 @@ nav button .nic{position:relative;display:grid;place-items:center;height:32px;wi
   <div class="brand"><img src="icon-192.png" alt=""><div>Carga Mental<small>Compartida, no invisible</small></div></div>
   <button id="who" onclick="A.settings()" aria-label="Ajustes">⚙</button>
 </header>
-<div id="sync" class="sync"></div>
+<div id="sync" class="sync" role="status"></div>
 <main id="main"></main>
 <nav id="nav" aria-label="Secciones"><span id="navind" aria-hidden="true"></span><div id="navbtns"></div></nav>
-<div id="modal" class="modal hidden" onclick="if(event.target===this)A.close()"><div class="sheet" id="sheetbox" role="dialog" aria-modal="true"><div class="grabzone"><button class="grab" onclick="A.close()" aria-label="Cerrar (o deslizá hacia abajo)"></button></div><div id="sheet"></div></div></div>
-<div id="toast"></div>
+<button id="fab" class="fab" type="button" hidden></button>
+<div id="modal" class="modal hidden" onclick="if(event.target===this)A.close()"><div class="sheet" id="sheetbox" role="dialog" aria-modal="true" tabindex="-1"><div class="grabzone"><button class="grab" onclick="A.close()" aria-label="Cerrar (o deslizá hacia abajo)"></button></div><div id="sheet"></div></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
 'use strict';
 /* ============ Constantes ============ */
-const VERSION = '1.3.0';
+const VERSION = '1.4.0';
 const SCHEMA = 1; // versión de la estructura de datos guardados (ver MIGRATIONS)
 /* Novedades: la primera es la versión actual. "hechas" = ítems del plan de 100 tildados hasta esa versión. */
 const NEWS = [
+  {v:'1.4.0', d:'2026-11-10', hechas:20, items:[
+    'Más fácil de tocar y de leer: todos los botones tienen al menos 44 px, los lectores de pantalla entienden cada botón y hay una opción de letra grande en ⚙ Ajustes → Apariencia.',
+    'Cada aviso trae un «Deshacer» por si tocaste algo sin querer: compras, tildes, tareas, indicaciones y borrados.',
+    'Nuevo botón «+» flotante, distinto en cada pestaña: sumar algo desde Hoy, anotar un producto, crear una tarea o cargar un control de salud.',
+    'En Hoy hay tres anillos de progreso: compras, tareas y mochila de Joaco.',
+    'Textos revisados para que suenen más claros y amables, también para Daniela.'
+  ]},
   {v:'1.3.0', d:'2026-11-10', hechas:15, items:[
     'La barra de abajo ahora tiene un indicador que se desliza a la sección elegida y globitos con lo pendiente: lo tuyo en Hoy, compras, tareas de la casa, cosas de Joaco y mensajes sin leer.',
     'Cada tilde hace un pequeño salto, y al terminar un ciclo, la mochila, una compra o las indicaciones de Daniela hay un festejo con papelitos.',
@@ -284,6 +335,7 @@ const DOWL = ['domingo','lunes','martes','miércoles','jueves','viernes','sábad
 
 /* ============ Íconos SVG propios (trazo, 24×24, toman el color del texto) ============ */
 const ICONS = {
+  mas:'<path d="M12 5v14M5 12h14"/>',
   hoy:'<path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V20h4.5v-5.5h4V20h4.5V9.5"/>',
   compras:'<path d="M2.5 3.5h2.6l2.3 11.2h10.9l2-8H6"/><circle cx="9.5" cy="19.3" r="1.4"/><circle cx="17" cy="19.3" r="1.4"/>',
   casa:'<path d="M4 10h16l-1.6 9.1a2 2 0 0 1-2 1.6H7.6a2 2 0 0 1-2-1.6z"/><path d="M8.5 10 12 4.5l3.5 5.5"/><path d="M9.5 14v3.5M14.5 14v3.5"/>',
@@ -364,7 +416,29 @@ const EMPTY_ICON = {tetoca:'tetoca', compras:'compras', chat:'chat', escoba:'esc
 function empty(icon, title, text, btn = '', small = false){
   return `<div class="empty${small ? ' sm' : ''}"><div class="ill">${ic(icon)}${small ? '' : ic('nuevo', 'sp')}</div><div><b>${title}</b><p>${text}</p>${btn ? `<div class="btns">${btn}</div>` : ''}</div></div>`;
 }
-function toast(t){ const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('on'), 2200); }
+const KB = `role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"`;
+const chk = (inner) => `<label class="chk">${inner}</label>`;
+function toast(t, undo){
+  const el = $('#toast'); el.textContent = '';
+  const sp = document.createElement('span'); sp.textContent = t; el.appendChild(sp);
+  toast._u = undo || null;
+  if(undo){ const b = document.createElement('button'); b.type = 'button'; b.textContent = 'Deshacer'; b.onclick = () => A.undo(); el.appendChild(b); }
+  el.classList.add('on'); el.classList.toggle('u', !!undo);
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { el.classList.remove('on', 'u'); toast._u = null; setTimeout(() => { if(!el.classList.contains('on')) el.textContent = ''; }, 400); }, undo ? 6500 : 2200);
+}
+/* Deshacer: guarda cómo estaban los registros antes del cambio y, si hace falta, los restaura (y borra lo que se anotó en «Últimos movimientos»). */
+function snapshot(refs){
+  const old = refs.map(([c, i]) => [c, i, S[c][i] ? clean(S[c][i]) : null]), t0 = Date.now();
+  return () => {
+    old.forEach(([c, i, o]) => {
+      if(o){ S[c][i] = o; if(fs) remotePath(c).doc(i).set(clean(o)).catch(() => {}); }
+      else { delete S[c][i]; if(fs) remotePath(c).doc(i).delete().catch(() => {}); }
+    });
+    Object.values(S.log).filter(l => l.at >= t0 && l.by === me).forEach(l => { delete S.log[l.id]; if(fs) remotePath('log').doc(l.id).delete().catch(() => {}); });
+    save(); render(); toast('Deshecho ✔');
+  };
+}
 
 /* ============ Datos iniciales ============ */
 function seed(){
@@ -424,7 +498,7 @@ function seed(){
 }
 
 /* ============ Estado + persistencia local ============ */
-const LS = {data:'cm_data', me:'cm_me', cfg:'cm_fb', code:'cm_code', tab:'cm_tab', seen:'cm_seen', noInst:'cm_noinst', theme:'cm_theme', read:'cm_read', vib:'cm_vib'};
+const LS = {data:'cm_data', me:'cm_me', cfg:'cm_fb', code:'cm_code', tab:'cm_tab', seen:'cm_seen', noInst:'cm_noinst', theme:'cm_theme', read:'cm_read', vib:'cm_vib', big:'cm_big'};
 /* Migraciones: cada número lleva los datos de la versión anterior a esa. Nunca borran nada:
    solo completan lo que falta. Antes de migrar se guarda una copia en cm_backup_v{n}. */
 const MIGRATIONS = {
@@ -535,7 +609,7 @@ async function notify(title, body){
   catch(e) { new Notification(title, {body}); }
 }
 function renderSync(){
-  const t = {local:'📱 Solo en este teléfono · conectá la nube en ⚙', conectando:'⏳ Conectando…', nube:'☁️ Sincronizado con la familia', error:'⚠️ Error de sincronización · revisá ⚙'}[syncState];
+  const t = {local:'📱 Por ahora solo en este teléfono · podés sincronizar en ⚙', conectando:'⏳ Conectando…', nube:'☁️ Sincronizado con la familia', error:'⚠️ No se pudo sincronizar por ahora · revisá ⚙ cuando puedas'}[syncState];
   $('#sync').textContent = navigator.onLine || syncState === 'local' ? t : '📴 Sin conexión · se sincroniza al volver';
 }
 
@@ -588,8 +662,26 @@ function status(p, date){
 /* ============ Acciones ============ */
 const A = {
   go(t){ tab = t; localStorage.setItem(LS.tab, t); render(); scrollTo(0,0); },
-  close(){ $('#modal').classList.add('hidden'); const b = $('#sheetbox'); b.style.transform = ''; b.classList.remove('drag','back'); $('#modal').style.backgroundColor = ''; },
-  open(html){ $('#sheet').innerHTML = html; const b = $('#sheetbox'); b.style.transform = ''; b.scrollTop = 0; $('#modal').classList.remove('hidden'); },
+  close(){ $('#modal').classList.add('hidden'); const b = $('#sheetbox'); b.style.transform = ''; b.classList.remove('drag','back'); $('#modal').style.backgroundColor = '';
+    const r = A._ret; A._ret = null; if(r && r.isConnected) try { r.focus({preventScroll:true}); } catch(e) {} },
+  open(html){ $('#sheet').innerHTML = html; const b = $('#sheetbox'); b.style.transform = ''; b.scrollTop = 0;
+    if($('#modal').classList.contains('hidden')) A._ret = document.activeElement;
+    $('#modal').classList.remove('hidden');
+    $('#sheet').querySelectorAll('label.f').forEach(l => { const n = l.nextElementSibling; if(n && n.id && /^(INPUT|SELECT|TEXTAREA)$/.test(n.tagName)) l.htmlFor = n.id; });
+    const h = $('#sheet h3'); b.setAttribute('aria-label', h ? h.textContent.trim() : 'Ventana');
+    try { b.focus({preventScroll:true}); } catch(e) {} },
+  undo(){ const f = toast._u; toast._u = null; $('#toast').classList.remove('on', 'u'); if(f) f(); },
+  setBig(k){ try { if(k === '1') localStorage.setItem(LS.big, '1'); else localStorage.removeItem(LS.big); } catch(e) {} applyBig(); A.settings(); },
+  fab(){
+    A.open(`<h3>${hic('mas')} ¿Qué querés sumar?</h3>
+      <div class="btns col">
+        <button class="b" onclick="A.itemForm(null,'super')">${ic('compras')} Anotar una compra</button>
+        <button class="b" onclick="A.taskForm()">${ic('casa')} Nueva tarea de la casa</button>
+        <button class="b" onclick="A.saludForm()">${ic('salud')} Control de salud de Joaco</button>
+        <button class="b" onclick="A.close();A.go('chat')">${ic('chat')} Mensaje para la familia</button>
+        <button class="b" onclick="A.close()">Cancelar</button>
+      </div>`);
+  },
 
   setMe(p){ const first = !me; me = p; localStorage.setItem(LS.me, p); if(p === 'daniela') tab = 'daniela'; A.close(); render(); if(first) setTimeout(maybeNews, 300); },
 
@@ -632,13 +724,13 @@ const A = {
 
   // Compras
   filter(s){ storeFilter = s; render(); },
-  need(id){ const i = S.items[id]; i.state = 'list'; put('items', i, `anotó ${i.name} (${S.stores[i.store]?.name})`); toast('Agregado a la lista'); },
-  bought(id){ const i = S.items[id]; i.state = 'ok'; i.last = Date.now(); i.lastBy = me; buzz(); pop('s:' + i.store); put('items', i, `compró ${i.name}`);
+  need(id){ const i = S.items[id]; const u = snapshot([['items', id]]); i.state = 'list'; put('items', i, `anotó ${i.name} (${S.stores[i.store]?.name})`); toast('Agregado a la lista', u); },
+  bought(id){ const i = S.items[id]; const u = snapshot([['items', id]]); i.state = 'ok'; i.last = Date.now(); i.lastBy = me; buzz(); pop('s:' + i.store); put('items', i, `compró ${i.name}`);
     const quedan = Object.values(S.items).filter(x => x.store === i.store && needs(x)).length;
-    if(!quedan){ confetti(); toast(`¡Lista de ${S.stores[i.store]?.name || 'compras'} completa! 🎉`); } else toast('¡Comprado! ✔'); },
-  unlist(id){ const i = S.items[id]; i.state = 'ok'; if(isDue(i)) i.last = Date.now(); put('items', i, `sacó ${i.name} de la lista`); },
-  allList(sid){ Object.values(S.items).filter(i => i.store === sid).forEach(i => { i.state = 'list'; i.at = Date.now(); i.by = me; S.items[i.id] = i; if(fs) remotePath('items').doc(i.id).set(clean(i)); }); save(); logAct(`armó el pedido habitual de ${S.stores[sid].name}`); render(); },
-  boughtAll(sid){ Object.values(S.items).filter(i => i.store === sid && needs(i)).forEach(i => { i.state = 'ok'; i.last = Date.now(); i.lastBy = me; i.at = Date.now(); i.by = me; if(fs) remotePath('items').doc(i.id).set(clean(i)); }); save(); logAct(`hizo la compra de ${S.stores[sid].name}`); pop('s:' + sid); render(); confetti(); toast('Compra registrada ✔ 🎉'); },
+    if(!quedan){ confetti(); toast(`¡Lista de ${S.stores[i.store]?.name || 'compras'} completa! 🎉`, u); } else toast('¡Comprado! ✔', u); },
+  unlist(id){ const i = S.items[id]; const u = snapshot([['items', id]]); i.state = 'ok'; if(isDue(i)) i.last = Date.now(); put('items', i, `sacó ${i.name} de la lista`); toast('Sacado de la lista', u); },
+  allList(sid){ const u = snapshot(Object.values(S.items).filter(i => i.store === sid).map(i => ['items', i.id])); Object.values(S.items).filter(i => i.store === sid).forEach(i => { i.state = 'list'; i.at = Date.now(); i.by = me; S.items[i.id] = i; if(fs) remotePath('items').doc(i.id).set(clean(i)); }); save(); logAct(`armó el pedido habitual de ${S.stores[sid].name}`); render(); toast('Pedido habitual armado', u); },
+  boughtAll(sid){ const u = snapshot(Object.values(S.items).filter(i => i.store === sid && needs(i)).map(i => ['items', i.id])); Object.values(S.items).filter(i => i.store === sid && needs(i)).forEach(i => { i.state = 'ok'; i.last = Date.now(); i.lastBy = me; i.at = Date.now(); i.by = me; if(fs) remotePath('items').doc(i.id).set(clean(i)); }); save(); logAct(`hizo la compra de ${S.stores[sid].name}`); pop('s:' + sid); render(); confetti(); toast('Compra registrada ✔ 🎉', u); },
   cycleStore(sid){ const s = S.stores[sid]; const o = ['gonzalo','dani','ambos']; s.owner = o[(o.indexOf(s.owner)+1) % o.length]; put('stores', s, `ahora ${M[s.owner].n} se encarga de ${s.name}`); },
   share(sid){
     const s = S.stores[sid]; const list = Object.values(S.items).filter(i => i.store === sid && needs(i));
@@ -661,17 +753,17 @@ const A = {
     i.store = $('#f_store').value; i.every = Math.max(1, +$('#f_every').value || 7); i.note = $('#f_note').value.trim();
     A.close(); put('items', i, `editó ${i.name}`);
   },
-  delItem(id){ if(!confirm('¿Borrar este producto?')) return; const n = S.items[id].name; A.close(); del('items', id, `borró ${n}`); },
+  delItem(id){ if(!confirm('¿Borrar este producto?')) return; const n = S.items[id].name; const u = snapshot([['items', id]]); A.close(); del('items', id, `borró ${n}`); toast('Producto borrado', u); },
 
   // Casa
   step(tid, k){
-    const t = S.tasks[tid]; t.cur = t.cur || {};
+    const t = S.tasks[tid]; const u = snapshot([['tasks', tid]]); t.cur = t.cur || {};
     if(t.cur[k]) delete t.cur[k]; else { t.cur[k] = {by:me, at:Date.now()}; buzz(); pop(`st:${tid}:${k}`); }
     const all = t.steps.every((_, i) => t.cur[i]);
-    if(all){ t.lastDone = {at:Date.now(), by:me, who:Object.values(t.cur).map(x => x.by)}; t.cur = {}; pop('cy:' + tid); put('tasks', t, `completó ${t.name} ✔`); confetti(); toast(`${t.name}: ciclo completo 🎉`); }
+    if(all){ t.lastDone = {at:Date.now(), by:me, who:Object.values(t.cur).map(x => x.by)}; t.cur = {}; pop('cy:' + tid); put('tasks', t, `completó ${t.name} ✔`); confetti(); toast(`${t.name}: ciclo completo 🎉`, u); }
     else put('tasks', t, t.cur[k] ? `${t.name}: ${t.steps[k].toLowerCase()} ✔` : null);
   },
-  recDone(tid){ const t = S.tasks[tid]; t.last = Date.now(); t.lastBy = me; buzz(); pop('r:' + tid); put('tasks', t, `hizo: ${t.name}`); toast('Hecho ✔'); },
+  recDone(tid){ const t = S.tasks[tid]; const u = snapshot([['tasks', tid]]); t.last = Date.now(); t.lastBy = me; buzz(); pop('r:' + tid); put('tasks', t, `hizo: ${t.name}`); toast('Hecho ✔', u); },
   cycleTask(tid){ const t = S.tasks[tid]; const o = ['gonzalo','dani','ambos']; t.owner = o[(o.indexOf(t.owner)+1) % o.length]; put('tasks', t, `${t.name} → ${M[t.owner].n}`); },
   taskForm(){
     A.open(`<h3>Nueva tarea</h3>
@@ -685,10 +777,10 @@ const A = {
     const name = $('#f_name').value.trim(); if(!name) return toast('Poné un nombre');
     const kind = $('#f_kind').value; const t = {id:'t_'+uid(), kind, name, icon:'✅', owner:'ambos', ord:99};
     if(kind === 'rec'){ t.every = Math.max(1, +$('#f_every').value || 7); t.last = null; }
-    else { t.steps = $('#f_steps').value.split(',').map(s => s.trim()).filter(Boolean); if(t.steps.length < 2) return toast('Poné al menos 2 etapas'); t.cur = {}; t.lastDone = null; }
+    else { t.steps = $('#f_steps').value.split(',').map(s => s.trim()).filter(Boolean); if(t.steps.length < 2) return toast('Poné al menos 2 etapas separadas por coma'); t.cur = {}; t.lastDone = null; }
     A.close(); put('tasks', t, `creó la tarea ${name}`);
   },
-  delTask(tid){ if(!confirm('¿Borrar esta tarea?')) return; const n = S.tasks[tid].name; del('tasks', tid, `borró la tarea ${n}`); },
+  delTask(tid){ if(!confirm('¿Borrar esta tarea?')) return; const n = S.tasks[tid].name; const u = snapshot([['tasks', tid]]); del('tasks', tid, `borró la tarea ${n}`); toast('Tarea borrada', u); },
   cycleArea(aid){ const a = S.areas[aid]; const o = ['gonzalo','dani','ambos','daniela']; a.owner = o[(o.indexOf(a.owner)+1) % o.length]; put('areas', a, `${a.name} → ${M[a.owner].n}`); },
 
   // Daniela
@@ -696,10 +788,10 @@ const A = {
     const el = $('#in_' + kind); const text = el.value.trim(); if(!text) return;
     el.value = ''; put('indic', {id:'n_'+uid(), text, kind, done:false, created:Date.now()}, `dejó para Daniela: ${text}`);
   },
-  toggleIndic(id){ const n = S.indic[id]; n.done = !n.done; n.doneAt = n.done ? Date.now() : null; if(n.done){ buzz(); pop('n:' + id); } put('indic', n, n.done ? `Daniela: hecho «${n.text}»` : null);
-    if(n.done && !Object.values(S.indic).some(x => !x.done)){ confetti(); toast('¡Todo hecho! Gracias 🙌'); } },
-  delIndic(id){ del('indic', id); },
-  clearIndic(){ Object.values(S.indic).filter(n => n.done).forEach(n => del('indic', n.id)); },
+  toggleIndic(id){ const n = S.indic[id]; const u = snapshot([['indic', id]]); n.done = !n.done; n.doneAt = n.done ? Date.now() : null; if(n.done){ buzz(); pop('n:' + id); } put('indic', n, n.done ? `Daniela: hecho «${n.text}»` : null);
+    if(n.done && !Object.values(S.indic).some(x => !x.done)){ confetti(); toast('¡Todo hecho! Gracias 🙌', u); } else if(n.done) toast('Hecho ✔', u); },
+  delIndic(id){ const u = snapshot([['indic', id]]); del('indic', id); toast('Indicación borrada', u); },
+  clearIndic(){ const hechas = Object.values(S.indic).filter(n => n.done); const u = snapshot(hechas.map(n => ['indic', n.id])); hechas.forEach(n => del('indic', n.id)); if(hechas.length) toast('Hechas limpiadas', u); },
   danielaForm(){
     const d = S.checks.daniela;
     A.open(`<h3>Próxima visita de Daniela</h3>
@@ -732,7 +824,7 @@ const A = {
   tueNight(monStr){ const w = weekCfg(parseDk(monStr)); w.tueNight = !w.tueNight; put('weeks', w, w.tueNight ? 'marcó guardia el martes de noche' : 'sacó la guardia del martes'); },
   office(monStr, dow){ const w = weekCfg(parseDk(monStr)); w.office = w.office || []; const i = w.office.indexOf(dow); if(i >= 0) w.office.splice(i,1); else w.office.push(dow); put('weeks', w, `Dani: ${DOWL[dow]} ${i >= 0 ? 'home office' : 'oficina'}`); },
   setBase(dow, field){ const b = S.weeks.base; const o = ['gonzalo','dani','abuelos']; b.days[dow][field] = o[(o.indexOf(b.days[dow][field])+1) % o.length]; put('weeks', b, `cambió la semana tipo (${DOWL[dow]})`); },
-  mochila(k){ const c = S.checks.mochila; if(c.date !== dk()){ c.date = dk(); c.done = {}; } if(c.done[k]) delete c.done[k]; else { c.done[k] = me; buzz(); pop('m:' + k); } const all = c.list.every((_, i) => c.done[i]); put('checks', c, all ? 'dejó lista la mochila de Joaco 🎒' : null); if(all && c.done[k]){ confetti(); toast('¡Mochila lista! 🎒'); } },
+  mochila(k){ const c = S.checks.mochila; const u = snapshot([['checks', 'mochila']]); if(c.date !== dk()){ c.date = dk(); c.done = {}; } if(c.done[k]) delete c.done[k]; else { c.done[k] = me; buzz(); pop('m:' + k); } const all = c.list.every((_, i) => c.done[i]); put('checks', c, all ? 'dejó lista la mochila de Joaco 🎒' : null); if(all && c.done[k]){ confetti(); toast('¡Mochila lista! 🎒', u); } },
   mochilaEdit(){
     const c = S.checks.mochila;
     A.open(`<h3>Checklist de la mochila</h3><p class="muted">Un ítem por renglón. Podés agregar cosas por día, ej: "Mar: ropa de Educación Física".</p>
@@ -757,7 +849,7 @@ const A = {
     s.last = $('#f_last').value; s.next = $('#f_next').value; s.every = +$('#f_every').value || 0; s.owner = $('#f_owner').value; s.note = $('#f_note').value;
     A.close(); put('salud', s, `actualizó ${s.name} de Joaco`);
   },
-  delSalud(id){ if(!confirm('¿Borrar?')) return; A.close(); del('salud', id); },
+  delSalud(id){ if(!confirm('¿Borrar?')) return; const u = snapshot([['salud', id]]); A.close(); del('salud', id); toast('Control borrado', u); },
 
   // Chat
   send(txt){
@@ -779,16 +871,18 @@ const A = {
       <h3 class="sec">${hic('tema')} Apariencia</h3>
       <div class="seg" role="group" aria-label="Tema">${[['auto','tema','Automático'],['light','sol','Claro'],['dark','luna','Oscuro']].map(([k, i, l]) => `<button class="${theme() === k ? 'on' : ''}" aria-pressed="${theme() === k}" onclick="A.setTheme('${k}')">${ic(i)}${l}</button>`).join('')}</div>
       <p class="muted">Automático sigue el modo del teléfono.</p>
+      <label class="f">Tamaño de letra</label>
+      <div class="seg" role="group" aria-label="Tamaño de letra">${[['0','Normal','15px'],['1','Grande','20px']].map(([k, l, fz]) => `<button class="${big() === k ? 'on' : ''}" aria-pressed="${big() === k}" onclick="A.setBig('${k}')"><span style="font-size:${fz};font-weight:700" aria-hidden="true">Aa</span> ${l}</button>`).join('')}</div>
       <label class="item"><input type="checkbox" id="f_vib" ${vibOn() ? 'checked' : ''} onchange="A.setVib(this.checked)"><div class="t">Vibrar cortito al completar algo</div></label>
 
       <h3 class="sec">${hic('nube')} Sincronizar con la familia</h3>
-      <p class="muted">Estado: <b>${syncState}</b>. Pegá la configuración de Firebase (ver README) y un código de hogar. Después mandale la invitación a Dani y a Daniela.</p>
+      <p class="muted">Estado: <b>${({local:'solo en este teléfono', conectando:'conectando…', nube:'sincronizado', error:'con un problema'})[syncState] || syncState}</b>. Pegá la configuración de Firebase (ver README) y un código de hogar. Después mandale la invitación a Dani y a Daniela.</p>
       <label class="f">Configuración de Firebase</label><textarea id="f_cfg" placeholder="const firebaseConfig = { apiKey: ... }">${esc(raw)}</textarea>
       <label class="f">Código del hogar (secreto, igual en todos los teléfonos)</label><input type="text" id="f_code" value="${esc(code)}">
       <div class="btns"><button class="pri" onclick="A.saveCfg()">Conectar</button>${raw ? `<button onclick="A.invite()">📲 Invitar por WhatsApp</button><button onclick="A.disconnect()">Desconectar</button>` : ''}</div>
 
       <h3 class="sec">${hic('campana')} Avisos</h3>
-      <p class="muted">Permiso: <b>${perm}</b>. Te avisa cuando otro marca algo o manda un mensaje.</p>
+      <p class="muted">Permiso: <b>${({granted:'activado', denied:'bloqueado', default:'todavía sin activar', no:'no disponible'})[perm] || perm}</b>. Te avisa cuando otro marca algo o manda un mensaje.</p>
       <div class="btns"><button onclick="A.perm()">Activar notificaciones</button></div>
 
       <h3 class="sec">${hic('telefono')} App en el teléfono</h3>
@@ -803,10 +897,10 @@ const A = {
   saveCfg(){
     try{
       const c = parseCfg($('#f_cfg').value); const code = $('#f_code').value.trim().toLowerCase().replace(/[^a-z0-9-]/g,'');
-      if(code.length < 6) return toast('El código debe tener 6+ caracteres');
+      if(code.length < 6) return toast('El código tiene que tener al menos 6 letras o números');
       localStorage.setItem(LS.cfg, JSON.stringify(c)); localStorage.setItem(LS.code, code);
       A.close(); toast('Conectando…'); if(fs) location.reload(); else connect();
-    }catch(e){ toast('Configuración inválida: ' + e.message); }
+    }catch(e){ toast('No pude leer esa configuración (' + e.message + '). Fijate que esté completa.'); }
   },
   disconnect(){ if(!confirm('¿Desconectar este teléfono de la nube? Los datos quedan guardados acá.')) return; localStorage.removeItem(LS.cfg); location.reload(); },
   invite(){
@@ -816,19 +910,21 @@ const A = {
     location.href = 'https://wa.me/?text=' + encodeURIComponent(t);
   },
   async perm(){
-    if(!('Notification' in window)) return toast('Este navegador no permite avisos');
-    const r = await Notification.requestPermission(); toast(r === 'granted' ? 'Avisos activados 🔔' : 'No se activaron'); A.settings();
+    if(!('Notification' in window)) return toast('Este navegador no puede mostrar avisos');
+    const r = await Notification.requestPermission(); toast(r === 'granted' ? 'Avisos activados 🔔' : 'No se activaron los avisos; podés probar de nuevo cuando quieras'); A.settings();
   },
   exportJ(){ const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(S, null, 1)], {type:'application/json'})); a.download = `carga-mental-${dk()}.json`; a.click(); },
   importJ(inp){
     const f = inp.files[0]; if(!f) return; const r = new FileReader();
-    r.onload = () => { try { const d = JSON.parse(r.result); if(!d || typeof d !== 'object') throw 0; if(!(+d._v >= SCHEMA)){ COLS.forEach(c => d[c] = d[c] || {}); for(let v = (+d._v || 0) + 1; v <= SCHEMA; v++) MIGRATIONS[v](d); } COLS.forEach(c => { if(d[c]) Object.values(d[c]).forEach(o => { S[c][o.id] = o; if(fs) remotePath(c).doc(o.id).set(o); }); }); save(); A.close(); render(); toast('Importado ✔'); } catch(e) { toast('Archivo inválido'); } };
+    r.onload = () => { try { const d = JSON.parse(r.result); if(!d || typeof d !== 'object') throw 0; if(!(+d._v >= SCHEMA)){ COLS.forEach(c => d[c] = d[c] || {}); for(let v = (+d._v || 0) + 1; v <= SCHEMA; v++) MIGRATIONS[v](d); } COLS.forEach(c => { if(d[c]) Object.values(d[c]).forEach(o => { S[c][o.id] = o; if(fs) remotePath(c).doc(o.id).set(o); }); }); save(); A.close(); render(); toast('Importado ✔'); } catch(e) { toast('Ese archivo no parece una copia de Carga Mental'); } };
     r.readAsText(f);
   }
 };
 
 /* ============ Novedades e instalación ============ */
 let installEvt = null;
+const big = () => { try { return localStorage.getItem(LS.big) === '1' ? '1' : '0'; } catch(e) { return '0'; } };
+function applyBig(){ const r = document.documentElement; if(big() === '1') r.dataset.big = '1'; else delete r.dataset.big; }
 const theme = () => { try { const t = localStorage.getItem(LS.theme); return t === 'light' || t === 'dark' ? t : 'auto'; } catch(e) { return 'auto'; } };
 function applyTheme(){
   const t = theme(), root = document.documentElement;
@@ -861,9 +957,10 @@ function vHoy(){
     ${S.checks.daniela?.next === dk() ? `<div class="item"><span>${P('daniela')}</span><div class="t meta">Viene hoy ${esc(S.checks.daniela.hours)}</div></div>` : ''}
   </div>`;
 
+  h += ringsCard();
   const todo = todoList(now, j);
   const mineL = todo.filter(x => mine(x.own)), rest = todo.filter(x => !mine(x.own));
-  const row = x => `<div class="item"><div class="t" ${x.go ? `onclick="${x.go}"` : ''}>${x.html}</div><span title="${esc(pm(x.own).n)}" aria-label="${esc(pm(x.own).n)}">${AV(x.own)}</span>${x.btn || ''}</div>`;
+  const row = x => `<div class="item"><div class="t" ${x.go ? `onclick="${x.go}" ${KB}` : ''}>${x.html}</div><span title="${esc(pm(x.own).n)}" aria-label="${esc(pm(x.own).n)}">${AV(x.own)}</span>${x.btn || ''}</div>`;
   h += `<div class="card"><h3>${hic('tetoca')} Te toca</h3>${mineL.length ? mineL.map(row).join('') : empty('tetoca', 'Nada pendiente para vos', 'Disfrutá el rato libre. Si surge algo, aparece acá solo.')}</div>`;
   if(rest.length) h += `<div class="card"><h3>${hic('otros')} Lo de los demás</h3>${rest.map(row).join('')}</div>`;
 
@@ -873,6 +970,20 @@ function vHoy(){
   h += `<div class="card"><h3>${hic('reloj')} Últimos movimientos</h3>${logs.length ? logs.map(l => `<div class="log">${AV(l.by)}<div><b>${esc(pm(l.by).n)}</b> ${esc(l.act)} <span class="meta">· ${ago(l.at)}</span></div></div>`).join('') : empty('reloj', 'Todavía no hay movimientos', 'Cuando alguien anote una compra o termine una tarea, lo vas a ver acá.', '', true)}</div>`;
   h += verLink();
   return h;
+}
+
+/* Anillos de progreso: compras, tareas y mochila de hoy. */
+let ringAnim = true, lastTab = '';
+function ring(v, tot, label){
+  const r = 26, c = 2 * Math.PI * r, p = tot > 0 ? Math.min(1, v / tot) : 1;
+  return `<div class="ringw"><svg class="ring${ringAnim ? ' a' : ''}${p >= 1 ? ' full' : ''}" viewBox="0 0 64 64" role="img" aria-label="${esc(label)}: ${v} de ${tot}" style="--c:${c.toFixed(1)};--o:${(c * (1 - p)).toFixed(1)}"><circle class="bg" cx="32" cy="32" r="${r}"/><circle class="v" cx="32" cy="32" r="${r}"/><text x="32" y="37" text-anchor="middle">${tot ? v + '/' + tot : '✓'}</text></svg><span>${esc(label)}</span></div>`;
+}
+function ringsCard(){
+  const t0 = new Date().setHours(0, 0, 0, 0);
+  const pend = Object.values(S.items).filter(needs).length, hechas = Object.values(S.items).filter(i => i.state === 'ok' && i.last >= t0).length;
+  const recs = Object.values(S.tasks).filter(t => t.kind === 'rec'), tdue = recs.filter(recDue).length, tdone = recs.filter(t => t.last >= t0 && !recDue(t)).length;
+  const c = S.checks.mochila, md = c.date === dk() ? Object.keys(c.done).length : 0;
+  return `<div class="card"><h3>${hic('ciclo')} Cómo va el día</h3><div class="rings">${ring(hechas, hechas + pend, 'Compras')}${ring(tdone, tdone + tdue, 'Tareas')}${ring(md, c.list.length, 'Mochila')}</div></div>`;
 }
 
 /* Lo pendiente de hoy, de todos. Lo usan «Te toca» y los globitos de la barra inferior. */
@@ -910,13 +1021,13 @@ function badges(){
 
 function vCompras(){
   const stores = sorted('stores');
-  let h = `<div class="chips"><button class="${storeFilter==='todos'?'on':''}" onclick="A.filter('todos')">Todos</button>${stores.map(s => { const n = Object.values(S.items).filter(i => i.store === s.id && needs(i)).length; return `<button class="${storeFilter===s.id?'on':''}" onclick="A.filter('${s.id}')">${s.icon} ${esc(s.name.split(' ')[0])}${n ? ` · ${n}` : ''}</button>`; }).join('')}</div>`;
+  let h = `<div class="chips"><button class="${storeFilter==='todos'?'on':''}" aria-pressed="${storeFilter==='todos'}" onclick="A.filter('todos')">Todos</button>${stores.map(s => { const n = Object.values(S.items).filter(i => i.store === s.id && needs(i)).length; return `<button class="${storeFilter===s.id?'on':''}" aria-pressed="${storeFilter===s.id}" onclick="A.filter('${s.id}')">${s.icon} ${esc(s.name.split(' ')[0])}${n ? ` · ${n}` : ''}</button>`; }).join('')}</div>`;
   stores.filter(s => storeFilter === 'todos' || storeFilter === s.id).forEach(s => {
     const its = Object.values(S.items).filter(i => i.store === s.id).sort((a,b) => a.name.localeCompare(b.name));
     const need = its.filter(needs), rest = its.filter(i => !needs(i));
     h += `<section class="card${pc('s:' + s.id)}"><div class="row"><h3>${s.icon} ${esc(s.name)}</h3>${PB(s.owner, `A.cycleStore('${s.id}')`)}</div><div class="sub">${esc(s.how)} · se encarga ${esc(M[s.owner].n)}</div>
-      ${need.length ? need.map(i => `<div class="item"><input type="checkbox" onchange="A.bought('${i.id}')" aria-label="Comprado"><div class="t" onclick="A.itemForm('${i.id}')"><div>${esc(i.name)}</div><div class="meta">${i.state === 'list' ? `anotado por ${esc(M[i.by]?.n || '—')}` : `<span class="tag w">toca reponer</span> última ${ago(i.last)}`}${i.note ? ' · ' + esc(i.note) : ''}</div></div><button class="b sm" onclick="A.unlist('${i.id}')">✕</button></div>`).join('') : empty('compras', 'Nada para comprar', 'La despensa está al día. Si algo se acaba, tocá «Se acaba».', '', true)}
-      <details ${need.length ? "" : "open"}><summary>Habituales (${rest.length})</summary>${rest.map(i => `<div class="item"><div class="t" onclick="A.itemForm('${i.id}')"><div>${esc(i.name)}</div><div class="meta">cada ${i.every} días · última ${ago(i.last)}${i.lastBy ? ' (' + esc(M[i.lastBy]?.n) + ')' : ''}</div></div><button class="b sm" onclick="A.need('${i.id}')">Se acaba</button></div>`).join('')}</details>
+      ${need.length ? need.map(i => `<div class="item">${chk(`<input type="checkbox" onchange="A.bought('${i.id}')" aria-label="Comprado: ${esc(i.name)}">`)}<div class="t" onclick="A.itemForm('${i.id}')" ${KB} aria-label="Editar ${esc(i.name)}"><div>${esc(i.name)}</div><div class="meta">${i.state === 'list' ? `anotado por ${esc(M[i.by]?.n || '—')}` : `<span class="tag w">toca reponer</span> última ${ago(i.last)}`}${i.note ? ' · ' + esc(i.note) : ''}</div></div><button class="b sm" onclick="A.unlist('${i.id}')" aria-label="Sacar ${esc(i.name)} de la lista">✕</button></div>`).join('') : empty('compras', 'Nada para comprar', 'La despensa está al día. Si algo se acaba, tocá «Se acaba».', '', true)}
+      <details ${need.length ? "" : "open"}><summary>Habituales (${rest.length})</summary>${rest.map(i => `<div class="item"><div class="t" onclick="A.itemForm('${i.id}')" ${KB} aria-label="Editar ${esc(i.name)}"><div>${esc(i.name)}</div><div class="meta">cada ${i.every} días · última ${ago(i.last)}${i.lastBy ? ' (' + esc(M[i.lastBy]?.n) + ')' : ''}</div></div><button class="b sm" onclick="A.need('${i.id}')" aria-label="Se acaba ${esc(i.name)}">Se acaba</button></div>`).join('')}</details>
       <div class="btns"><button onclick="A.share('${s.id}')">📲 Mandar lista</button>${need.length > 1 ? `<button onclick="A.boughtAll('${s.id}')">✔ Compré todo</button>` : ''}<button onclick="A.allList('${s.id}')">Pedido habitual</button><button onclick="A.itemForm(null,'${s.id}')">+ Producto</button></div></section>`;
   });
   h += `<p class="muted">Tocá un producto para editar cada cuánto se repone. Cuando pasa ese tiempo desde la última compra, vuelve solo a la lista.</p>`;
@@ -931,7 +1042,7 @@ function vCasa(){
     const cur = t.cur || {}, nx = t.steps.findIndex((_, i) => !cur[i]);
     h += `<div class="card${pc('cy:' + t.id)}"><div class="row"><h3>${t.icon} ${esc(t.name)}</h3>${PB(t.owner, `A.cycleTask('${t.id}')`)}</div>
       <div class="steps">${t.steps.map((s, i) => `<button class="${cur[i] ? 'done' : i === nx ? 'next' : ''}${pc(`st:${t.id}:${i}`)}" aria-pressed="${!!cur[i]}" onclick="A.step('${t.id}',${i})">${cur[i] ? '✔ ' : ''}${esc(s)}<small>${cur[i] ? esc(M[cur[i].by]?.n) + ' · ' + ago(cur[i].at) : '&nbsp;'}</small></button>`).join('')}</div>
-      <div class="sub" style="margin-top:6px">Último ciclo completo: ${t.lastDone ? ago(t.lastDone.at) + ' · ' + [...new Set(t.lastDone.who || [t.lastDone.by])].map(p => M[p]?.n).join(' y ') : 'todavía no'}${t.id.startsWith('t_') && !['t_lava','t_ropa'].includes(t.id) ? ` · <a href="#" onclick="A.delTask('${t.id}');return false">borrar</a>` : ''}</div></div>`;
+      <div class="sub" style="margin-top:6px">Último ciclo completo: ${t.lastDone ? ago(t.lastDone.at) + ' · ' + [...new Set(t.lastDone.who || [t.lastDone.by])].map(p => M[p]?.n).join(' y ') : 'todavía no'}${t.id.startsWith('t_') && !['t_lava','t_ropa'].includes(t.id) ? ` · <button class="b sm" onclick="A.delTask('${t.id}')" aria-label="Borrar la tarea ${esc(t.name)}">Borrar</button>` : ''}</div></div>`;
   });
 
   const recs = sorted('tasks').filter(t => t.kind === 'rec');
@@ -944,13 +1055,13 @@ function vCasa(){
 
 function vDaniela(embedded){
   const d = S.checks.daniela || {}, list = Object.values(S.indic).sort((a,b) => (a.created || 0) - (b.created || 0));
-  const block = kind => list.filter(n => n.kind === kind).map(n => `<div class="item"><input type="checkbox" class="${pc('n:' + n.id).trim()}" ${n.done ? 'checked' : ''} onchange="A.toggleIndic('${n.id}')" aria-label="Hecho"><div class="t"><div class="${n.done ? 'done-tx' : ''}">${esc(n.text)}</div><div class="meta">${esc(M[n.by]?.n || '')}${n.done ? ' · hecho ' + ago(n.doneAt) : ''}</div></div>${me !== 'daniela' ? `<button class="b sm" onclick="A.delIndic('${n.id}')">✕</button>` : ''}</div>`).join('') || (kind === 'tarea' ? empty('escoba', 'Sin tareas por ahora', me === 'daniela' ? 'Cuando te dejen algo para hacer, aparece acá.' : 'Escribí abajo lo que querés que haga Daniela en su próxima visita.', '', true) : empty('cocina', 'Nada para cocinar', me === 'daniela' ? 'Si hay comidas para preparar, las vas a ver acá.' : 'Anotá abajo qué comidas querés que deje preparadas.', '', true));
+  const block = kind => list.filter(n => n.kind === kind).map(n => `<div class="item">${chk(`<input type="checkbox" class="${pc('n:' + n.id).trim()}" ${n.done ? 'checked' : ''} onchange="A.toggleIndic('${n.id}')" aria-label="Hecho: ${esc(n.text)}">`)}<div class="t"><div class="${n.done ? 'done-tx' : ''}">${esc(n.text)}</div><div class="meta">${esc(M[n.by]?.n || '')}${n.done ? ' · hecho ' + ago(n.doneAt) : ''}</div></div>${me !== 'daniela' ? `<button class="b sm" onclick="A.delIndic('${n.id}')" aria-label="Borrar ${esc(n.text)}">✕</button>` : ''}</div>`).join('') || (kind === 'tarea' ? empty('escoba', 'Sin tareas por ahora', me === 'daniela' ? 'Cuando te dejen algo para hacer, aparece acá.' : 'Escribí abajo lo que querés que haga Daniela en su próxima visita.', '', true) : empty('cocina', 'Nada para cocinar', me === 'daniela' ? 'Si hay comidas para preparar, las vas a ver acá.' : 'Anotá abajo qué comidas querés que deje preparadas.', '', true));
   const isD = me === 'daniela';
   let h = `<h2>${hic('escoba')} ${isD ? 'Hola Daniela 👋' : 'Daniela (empleada de limpieza)'}</h2>
   <div class="card"><div class="row"><div><b>Próxima visita:</b> ${d.next ? fdate(d.next) + (d.hours ? ' · ' + esc(d.hours) : '') : 'sin fecha'}</div>${!isD ? `<button class="b sm" onclick="A.danielaForm()">Editar</button>` : ''}</div>
   <div class="sub">${esc(d.note || '')} Coordina esta vez: ${P(d.coord || 'dani')}</div></div>
-  <div class="card"><h3>Tareas para hacer</h3>${block('tarea')}${!isD ? `<div class="row" style="margin-top:8px"><input type="text" id="in_tarea" placeholder="Ej: limpiar vidrios del balcón" onkeydown="if(event.key==='Enter')A.addIndic('tarea')"><button class="b" onclick="A.addIndic('tarea')">+</button></div>` : ''}</div>
-  <div class="card"><h3>Para cocinar</h3>${block('comida')}${!isD ? `<div class="row" style="margin-top:8px"><input type="text" id="in_comida" placeholder="Ej: tarta de verduras" onkeydown="if(event.key==='Enter')A.addIndic('comida')"><button class="b" onclick="A.addIndic('comida')">+</button></div>` : ''}</div>`;
+  <div class="card"><h3>Tareas para hacer</h3>${block('tarea')}${!isD ? `<div class="row" style="margin-top:8px"><input type="text" id="in_tarea" aria-label="Nueva tarea para Daniela" placeholder="Ej: limpiar vidrios del balcón" onkeydown="if(event.key==='Enter')A.addIndic('tarea')"><button class="b" onclick="A.addIndic('tarea')" aria-label="Agregar tarea">+</button></div>` : ''}</div>
+  <div class="card"><h3>Para cocinar</h3>${block('comida')}${!isD ? `<div class="row" style="margin-top:8px"><input type="text" id="in_comida" aria-label="Nueva comida para Daniela" placeholder="Ej: tarta de verduras" onkeydown="if(event.key==='Enter')A.addIndic('comida')"><button class="b" onclick="A.addIndic('comida')" aria-label="Agregar comida">+</button></div>` : ''}</div>`;
   if(!isD) h += `<div class="btns"><button class="pri" onclick="A.shareDaniela()">📲 Mandar indicaciones por WhatsApp</button><button onclick="A.clearIndic()">Limpiar las hechas</button></div>`;
   if(isD && !embedded) h += verLink();
   return h;
@@ -969,7 +1080,7 @@ function vJoaco(){
     h += `<div class="day ${ds === dk() ? 'today' : ''}"><b>${DOW[d.getDay()]} ${d.getDate()}</b>
       <div class="lbl">Lleva</div>${PV(j.lleva, `A.cycleJ('${ds}','lleva')`, 'Lleva')}
       <div class="lbl">Busca</div>${PV(j.busca, `A.cycleJ('${ds}','busca')`, 'Busca')}
-      ${j.warn.length ? '<div style="color:var(--warn)">⚠</div>' : ''}</div>`;
+      ${j.warn.length ? '<div style="color:var(--warn)" role="img" aria-label="Hay un aviso">⚠</div>' : ''}</div>`;
   }
   h += `</div>${warns.length ? `<div class="warnbox">⚠ ${warns.join('<br>⚠ ')}</div>` : ''}
   <label class="item" style="margin-top:8px"><input type="checkbox" ${w.tueNight ? 'checked' : ''} onchange="A.tueNight('${monStr}')"><div class="t">Gonzalo tiene guardia el martes de noche</div></label>
@@ -986,9 +1097,9 @@ function vJoaco(){
     ${Object.keys(S.salud).length ? '' : empty('salud', 'Sin controles cargados', 'Agregá pediatra, dentista u oculista para que la app avise cuándo sacar turno.', '', true)}
     ${Object.values(S.salud).sort((a,b) => a.name.localeCompare(b.name)).map(s => {
       let tag = '';
-      if(s.next){ const k = daysTo(s.next); tag = k < 0 ? `<span class="tag b">turno pasado: actualizá</span>` : `<span class="tag">turno ${fdate(s.next)}</span>`; }
-      else if(s.every){ if(!s.last) tag = '<span class="tag w">cargar último control</span>'; else { const k = s.every + daysTo(s.last); tag = k <= 30 ? `<span class="tag w">sacar turno${k < 0 ? ' (vencido)' : ''}</span>` : `<span class="tag">al día</span>`; } }
-      return `<div class="item" onclick="A.saludForm('${s.id}')"><div class="t"><div>${esc(s.name)}</div><div class="meta">${s.last ? 'último ' + fdate(s.last) + ' · ' : ''}${tag} ${esc(s.note || '')}</div></div>${P(s.owner)}</div>`;
+      if(s.next){ const k = daysTo(s.next); tag = k < 0 ? `<span class="tag b">ya pasó el turno: cargá el nuevo</span>` : `<span class="tag">turno ${fdate(s.next)}</span>`; }
+      else if(s.every){ if(!s.last) tag = '<span class="tag w">cargá el último control</span>'; else { const k = s.every + daysTo(s.last); tag = k <= 30 ? `<span class="tag w">${k < 0 ? 'ya toca sacar turno' : 'sacar turno'}</span>` : `<span class="tag">al día</span>`; } }
+      return `<div class="item"><div class="t" onclick="A.saludForm('${s.id}')" ${KB} aria-label="Editar ${esc(s.name)}"><div>${esc(s.name)}</div><div class="meta">${s.last ? 'último ' + fdate(s.last) + ' · ' : ''}${tag} ${esc(s.note || '')}</div></div>${P(s.owner)}</div>`;
     }).join('')}</div>`;
   return h;
 }
@@ -998,7 +1109,7 @@ function vChat(){
   const quick = me === 'daniela' ? ['Falta producto de limpieza','Ya terminé por hoy','¿Qué cocino?'] : ['Hoy lo busco yo a Joaco','¿Falta algo del súper?','Llego tarde','Ya hice el pedido'];
   return `<h2>${hic('chat')} Mensajes</h2><div class="msgs">${ms.length ? ms.map(m => `<div class="msg ${m.by === me ? 'me' : ''}"><div class="meta">${AV(m.by)}${esc(pm(m.by).n)} · ${ago(m.at)}</div>${esc(m.text)}</div>`).join('') : empty('chat', 'Todavía no hay mensajes', 'Escribí algo o tocá una de las frases rápidas de abajo.')}</div>
     <div class="chips" style="margin:10px 0 70px">${quick.map(q => `<button onclick="A.send('${q}')">${q}</button>`).join('')}</div>
-    <div class="composer"><input type="text" id="chatin" placeholder="Escribí un mensaje…" onkeydown="if(event.key==='Enter')A.send()"><button class="pri b" onclick="A.send()">Enviar</button></div>`;
+    <div class="composer"><input type="text" id="chatin" aria-label="Mensaje" placeholder="Escribí un mensaje…" onkeydown="if(event.key==='Enter')A.send()"><button class="pri b" onclick="A.send()">Enviar</button></div>`;
 }
 
 /* ============ Render ============ */
@@ -1008,10 +1119,14 @@ function render(){
     : [['hoy','hoy','Hoy'],['compras','compras','Compras'],['casa','casa','Casa'],['joaco','joaco','Joaco'],['chat','chat','Mensajes']];
   if(!tabs.some(t => t[0] === tab)) tab = tabs[0][0];
   if(tab === 'chat') try { localStorage.setItem(LS.read, String(Date.now())); } catch(e) {}
+  ringAnim = tab !== lastTab; lastTab = tab;
   const bd = badges(), nav = $('#nav');
   $('#navbtns').innerHTML = tabs.map(([k, i, l]) => { const n = k === tab && k === 'chat' ? 0 : bd[k] || 0;
     return `<button class="${tab === k ? 'on' : ''}" aria-current="${tab === k ? 'page' : 'false'}" data-tab="${k}" onclick="A.go('${k}')"><span class="nic">${ic(i)}${n ? `<span class="badge" aria-hidden="true">${n > 9 ? '9+' : n}</span>` : ''}</span>${l}${n ? `<span class="vh">, ${n} pendiente${n > 1 ? 's' : ''}</span>` : ''}</button>`; }).join('');
   nav.style.setProperty('--n', tabs.length); nav.style.setProperty('--i', Math.max(0, tabs.findIndex(t => t[0] === tab)));
+  const FAB = {hoy:['Sumar algo', () => A.fab()], compras:['Anotar un producto', () => A.itemForm(null, storeFilter !== 'todos' ? storeFilter : 'super')], casa:['Nueva tarea', () => A.taskForm()], joaco:['Nuevo control de salud', () => A.saludForm()]};
+  const fa = me && me !== 'daniela' ? FAB[tab] : null, fb = $('#fab'); fb.hidden = !fa;
+  if(fa){ fb.innerHTML = ic('mas'); fb.setAttribute('aria-label', fa[0]); fb.title = fa[0]; fb.onclick = fa[1]; }
   $('#who').innerHTML = me ? `${AV(me)}${esc(pm(me).n)}${ic('ajustes')}` : ic('ajustes'); $('#who').classList.toggle('solo', !me);
   const typing = document.activeElement && ['chatin','in_tarea','in_comida'].includes(document.activeElement.id) ? {id:document.activeElement.id, v:document.activeElement.value} : null;
   $('#main').innerHTML = ({hoy:vHoy, compras:vCompras, casa:vCasa, joaco:vJoaco, chat:vChat, daniela:() => vDaniela(false)})[tab]();
@@ -1060,7 +1175,7 @@ function swipeSheet(){
     history.replaceState(null, '', location.pathname);
   }
   try { if(!localStorage.getItem(LS.read)) localStorage.setItem(LS.read, String(Date.now())); } catch(e) {}
-  applyTheme();
+  applyTheme(); applyBig();
   render();
   swipeSheet();
   addEventListener('keydown', e => { if(e.key === 'Escape' && !$('#modal').classList.contains('hidden')) A.close(); });

@@ -22,11 +22,11 @@ Las marcadas 🔑 necesitan algo de Gonzalo (una cuenta, una clave, un dato). En
 - [x] 13. Vibración corta al completar algo (navigator.vibrate). — ✔ 2026-11-10 (v1.3.0)
 - [x] 14. Hojas modales que se cierran deslizando hacia abajo. — ✔ 2026-11-10 (v1.3.0)
 - [x] 15. Estados vacíos ilustrados y amables en cada sección. — ✔ 2026-11-10 (v1.3.0)
-- [ ] 16. Accesibilidad: contraste AA, áreas táctiles de 44 px, etiquetas ARIA y tamaño de letra grande opcional.
-- [ ] 17. Avisos (toasts) con botón "Deshacer".
-- [ ] 18. Botón flotante "+" contextual por pestaña.
-- [ ] 19. Indicadores de progreso circulares (mochila, compras del día, tareas).
-- [ ] 20. Revisión de todos los textos: tono rioplatense amable, sin reproches, claro para Daniela.
+- [x] 16. Accesibilidad: contraste AA, áreas táctiles de 44 px, etiquetas ARIA y tamaño de letra grande opcional. — ✔ 2026-11-10 (v1.4.0)
+- [x] 17. Avisos (toasts) con botón "Deshacer". — ✔ 2026-11-10 (v1.4.0)
+- [x] 18. Botón flotante "+" contextual por pestaña. — ✔ 2026-11-10 (v1.4.0)
+- [x] 19. Indicadores de progreso circulares (mochila, compras del día, tareas). — ✔ 2026-11-10 (v1.4.0)
+- [x] 20. Revisión de todos los textos: tono rioplatense amable, sin reproches, claro para Daniela. — ✔ 2026-11-10 (v1.4.0)
 
 ## Compras
 - [ ] 21. Cantidad y unidad por producto (ej.: 2 docenas, 6 L, 1 kg).

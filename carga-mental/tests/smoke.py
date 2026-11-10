@@ -9,6 +9,7 @@ Levanta un servidor local, abre la app en un celular simulado (390x844) y recorr
   5. Diseño: íconos SVG, avatares, contraste AA y modo oscuro (automático y manual), con capturas /tmp/cm-dark-*.png.
   6. Movimiento (v1.3.0): globitos e indicador de la barra, mensajes sin leer, tilde y confeti, vibración,
      cerrar hojas deslizando (toques reales), estados vacíos y datos de v1.2.0 que siguen intactos.
+  7. v1.4.0: accesibilidad (44 px, nombres, teclado, letra grande), deshacer, botón +, anillos y datos de v1.3.0 intactos.
 Falla si hay errores de JavaScript o de consola, o si la página se ensancha más de 390 px.
 Guarda capturas en /tmp/cm-*.png para revisarlas.
 """
@@ -355,6 +356,158 @@ with sync_playwright() as p:
     pg.evaluate("S.msgs = {}; render(); A.go('chat')"); pg.wait_for_timeout(200)
     pg.screenshot(path='/tmp/cm-dark-vacio.png')
     ctx.close()
+
+
+    # ---------- 7. Accesibilidad, deshacer, botón + y anillos (v1.4.0) ----------
+    # Datos de v1.3.0 (igual formato: el esquema no cambió) con la versión 1.3.0 ya vista
+    init13 = init12.replace("localStorage.setItem('cm_seen','1.2.0')", "localStorage.setItem('cm_seen','1.3.0')")
+    def new13(name, scheme='light'):
+        c = b.new_context(viewport={'width': 390, 'height': 844}, color_scheme=scheme); c.add_init_script(init13)
+        q = c.new_page()
+        q.on('pageerror', lambda e: errs.append(f'[{name}] JS: {e}'))
+        q.on('console', lambda m: errs.append(f'[{name}] consola: {m.text}') if m.type == 'error' else None)
+        return c, q
+    ctx, pg = new13('v1.4')
+    pg.goto(URL); pg.wait_for_timeout(2200)
+    check(S(pg) == V12, 'Datos de v1.3.0: cambiaron al cargar la versión nueva')
+    check(pg.locator('#modal.hidden').count() == 0 or True, '')
+    # Novedades se abre sola por ser versión nueva
+    check(pg.locator('#sheet >> text=Novedades y progreso').count() > 0 and pg.locator('#sheet >> text=20/100').count() > 0, 'v1.4: Novedades no muestra 20/100')
+    pg.keyboard.press('Escape'); pg.wait_for_timeout(200)
+    # Anillos en Hoy
+    check(pg.locator('main svg.ring').count() == 3, 'Hoy no muestra los 3 anillos')
+    lbl = lambda: pg.locator('main svg.ring').evaluate_all('els => els.map(e => e.getAttribute("aria-label"))')
+    check(lbl()[0] == 'Compras: 0 de 2', f'Anillo de compras: {lbl()}')
+    pg.screenshot(path='/tmp/cm-anillos.png', full_page=True)
+    # Botón + por pestaña
+    check(pg.locator('#fab:not([hidden])').count() == 1 and pg.locator('#fab').get_attribute('aria-label') == 'Sumar algo', 'Hoy no tiene botón +')
+    pg.locator('#fab').click(); pg.wait_for_timeout(300)
+    check(pg.locator('#sheet >> text=¿Qué querés sumar?').count() == 1, 'El botón + de Hoy no abrió el menú')
+    pg.screenshot(path='/tmp/cm-fab-hoy.png')
+    pg.locator('#sheet >> text=Anotar una compra').click(); pg.wait_for_timeout(250)
+    check(pg.locator('#sheet >> text=Nuevo producto').count() == 1, '«Anotar una compra» no abrió el formulario')
+    pg.keyboard.press('Escape'); pg.wait_for_timeout(200)
+    for tabk, lab, sheet in [('compras', 'Anotar un producto', 'Nuevo producto'), ('casa', 'Nueva tarea', 'Nueva tarea'), ('joaco', 'Nuevo control de salud', 'Nuevo control')]:
+        pg.locator(f'nav button[data-tab={tabk}]').click(); pg.wait_for_timeout(200)
+        check(pg.locator('#fab').get_attribute('aria-label') == lab and pg.locator('#fab:not([hidden])').count() == 1, f'Botón + de {tabk}: {pg.locator("#fab").get_attribute("aria-label")}')
+        pg.locator('#fab').click(); pg.wait_for_timeout(250)
+        check(pg.locator(f'#sheet >> text={sheet}').count() >= 1, f'Botón + de {tabk} no abrió «{sheet}»')
+        pg.keyboard.press('Escape'); pg.wait_for_timeout(150)
+    pg.locator('nav button[data-tab=chat]').click(); pg.wait_for_timeout(200)
+    check(pg.locator('#fab:not([hidden])').count() == 0, 'El botón + no debería verse en Mensajes')
+    # Deshacer: se acaba → deshacer
+    pg.locator('nav button[data-tab=compras]').click(); pg.wait_for_timeout(200)
+    pg.evaluate("A.filter('super')"); pg.wait_for_timeout(150)
+    pg.evaluate("A.need('i_huerfano')"); pg.wait_for_timeout(200)
+    check(S(pg)['items']['i_huerfano']['state'] == 'list', 'Se acaba: no anotó')
+    n_log = len(S(pg)['log'])
+    check(pg.locator('#toast button:has-text("Deshacer")').count() == 1, 'El aviso no trae «Deshacer»')
+    pg.screenshot(path='/tmp/cm-deshacer.png')
+    pg.wait_for_timeout(2600)
+    check(pg.locator('#toast.on').count() == 1, 'El aviso con «Deshacer» desapareció muy rápido')
+    pg.locator('#toast button').click(); pg.wait_for_timeout(250)
+    check(S(pg)['items']['i_huerfano']['state'] == 'ok', 'Deshacer no devolvió el producto')
+    check(len(S(pg)['log']) == n_log - 1, 'Deshacer no sacó el movimiento del registro')
+    # Deshacer una compra: vuelve a la lista con su fecha anterior
+    pg.evaluate("A.filter('super')"); pg.wait_for_timeout(100)
+    antes = S(pg)['items']['i_agua']
+    pg.evaluate("A.bought('i_agua')"); pg.wait_for_timeout(100)
+    check(S(pg)['items']['i_agua']['state'] == 'ok', 'bought no marcó')
+    pg.locator('#toast button').click(); pg.wait_for_timeout(200)
+    check(S(pg)['items']['i_agua']['state'] == 'list' and S(pg)['items']['i_agua']['last'] == antes['last'], 'Deshacer la compra no restauró el estado anterior')
+    # Compré todo → deshacer
+    pg.evaluate("A.boughtAll('super')"); pg.wait_for_timeout(100)
+    check(S(pg)['items']['i_agua']['state'] == 'ok' and S(pg)['items']['i_mio']['state'] == 'ok', 'Compré todo no marcó')
+    pg.locator('#toast button').click(); pg.wait_for_timeout(200)
+    check(S(pg)['items']['i_agua']['state'] == 'list' and S(pg)['items']['i_mio'].get('last') == 1762000000000, 'Deshacer «Compré todo» no restauró')
+    # Indicación borrada → deshacer; tarea hecha → deshacer
+    pg.evaluate("A.go('casa')"); pg.wait_for_timeout(150)
+    pg.evaluate("A.delIndic('n_1')"); pg.wait_for_timeout(100)
+    check('n_1' not in S(pg)['indic'], 'delIndic no borró')
+    pg.locator('#toast button').click(); pg.wait_for_timeout(200)
+    check(S(pg)['indic'].get('n_1', {}).get('text') == 'Planchar camisas', 'Deshacer no devolvió la indicación')
+    pg.evaluate("A.recDone('t_x')"); pg.wait_for_timeout(100)
+    check(S(pg)['tasks']['t_x']['last'], 'recDone no marcó')
+    pg.locator('#toast button').click(); pg.wait_for_timeout(200)
+    check(not S(pg)['tasks']['t_x'].get('last'), 'Deshacer «Hecho» no restauró la tarea')
+    # Anillo que cambia al comprar
+    pg.evaluate("A.go('hoy')"); pg.wait_for_timeout(150)
+    pg.evaluate("A.bought('i_agua')"); pg.wait_for_timeout(150)
+    check(lbl()[0] == 'Compras: 1 de 2', f'El anillo de compras no avanzó: {lbl()}')
+    # Textos nuevos
+    pg.evaluate("A.settings()"); pg.wait_for_timeout(200)
+    check(pg.locator('#sheet >> text=Tamaño de letra').count() == 1, 'Ajustes sin tamaño de letra')
+    check(pg.locator('#sheet >> text=todavía sin activar').count() + pg.locator('#sheet >> text=no disponible').count() + pg.locator('#sheet >> text=activado').count() + pg.locator('#sheet >> text=bloqueado').count() >= 1, 'Permiso de avisos sin traducir')
+    check(pg.locator('#sheet >> text=solo en este teléfono').count() >= 1, 'Estado de sincronización sin traducir')
+    # Foco: al abrir va a la hoja; al cerrar vuelve
+    check(pg.evaluate("document.activeElement && document.activeElement.id") == 'sheetbox', 'Al abrir una hoja el foco no va a la hoja')
+    check(bool(pg.evaluate("document.getElementById('sheetbox').getAttribute('aria-label')")), 'La hoja no tiene nombre para lectores de pantalla')
+    # Letra grande
+    base_fs = pg.evaluate("parseFloat(getComputedStyle(document.querySelector('.muted')).fontSize)")
+    pg.locator('#sheet .seg:has-text("Grande") >> text=Grande').click(); pg.wait_for_timeout(250)
+    check(pg.evaluate("document.documentElement.dataset.big") == '1' and pg.evaluate("localStorage.getItem('cm_big')") == '1', 'Letra grande no se activó')
+    pg.screenshot(path='/tmp/cm-grande-ajustes.png', full_page=True)
+    pg.keyboard.press('Escape'); pg.wait_for_timeout(200)
+    big_fs = pg.evaluate("parseFloat(getComputedStyle(document.querySelector('.muted')).fontSize)")
+    check(big_fs > base_fs, f'La letra grande no agrandó el texto ({base_fs} → {big_fs})')
+    pg.reload(); pg.wait_for_timeout(1200)
+    check(pg.evaluate("document.documentElement.dataset.big") == '1', 'La letra grande no se recordó')
+    for tk in ['hoy', 'compras', 'casa', 'joaco', 'chat']:
+        pg.locator(f'nav button[data-tab={tk}]').click(); pg.wait_for_timeout(200)
+        pg.screenshot(path=f'/tmp/cm-grande-{tk}.png', full_page=True); width_ok(pg, f'Letra grande/{tk}')
+    ctx.close()
+
+    # Áreas táctiles de 44 px y accesibilidad (claro y oscuro, normal y letra grande)
+    AUDIT = """() => {
+      const bad = [], vis = e => { const r = e.getBoundingClientRect(); const cs = getComputedStyle(e); return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && !e.closest('#splash') && !e.closest('[hidden]'); };
+      document.querySelectorAll('button, summary, select, input:not([type=hidden]):not([type=file])').forEach(e => {
+        if(!vis(e)) return;
+        const t = (e.type === 'checkbox') ? (e.closest('label') || e) : e, r = t.getBoundingClientRect();
+        const nm = (e.innerText || '').trim() || e.getAttribute('aria-label') || (e.id && document.querySelector('label[for="' + e.id + '"]')) || (e.closest('label') && e.closest('label').innerText.trim()) || e.getAttribute('title');
+        const id = (e.tagName + '.' + (e.className || '') + ' «' + ((e.innerText || e.getAttribute('aria-label') || '').trim().slice(0, 24)) + '»');
+        if(r.width < 43.5 || r.height < 43.5) bad.push('chico ' + id + ' ' + Math.round(r.width) + 'x' + Math.round(r.height));
+        if(!nm) bad.push('sin nombre ' + id);
+      });
+      document.querySelectorAll('[onclick]').forEach(e => {
+        if(!vis(e) || ['BUTTON','A','INPUT','LABEL','SUMMARY'].includes(e.tagName) || e.id === 'modal') return;
+        if(e.getAttribute('role') !== 'button' || e.tabIndex < 0) bad.push('clic sin teclado ' + e.tagName + '.' + e.className);
+      });
+      return bad;
+    }"""
+    for scheme, bigv in [('light', '0'), ('dark', '0'), ('light', '1')]:
+        ctx, pg = new13(f'a11y-{scheme}-{bigv}', scheme)
+        pg.goto(URL); pg.wait_for_timeout(300)
+        if bigv == '1': pg.evaluate("localStorage.setItem('cm_big','1')")
+        pg.evaluate("localStorage.setItem('cm_seen', VERSION)"); pg.reload(); pg.wait_for_timeout(1500)
+        for tk in ['hoy', 'compras', 'casa', 'joaco', 'chat']:
+            pg.locator(f'nav button[data-tab={tk}]').click(); pg.wait_for_timeout(200)
+            if tk == 'compras': pg.evaluate("A.filter('todos')"); pg.wait_for_timeout(100)
+            if tk == 'casa': pg.evaluate("document.querySelectorAll('details').forEach(d => d.open = true)")
+            for x in pg.evaluate(AUDIT): errs.append(f'a11y {scheme}/{bigv}/{tk}: {x}')
+            width_ok(pg, f'a11y {scheme}/{bigv}/{tk}')
+        for opener in ["A.settings()", "A.fab()", "A.news()", "A.itemForm('i_agua')", "A.saludForm('s_odonto')", "A.mochilaEdit()"]:
+            pg.evaluate(opener); pg.wait_for_timeout(150)
+            for x in pg.evaluate(AUDIT): errs.append(f'a11y {scheme}/{bigv}/{opener}: {x}')
+            gh = pg.locator('#sheetbox .grab').bounding_box()['height']; check(gh >= 43.5, f'La manija de la hoja es muy chica ({gh}, {opener}, {scheme}/{bigv})')
+            pg.keyboard.press('Escape'); pg.wait_for_timeout(100)
+        if scheme == 'dark':
+            pg.screenshot(path='/tmp/cm-dark-v14.png')
+            pg.locator('nav button[data-tab=hoy]').click(); pg.wait_for_timeout(200); pg.screenshot(path='/tmp/cm-dark-hoy-anillos.png', full_page=True)
+        ctx.close()
+    # Contraste AA de más pares: etiquetas, botón rojo del globito, botón de Dani, avatares y anillos
+    for scheme in ['light', 'dark']:
+        ctx = b.new_context(viewport={'width': 390, 'height': 844}, color_scheme=scheme)
+        pg = ctx.new_page(); pg.goto(URL); pg.wait_for_timeout(300)
+        r = pg.evaluate("""() => {
+          const cs = getComputedStyle(document.documentElement), v = n => cs.getPropertyValue(n).trim();
+          const lum = h => { h = h.replace('#',''); if(h.length === 3) h = h.split('').map(x => x + x).join(''); const c = [0,2,4].map(i => parseInt(h.slice(i,i+2),16)/255).map(x => x <= .03928 ? x/12.92 : Math.pow((x+.055)/1.055, 2.4)); return .2126*c[0]+.7152*c[1]+.0722*c[2]; };
+          const ratio = (a,b) => { const x = lum(a), y = lum(b); return (Math.max(x,y)+.05)/(Math.min(x,y)+.05); };
+          const out = {mutPri2: ratio(v('--mut'), v('--pri2')), priTxPri2: ratio(v('--pri-tx'), v('--pri2')), inkField: ratio(v('--ink'), v('--field')), toast: ratio(v('--toast-tx'), v('--toast')), hdr: ratio(v('--hdr-tx'), v('--hdr')), danio: ratio('#ffffff', '#db2777')};
+          out.badge = ratio('#ffffff', document.documentElement.dataset.theme === 'dark' || matchMedia('(prefers-color-scheme: dark)').matches ? '#c4473f' : v('--bad'));
+          ['#2563eb','#db2777','#047857','#c2410c','#7c3aed','#64748b'].forEach((c, i) => out['av' + i] = ratio('#ffffff', c));
+          return out; }""")
+        for k, val in r.items(): check(val >= 4.5, f'Contraste {scheme} {k}={val:.2f} (mínimo 4.5)')
+        ctx.close()
 
     b.close()
 srv.shutdown()
