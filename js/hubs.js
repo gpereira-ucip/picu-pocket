@@ -201,7 +201,7 @@
     var v = $("#v-ind");
     if (!v || !D.IND) return;
     v.innerHTML = '<h2>Indicaciones y cálculos</h2><p class="sub">Para el trabajo diario en sala: balances, nutrición, analgosedación, infusiones y controles.</p>' +
-      D.IND.map(function (g) { return '<h3 class="hub-h">' + esc(g.n) + '</h3><div class="hl-l">' + g.t.map(link).join("") + "</div>"; }).join("") +
+      D.IND.map(function (g) { return '<h3 class="hub-h">' + esc(g.n) + '</h3>' + (g.t ? '<div class="hl-l">' + g.t.map(link).join("") + "</div>" : '<p class="hint">' + esc(g.pend || "") + "</p>"); }).join("") +
       '<h3 class="hub-h">En preparación</h3><div class="card"><div class="calc"><ul class="hub-ul">' +
       (D.IND_PEND || []).map(function (x) { return "<li><b>" + esc(x.n) + "</b>: " + esc(x.d) + "</li>"; }).join("") +
       '</ul><p class="hint" style="margin:8px 0 0">Contenido pendiente de redacción y validación por el servicio. No se agregan indicaciones ni periodicidades sin esa revisión.</p></div></div>' + NOTE;

@@ -806,12 +806,18 @@ window.ARUCIP_DATA = (function () {
 
 
   /* ---------- INDICACIONES Y CÁLCULOS: acceso diario a lo que la app ya tiene ---------- */
+  /* Orden pedido por Gonzalo (9/11): cuidados generales · EAB y respirador · inotrópicos · analgosedación · antibióticos · resto.
+     Los grupos con "pend" son secciones que redacta y valida el servicio (⚕): se muestran como «en preparación». */
   var IND = [
-    { n: "Todo el día a día", t: ["x:calc", "x:ck", "x:pocus"] },
-    { n: "Balance, medio interno y riñón", t: ["c:elec", "t:natr", "t:eab", "t:gfr", "c:hk", "c:sc"] },
-    { n: "Nutrición y glucemia", t: ["c:leche", "c:hg", "t:gluc", "t:antro"] },
+    { n: "Cuidados generales", pend: "⚕ Pendiente de redacción y validación por el servicio (cabecera, protecciones, protección gástrica, etc.)." },
+    { n: "Estado ácido-base (EAB) y electrolitos", t: ["t:eab", "c:elec", "t:lact"] },
+    { n: "Setting del respirador", t: ["t:pards", "t:peep", "t:irab", "t:vchg", "t:vdvt", "t:vafo", "t:asinc"] },
+    { n: "Inotrópicos y vasoactivos", t: ["c:inf", "t:ccv", "t:vis"] },
     { n: "Analgosedación", t: ["c:sed", "c:opi", "c:int", "t:analgo", "t:wat", "t:comfb"] },
-    { n: "Infusiones y vasoactivos", t: ["c:inf", "t:ccv", "t:lact"] },
+    { n: "Antibióticos", pend: "⚕ Pendiente de redacción y validación por el servicio (antibióticos según fiebre y estado del paciente)." },
+    { n: "Balance y riñón", t: ["t:natr", "t:gfr", "c:hk", "c:sc"] },
+    { n: "Nutrición y glucemia", t: ["c:leche", "c:hg", "t:gluc", "t:antro"] },
+    { n: "Todo el día a día", t: ["x:calc", "x:ck", "x:pocus"] },
     { n: "Peso, dosis y medicación", t: ["c:age", "x:cards", "x:bib"] },
     { n: "Pase, traslado y escalas", t: ["k:ipass", "k:tras", "t:pelod", "t:pim3"] }
   ];

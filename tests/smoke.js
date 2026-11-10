@@ -38,7 +38,7 @@ const ok = (c, m) => { console.log((c ? "OK   " : "FALLA") + " " + m); if (!c) f
       if (!k) out.push(c + " " + r);
     };
     D.CASES.forEach((c) => c.t.forEach((r) => chk(c.id, r)));
-    D.IND.forEach((g) => g.t.forEach((r) => chk("IND", r)));
+    D.IND.forEach((g) => (g.t || []).forEach((r) => chk("IND", r)));
     D.SYS.forEach((s) => s.t.forEach((r) => chk("SYS " + s.id, r)));
     const ids = new Set(D.CASES.map((c) => c.id));
     Object.keys(D.SYMP).forEach((s) => D.SYMP[s].forEach((i) => { if (!ids.has(i)) out.push("SYMP " + s + " " + i); }));
