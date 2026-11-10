@@ -7,6 +7,8 @@ Levanta un servidor local, abre la app en un celular simulado (390x844) y recorr
   3. Accesos directos del ícono (?go=chat, ?go=anotar).
   4. Vista de Daniela.
   5. Diseño: íconos SVG, avatares, contraste AA y modo oscuro (automático y manual), con capturas /tmp/cm-dark-*.png.
+  6. Movimiento (v1.3.0): globitos e indicador de la barra, mensajes sin leer, tilde y confeti, vibración,
+     cerrar hojas deslizando (toques reales), estados vacíos y datos de v1.2.0 que siguen intactos.
 Falla si hay errores de JavaScript o de consola, o si la página se ensancha más de 390 px.
 Guarda capturas en /tmp/cm-*.png para revisarlas.
 """
@@ -111,7 +113,7 @@ with sync_playwright() as p:
     pg.locator('section.card input[type=checkbox]').first.click(); pg.wait_for_timeout(200)
     it = S(pg)['items'][listed[0]['id']] if listed else {}
     check(it.get('state') == 'ok' and it.get('last'), 'Marcar comprado no registró la compra')
-    check(pg.locator('nav >> text=Compras').inner_text().strip().endswith('Compras'), 'El contador de compras no se actualizó')
+    check(pg.locator('nav button[data-tab=compras] .badge').count() == 0, 'El globito de compras no se actualizó')
 
     # Casa: ciclo del lavavajillas y tarea que se repite
     pg.locator('nav >> text=Casa').click(); pg.wait_for_timeout(200)
@@ -258,6 +260,100 @@ with sync_playwright() as p:
     pg.locator('#who').click(); pg.wait_for_timeout(200)
     pg.locator('#sheet .seg >> text=Automático').click(); pg.wait_for_timeout(200)
     check(pg.evaluate("document.documentElement.dataset.theme") is None and pg.evaluate("localStorage.getItem('cm_theme')") is None, '«Automático» no volvió al tema del teléfono')
+    ctx.close()
+
+    # ---------- 6. Movimiento y festejo (v1.3.0) ----------
+    V12 = json.loads(json.dumps(OLD)); V12['_v'] = 1
+    V12['checks']['daniela'] = {'id': 'daniela', 'next': '', 'hours': '', 'coord': 'dani', 'note': ''}
+    V12['indic']['n_1']['kind'] = 'tarea'
+    V12['weeks']['base']['days'].update({'3': {'lleva': 'gonzalo', 'busca': 'gonzalo'}, '4': {'lleva': 'gonzalo', 'busca': 'gonzalo'}, '5': {'lleva': 'dani', 'busca': 'dani'}})
+    V12['msgs']['m_2'] = {'id': 'm_2', 'text': 'Mensaje de Dani sin leer', 'at': 1762500000000, 'by': 'dani'}
+    init12 = f"""if(!sessionStorage.getItem('seeded')){{ sessionStorage.setItem('seeded','1');
+      localStorage.setItem('cm_data', {json.dumps(json.dumps(V12))}); localStorage.setItem('cm_me','gonzalo'); localStorage.setItem('cm_seen','1.2.0'); localStorage.setItem('cm_read','1762000000001');
+      window.__vib = []; navigator.vibrate = p => {{ window.__vib.push(p); return true; }}; }}
+      else {{ window.__vib = []; navigator.vibrate = p => {{ window.__vib.push(p); return true; }}; }}"""
+    ctx = b.new_context(viewport={'width': 390, 'height': 844}, has_touch=True)
+    ctx.add_init_script(init12)
+    pg = ctx.new_page()
+    pg.on('pageerror', lambda e: errs.append(f'[v1.3] JS: {e}'))
+    pg.on('console', lambda m: errs.append(f'[v1.3] consola: {m.text}') if m.type == 'error' else None)
+    pg.goto(URL); pg.wait_for_timeout(2200)
+    d = S(pg)
+    check(d == V12, 'Datos de v1.2.0: cambiaron al cargar la versión nueva')
+    # Hoja de Novedades: se cierra deslizando hacia abajo con toques reales
+    check(pg.locator('#sheet >> text=Novedades y progreso').count() > 0, 'v1.3: no se abrió Novedades')
+    check(pg.locator('#sheetbox .grab').count() == 1, 'La hoja no tiene manija')
+    cdp = ctx.new_cdp_session(pg)
+    box = pg.locator('#sheetbox').bounding_box()
+    x, y = 195, box['y'] + 20
+    cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': [{'x': x, 'y': y}]})
+    for k in range(1, 9):
+        cdp.send('Input.dispatchTouchEvent', {'type': 'touchMove', 'touchPoints': [{'x': x, 'y': y + k * 30}]}); pg.wait_for_timeout(16)
+    pg.screenshot(path='/tmp/cm-hoja-deslizando.png')
+    cdp.send('Input.dispatchTouchEvent', {'type': 'touchEnd', 'touchPoints': []}); pg.wait_for_timeout(450)
+    check(pg.locator('#modal.hidden').count() == 1, 'Deslizar hacia abajo no cerró la hoja')
+    # Un toque corto no la cierra
+    pg.evaluate('A.news()'); pg.wait_for_timeout(350)
+    cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': [{'x': x, 'y': y}]})
+    cdp.send('Input.dispatchTouchEvent', {'type': 'touchMove', 'touchPoints': [{'x': x, 'y': y + 25}]})
+    cdp.send('Input.dispatchTouchEvent', {'type': 'touchEnd', 'touchPoints': []}); pg.wait_for_timeout(400)
+    check(pg.locator('#modal:not(.hidden)').count() == 1, 'Un arrastre cortito cerró la hoja')
+    pg.keyboard.press('Escape'); pg.wait_for_timeout(150)
+    check(pg.locator('#modal.hidden').count() == 1, 'Escape no cerró la hoja')
+    # Globitos e indicador
+    bd = lambda k: (pg.locator(f'nav button[data-tab={k}] .badge').all_inner_texts() or ['0'])[0]
+    check(bd('chat') == '1', f'Globito de mensajes sin leer: {bd("chat")}')
+    check(bd('compras') == '2', f'Globito de compras: {bd("compras")}')
+    check(pg.locator('nav button[data-tab=chat] .vh').inner_text().strip() == ', 1 pendiente', 'Falta el texto para lectores de pantalla')
+    check(pg.locator('nav b').count() == 0, 'Globitos con <b> en la barra')
+    left0 = pg.evaluate("getComputedStyle(document.getElementById('navind')).left")
+    pg.screenshot(path='/tmp/cm-globitos.png')
+    pg.locator('nav button[data-tab=chat]').click(); pg.wait_for_timeout(450)
+    left1 = pg.evaluate("getComputedStyle(document.getElementById('navind')).left")
+    ind = pg.locator('#navind').bounding_box(); btn = pg.locator('nav button[data-tab=chat]').bounding_box()
+    check(left0 != left1 and abs((ind['x'] + ind['width'] / 2) - (btn['x'] + btn['width'] / 2)) < 2, f'El indicador no se movió a Mensajes ({left0} → {left1})')
+    check(pg.locator('nav button[data-tab=chat] .badge').count() == 0, 'El globito de mensajes no se borró al leerlos')
+    pg.locator('nav button[data-tab=hoy]').click(); pg.wait_for_timeout(200)
+    check(pg.locator('nav button[data-tab=chat] .badge').count() == 0, 'Los mensajes leídos volvieron a contarse')
+    # Tilde, vibración y confeti: comprar lo último de la lista
+    pg.locator('nav button[data-tab=compras]').click(); pg.wait_for_timeout(200)
+    pg.locator('section.card input[type=checkbox]').first.click(); pg.wait_for_timeout(250)
+    check(pg.locator('#confeti').count() == 0, 'Hubo confeti antes de terminar la lista')
+    pg.locator('section.card input[type=checkbox]').first.click(); pg.wait_for_timeout(120)
+    check(pg.locator('#confeti i').count() > 10, 'No hubo confeti al completar la lista')
+    check(pg.locator('section.card.pop').count() == 1, 'No se resaltó el negocio recién completado')
+    pg.screenshot(path='/tmp/cm-confeti.png')
+    vib = pg.evaluate('window.__vib')
+    check(15 in vib and [20, 40, 30] in vib, f'Vibración: {vib}')
+    pg.wait_for_timeout(2300)
+    check(pg.locator('#confeti').count() == 0, 'El confeti no se limpió')
+    # Etapa con tilde animada; apagar la vibración
+    pg.locator('nav button[data-tab=casa]').click(); pg.wait_for_timeout(200)
+    pg.locator('.steps button:has-text("Encender")').first.click(); pg.wait_for_timeout(100)
+    check(pg.locator('.steps button.pop').count() == 1, 'La etapa marcada no tiene la tilde animada')
+    pg.locator('#who').click(); pg.wait_for_timeout(200)
+    pg.locator('#f_vib').uncheck(); pg.wait_for_timeout(100)
+    check(pg.evaluate("localStorage.getItem('cm_vib')") == '0', 'No se guardó «sin vibración»')
+    pg.keyboard.press('Escape'); n0 = len(pg.evaluate('window.__vib'))
+    pg.evaluate("A.recDone('t_x')"); pg.wait_for_timeout(100)
+    check(len(pg.evaluate('window.__vib')) == n0, 'Vibró con la vibración apagada')
+    # Estados vacíos ilustrados
+    pg.evaluate("S.msgs = {}; S.indic = {}; S.salud = {}; render(); A.go('chat')"); pg.wait_for_timeout(150)
+    check(pg.locator('main .empty .ill svg').count() >= 1, 'Mensajes vacío sin ilustración')
+    pg.screenshot(path='/tmp/cm-vacio-chat.png')
+    pg.evaluate("A.go('casa')"); pg.wait_for_timeout(150)
+    check(pg.locator('main .empty:has-text("Sin tareas por ahora")').count() == 1, 'Indicaciones vacías sin ilustración')
+    pg.evaluate("A.go('joaco')"); pg.wait_for_timeout(150)
+    check(pg.locator('main .empty:has-text("Sin controles cargados")').count() == 1, 'Salud vacía sin ilustración')
+    width_ok(pg, 'v1.3 vacíos')
+    ctx.close()
+    # Modo oscuro de lo nuevo
+    ctx = b.new_context(viewport={'width': 390, 'height': 844}, color_scheme='dark'); ctx.add_init_script(init12)
+    pg = ctx.new_page(); pg.on('pageerror', lambda e: errs.append(f'[v1.3 oscuro] JS: {e}'))
+    pg.goto(URL); pg.wait_for_timeout(2000); pg.keyboard.press('Escape'); pg.wait_for_timeout(200)
+    pg.screenshot(path='/tmp/cm-dark-globitos.png')
+    pg.evaluate("S.msgs = {}; render(); A.go('chat')"); pg.wait_for_timeout(200)
+    pg.screenshot(path='/tmp/cm-dark-vacio.png')
     ctx.close()
 
     b.close()

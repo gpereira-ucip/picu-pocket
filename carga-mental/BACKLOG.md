@@ -17,11 +17,11 @@ Las marcadas 🔑 necesitan algo de Gonzalo (una cuenta, una clave, un dato). En
 - [x] 8. Íconos SVG propios en la barra inferior y en las secciones, en lugar de emojis. — ✔ 2026-11-09 (v1.2.0)
 - [x] 9. Avatares redondos con inicial y color por persona, en lugar de pastillas de texto. — ✔ 2026-11-09 (v1.2.0)
 - [x] 10. Modo oscuro automático (según el sistema) y manual. — ✔ 2026-11-09 (v1.2.0)
-- [ ] 11. Barra inferior con indicador activo animado y globitos con cantidad de pendientes.
-- [ ] 12. Animación de tilde al marcar y festejo sutil (confeti) al completar un ciclo o una lista.
-- [ ] 13. Vibración corta al completar algo (navigator.vibrate).
-- [ ] 14. Hojas modales que se cierran deslizando hacia abajo.
-- [ ] 15. Estados vacíos ilustrados y amables en cada sección.
+- [x] 11. Barra inferior con indicador activo animado y globitos con cantidad de pendientes. — ✔ 2026-11-10 (v1.3.0)
+- [x] 12. Animación de tilde al marcar y festejo sutil (confeti) al completar un ciclo o una lista. — ✔ 2026-11-10 (v1.3.0)
+- [x] 13. Vibración corta al completar algo (navigator.vibrate). — ✔ 2026-11-10 (v1.3.0)
+- [x] 14. Hojas modales que se cierran deslizando hacia abajo. — ✔ 2026-11-10 (v1.3.0)
+- [x] 15. Estados vacíos ilustrados y amables en cada sección. — ✔ 2026-11-10 (v1.3.0)
 - [ ] 16. Accesibilidad: contraste AA, áreas táctiles de 44 px, etiquetas ARIA y tamaño de letra grande opcional.
 - [ ] 17. Avisos (toasts) con botón "Deshacer".
 - [ ] 18. Botón flotante "+" contextual por pestaña.

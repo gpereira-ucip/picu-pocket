@@ -179,6 +179,48 @@ label.f{display:block;font-size:var(--fs-xs);color:var(--mut);margin:10px 0 3px;
 .seg button + button{border-left:1px solid var(--line2)}
 .seg button.on{background:var(--pri);color:var(--pri-on);font-weight:650}
 .seg .ic{width:16px;height:16px}
+/* ---------- v1.3.0: movimiento, festejo, hojas deslizables y estados vacíos ---------- */
+/* barra inferior: indicador animado y globitos */
+nav{display:block}
+#navbtns{display:flex;position:relative;z-index:1}
+#navind{position:absolute;top:6px;height:32px;width:56px;border-radius:var(--rp);background:var(--pri2);left:calc((100% / var(--n,5)) * (var(--i,0) + .5) - 28px);transition:left .32s cubic-bezier(.3,1.35,.5,1),opacity .2s;pointer-events:none}
+nav button .nic{position:relative;display:grid;place-items:center;height:32px;width:56px}
+.badge{position:absolute;top:-1px;right:7px;min-width:18px;height:18px;padding:0 5px;border-radius:var(--rp);background:var(--bad);color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center;font-variant-numeric:tabular-nums;box-shadow:0 0 0 2px var(--card);animation:bpop .35s cubic-bezier(.3,1.6,.5,1)}
+:root[data-theme="dark"] .badge{background:#c4473f}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .badge{background:#c4473f} }
+@keyframes bpop{from{transform:scale(.3)}to{transform:scale(1)}}
+/* tilde animada */
+@keyframes tick{0%{transform:scale(1)}35%{transform:scale(1.35)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+@keyframes glow{0%{box-shadow:0 0 0 0 var(--pri2-line)}100%{box-shadow:0 0 0 12px transparent}}
+.pop{animation:tick .42s cubic-bezier(.3,1.5,.5,1),glow .6s ease-out}
+.item.pop,.card.pop{animation:glow .7s ease-out}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* confeti */
+#confeti{position:fixed;inset:0;pointer-events:none;z-index:40;overflow:hidden}
+#confeti i{position:absolute;top:-12px;width:8px;height:12px;border-radius:2px;opacity:.95}
+/* hojas modales: entran deslizando y se cierran tirando hacia abajo */
+.sheet{position:relative;padding-top:6px;animation:sheetin .28s cubic-bezier(.2,.9,.3,1);touch-action:pan-y;overscroll-behavior:contain}
+.sheet.drag{transition:none!important;animation:none}
+.sheet.back{transition:transform .22s cubic-bezier(.2,.9,.3,1)}
+.modal{transition:background-color .2s}
+.grab{display:block;width:44px;height:5px;border-radius:var(--rp);background:var(--line2);margin:2px auto 12px;border:0;padding:0;cursor:grab}
+.grabzone{display:flex;justify-content:center;padding:6px 0 4px;margin:-6px 0 0}
+@keyframes sheetin{from{transform:translateY(100%)}to{transform:none}}
+/* estados vacíos */
+.empty{text-align:center;padding:var(--s4) var(--s3) var(--s3)}
+.empty .ill{position:relative;display:grid;place-items:center;width:84px;height:84px;margin:0 auto var(--s3)}
+.empty .ill::before{content:"";position:absolute;inset:0;border-radius:42% 58% 55% 45% / 50% 42% 58% 50%;background:var(--pri2)}
+.empty .ill::after{content:"";position:absolute;width:12px;height:12px;right:6px;top:8px;border-radius:50%;background:var(--pri2-line)}
+.empty .ill .ic{position:relative;width:40px;height:40px;color:var(--pri-tx);stroke-width:1.6}
+.empty .ill .sp{position:absolute;left:4px;bottom:12px;width:16px;height:16px;color:var(--pri-tx);opacity:.7}
+.empty b{display:block;font-size:var(--fs-md);margin-bottom:2px}
+.empty p{margin:0 auto;color:var(--mut);font-size:var(--fs-sm);max-width:280px}
+.empty .btns{justify-content:center}
+.empty.sm{display:flex;align-items:center;gap:var(--s3);text-align:left;padding:var(--s2) 0}
+.empty.sm .ill{width:48px;height:48px;margin:0}
+.empty.sm .ill .ic{width:24px;height:24px}
+.empty.sm .ill::after,.empty.sm .ill .sp{display:none}
+@media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important} }
 </style>
 </head>
 <body>
@@ -189,17 +231,24 @@ label.f{display:block;font-size:var(--fs-xs);color:var(--mut);margin:10px 0 3px;
 </header>
 <div id="sync" class="sync"></div>
 <main id="main"></main>
-<nav id="nav"></nav>
-<div id="modal" class="modal hidden" onclick="if(event.target===this)A.close()"><div class="sheet" id="sheet"></div></div>
+<nav id="nav" aria-label="Secciones"><span id="navind" aria-hidden="true"></span><div id="navbtns"></div></nav>
+<div id="modal" class="modal hidden" onclick="if(event.target===this)A.close()"><div class="sheet" id="sheetbox" role="dialog" aria-modal="true"><div class="grabzone"><button class="grab" onclick="A.close()" aria-label="Cerrar (o deslizá hacia abajo)"></button></div><div id="sheet"></div></div></div>
 <div id="toast"></div>
 
 <script>
 'use strict';
 /* ============ Constantes ============ */
-const VERSION = '1.2.0';
+const VERSION = '1.3.0';
 const SCHEMA = 1; // versión de la estructura de datos guardados (ver MIGRATIONS)
 /* Novedades: la primera es la versión actual. "hechas" = ítems del plan de 100 tildados hasta esa versión. */
 const NEWS = [
+  {v:'1.3.0', d:'2026-11-10', hechas:15, items:[
+    'La barra de abajo ahora tiene un indicador que se desliza a la sección elegida y globitos con lo pendiente: lo tuyo en Hoy, compras, tareas de la casa, cosas de Joaco y mensajes sin leer.',
+    'Cada tilde hace un pequeño salto, y al terminar un ciclo, la mochila, una compra o las indicaciones de Daniela hay un festejo con papelitos.',
+    'El teléfono vibra cortito al completar algo (se puede apagar en ⚙ Ajustes).',
+    'Las ventanas que suben desde abajo se cierran deslizándolas hacia abajo, como en cualquier app.',
+    'Cuando una sección está vacía, ahora muestra un dibujo y una frase amable en lugar de un renglón suelto.'
+  ]},
   {v:'1.2.0', d:'2026-11-09', hechas:10, items:[
     'Nuevo aspecto en tono arcilla, el mismo color del camión del logo, con tarjetas más prolijas y sombras suaves.',
     'Letra más clara y títulos con mejor jerarquía, para encontrar todo de un vistazo.',
@@ -287,6 +336,34 @@ const AV = id => id === 'ambos' ? `<span class="avs" aria-hidden="true">${AV('go
 const P = id => `<span class="pp">${AV(id)}${esc(pm(id).n)}</span>`;
 const PB = (id, onclick) => `<button class="pp" onclick="${onclick}" aria-label="${esc(pm(id).n)}: tocá para cambiar">${AV(id)}${esc(pm(id).n)}${ic('rotar')}</button>`;
 const PV = (id, onclick, what) => `<button class="pp v" onclick="${onclick}" aria-label="${what}: ${esc(pm(id).n)}. Tocá para cambiar">${AV(id)}${esc(pm(id).n)}</button>`;
+/* Festejo y movimiento (v1.3.0) */
+const calm = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+const vibOn = () => { try { return localStorage.getItem(LS.vib) !== '0'; } catch(e) { return true; } };
+function buzz(p = 15){ if(!vibOn() || !navigator.vibrate) return; try { navigator.vibrate(p); } catch(e) {} }
+let POP = '';
+const pc = k => POP === k ? ' pop' : '';
+function pop(k){ POP = k; clearTimeout(pop._t); pop._t = setTimeout(() => { POP = ''; }, 700); }
+function confetti(){
+  buzz([20, 40, 30]);
+  if(calm() || document.getElementById('confeti')) return;
+  const box = document.createElement('div'); box.id = 'confeti'; box.setAttribute('aria-hidden', 'true');
+  const cols = ['#7c5440','#c98a63','#e3ae8e','#f3c98b','#8fb996','#db2777','#2563eb'];
+  for(let i = 0; i < 36; i++){
+    const p = document.createElement('i'); const x = 10 + Math.random()*80;
+    p.style.left = x + 'vw'; p.style.background = cols[i % cols.length];
+    box.appendChild(p);
+    if(p.animate) p.animate([
+      {transform:`translate(0,0) rotate(0deg)`, opacity:1},
+      {transform:`translate(${(Math.random()-.5)*120}px, ${55 + Math.random()*40}vh) rotate(${(Math.random()-.5)*720}deg)`, opacity:0}
+    ], {duration:1100 + Math.random()*700, delay:Math.random()*200, easing:'cubic-bezier(.2,.6,.4,1)', fill:'forwards'});
+  }
+  document.body.appendChild(box); setTimeout(() => box.remove(), 2100);
+}
+/* Estados vacíos ilustrados: dibujo + título + texto amable (+ botón opcional) */
+const EMPTY_ICON = {tetoca:'tetoca', compras:'compras', chat:'chat', escoba:'escoba', reloj:'reloj', salud:'salud', calendario:'calendario', cocina:'escoba'};
+function empty(icon, title, text, btn = '', small = false){
+  return `<div class="empty${small ? ' sm' : ''}"><div class="ill">${ic(icon)}${small ? '' : ic('nuevo', 'sp')}</div><div><b>${title}</b><p>${text}</p>${btn ? `<div class="btns">${btn}</div>` : ''}</div></div>`;
+}
 function toast(t){ const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('on'), 2200); }
 
 /* ============ Datos iniciales ============ */
@@ -347,7 +424,7 @@ function seed(){
 }
 
 /* ============ Estado + persistencia local ============ */
-const LS = {data:'cm_data', me:'cm_me', cfg:'cm_fb', code:'cm_code', tab:'cm_tab', seen:'cm_seen', noInst:'cm_noinst', theme:'cm_theme'};
+const LS = {data:'cm_data', me:'cm_me', cfg:'cm_fb', code:'cm_code', tab:'cm_tab', seen:'cm_seen', noInst:'cm_noinst', theme:'cm_theme', read:'cm_read', vib:'cm_vib'};
 /* Migraciones: cada número lleva los datos de la versión anterior a esa. Nunca borran nada:
    solo completan lo que falta. Antes de migrar se guarda una copia en cm_backup_v{n}. */
 const MIGRATIONS = {
@@ -511,8 +588,8 @@ function status(p, date){
 /* ============ Acciones ============ */
 const A = {
   go(t){ tab = t; localStorage.setItem(LS.tab, t); render(); scrollTo(0,0); },
-  close(){ $('#modal').classList.add('hidden'); },
-  open(html){ $('#sheet').innerHTML = html; $('#modal').classList.remove('hidden'); },
+  close(){ $('#modal').classList.add('hidden'); const b = $('#sheetbox'); b.style.transform = ''; b.classList.remove('drag','back'); $('#modal').style.backgroundColor = ''; },
+  open(html){ $('#sheet').innerHTML = html; const b = $('#sheetbox'); b.style.transform = ''; b.scrollTop = 0; $('#modal').classList.remove('hidden'); },
 
   setMe(p){ const first = !me; me = p; localStorage.setItem(LS.me, p); if(p === 'daniela') tab = 'daniela'; A.close(); render(); if(first) setTimeout(maybeNews, 300); },
 
@@ -550,15 +627,18 @@ const A = {
     try { if(k === 'auto') localStorage.removeItem(LS.theme); else localStorage.setItem(LS.theme, k); } catch(e) {}
     applyTheme(); A.settings();
   },
+  setVib(on){ try { localStorage.setItem(LS.vib, on ? '1' : '0'); } catch(e) {} if(on) buzz(25); toast(on ? 'Vibración activada' : 'Vibración apagada'); },
   hideInstall(){ try { localStorage.setItem(LS.noInst, '1'); } catch(e) {} render(); toast('Lo encontrás en ⚙ cuando quieras'); },
 
   // Compras
   filter(s){ storeFilter = s; render(); },
   need(id){ const i = S.items[id]; i.state = 'list'; put('items', i, `anotó ${i.name} (${S.stores[i.store]?.name})`); toast('Agregado a la lista'); },
-  bought(id){ const i = S.items[id]; i.state = 'ok'; i.last = Date.now(); i.lastBy = me; put('items', i, `compró ${i.name}`); toast('¡Comprado! ✔'); },
+  bought(id){ const i = S.items[id]; i.state = 'ok'; i.last = Date.now(); i.lastBy = me; buzz(); pop('s:' + i.store); put('items', i, `compró ${i.name}`);
+    const quedan = Object.values(S.items).filter(x => x.store === i.store && needs(x)).length;
+    if(!quedan){ confetti(); toast(`¡Lista de ${S.stores[i.store]?.name || 'compras'} completa! 🎉`); } else toast('¡Comprado! ✔'); },
   unlist(id){ const i = S.items[id]; i.state = 'ok'; if(isDue(i)) i.last = Date.now(); put('items', i, `sacó ${i.name} de la lista`); },
   allList(sid){ Object.values(S.items).filter(i => i.store === sid).forEach(i => { i.state = 'list'; i.at = Date.now(); i.by = me; S.items[i.id] = i; if(fs) remotePath('items').doc(i.id).set(clean(i)); }); save(); logAct(`armó el pedido habitual de ${S.stores[sid].name}`); render(); },
-  boughtAll(sid){ Object.values(S.items).filter(i => i.store === sid && needs(i)).forEach(i => { i.state = 'ok'; i.last = Date.now(); i.lastBy = me; i.at = Date.now(); i.by = me; if(fs) remotePath('items').doc(i.id).set(clean(i)); }); save(); logAct(`hizo la compra de ${S.stores[sid].name}`); render(); toast('Compra registrada ✔'); },
+  boughtAll(sid){ Object.values(S.items).filter(i => i.store === sid && needs(i)).forEach(i => { i.state = 'ok'; i.last = Date.now(); i.lastBy = me; i.at = Date.now(); i.by = me; if(fs) remotePath('items').doc(i.id).set(clean(i)); }); save(); logAct(`hizo la compra de ${S.stores[sid].name}`); pop('s:' + sid); render(); confetti(); toast('Compra registrada ✔ 🎉'); },
   cycleStore(sid){ const s = S.stores[sid]; const o = ['gonzalo','dani','ambos']; s.owner = o[(o.indexOf(s.owner)+1) % o.length]; put('stores', s, `ahora ${M[s.owner].n} se encarga de ${s.name}`); },
   share(sid){
     const s = S.stores[sid]; const list = Object.values(S.items).filter(i => i.store === sid && needs(i));
@@ -586,12 +666,12 @@ const A = {
   // Casa
   step(tid, k){
     const t = S.tasks[tid]; t.cur = t.cur || {};
-    if(t.cur[k]) delete t.cur[k]; else t.cur[k] = {by:me, at:Date.now()};
+    if(t.cur[k]) delete t.cur[k]; else { t.cur[k] = {by:me, at:Date.now()}; buzz(); pop(`st:${tid}:${k}`); }
     const all = t.steps.every((_, i) => t.cur[i]);
-    if(all){ t.lastDone = {at:Date.now(), by:me, who:Object.values(t.cur).map(x => x.by)}; t.cur = {}; put('tasks', t, `completó ${t.name} ✔`); toast(`${t.name}: ciclo completo 🎉`); }
+    if(all){ t.lastDone = {at:Date.now(), by:me, who:Object.values(t.cur).map(x => x.by)}; t.cur = {}; pop('cy:' + tid); put('tasks', t, `completó ${t.name} ✔`); confetti(); toast(`${t.name}: ciclo completo 🎉`); }
     else put('tasks', t, t.cur[k] ? `${t.name}: ${t.steps[k].toLowerCase()} ✔` : null);
   },
-  recDone(tid){ const t = S.tasks[tid]; t.last = Date.now(); t.lastBy = me; put('tasks', t, `hizo: ${t.name}`); toast('Hecho ✔'); },
+  recDone(tid){ const t = S.tasks[tid]; t.last = Date.now(); t.lastBy = me; buzz(); pop('r:' + tid); put('tasks', t, `hizo: ${t.name}`); toast('Hecho ✔'); },
   cycleTask(tid){ const t = S.tasks[tid]; const o = ['gonzalo','dani','ambos']; t.owner = o[(o.indexOf(t.owner)+1) % o.length]; put('tasks', t, `${t.name} → ${M[t.owner].n}`); },
   taskForm(){
     A.open(`<h3>Nueva tarea</h3>
@@ -616,7 +696,8 @@ const A = {
     const el = $('#in_' + kind); const text = el.value.trim(); if(!text) return;
     el.value = ''; put('indic', {id:'n_'+uid(), text, kind, done:false, created:Date.now()}, `dejó para Daniela: ${text}`);
   },
-  toggleIndic(id){ const n = S.indic[id]; n.done = !n.done; n.doneAt = n.done ? Date.now() : null; put('indic', n, n.done ? `Daniela: hecho «${n.text}»` : null); },
+  toggleIndic(id){ const n = S.indic[id]; n.done = !n.done; n.doneAt = n.done ? Date.now() : null; if(n.done){ buzz(); pop('n:' + id); } put('indic', n, n.done ? `Daniela: hecho «${n.text}»` : null);
+    if(n.done && !Object.values(S.indic).some(x => !x.done)){ confetti(); toast('¡Todo hecho! Gracias 🙌'); } },
   delIndic(id){ del('indic', id); },
   clearIndic(){ Object.values(S.indic).filter(n => n.done).forEach(n => del('indic', n.id)); },
   danielaForm(){
@@ -651,7 +732,7 @@ const A = {
   tueNight(monStr){ const w = weekCfg(parseDk(monStr)); w.tueNight = !w.tueNight; put('weeks', w, w.tueNight ? 'marcó guardia el martes de noche' : 'sacó la guardia del martes'); },
   office(monStr, dow){ const w = weekCfg(parseDk(monStr)); w.office = w.office || []; const i = w.office.indexOf(dow); if(i >= 0) w.office.splice(i,1); else w.office.push(dow); put('weeks', w, `Dani: ${DOWL[dow]} ${i >= 0 ? 'home office' : 'oficina'}`); },
   setBase(dow, field){ const b = S.weeks.base; const o = ['gonzalo','dani','abuelos']; b.days[dow][field] = o[(o.indexOf(b.days[dow][field])+1) % o.length]; put('weeks', b, `cambió la semana tipo (${DOWL[dow]})`); },
-  mochila(k){ const c = S.checks.mochila; if(c.date !== dk()){ c.date = dk(); c.done = {}; } if(c.done[k]) delete c.done[k]; else c.done[k] = me; const all = c.list.every((_, i) => c.done[i]); put('checks', c, all ? 'dejó lista la mochila de Joaco 🎒' : null); },
+  mochila(k){ const c = S.checks.mochila; if(c.date !== dk()){ c.date = dk(); c.done = {}; } if(c.done[k]) delete c.done[k]; else { c.done[k] = me; buzz(); pop('m:' + k); } const all = c.list.every((_, i) => c.done[i]); put('checks', c, all ? 'dejó lista la mochila de Joaco 🎒' : null); if(all && c.done[k]){ confetti(); toast('¡Mochila lista! 🎒'); } },
   mochilaEdit(){
     const c = S.checks.mochila;
     A.open(`<h3>Checklist de la mochila</h3><p class="muted">Un ítem por renglón. Podés agregar cosas por día, ej: "Mar: ropa de Educación Física".</p>
@@ -698,6 +779,7 @@ const A = {
       <h3 class="sec">${hic('tema')} Apariencia</h3>
       <div class="seg" role="group" aria-label="Tema">${[['auto','tema','Automático'],['light','sol','Claro'],['dark','luna','Oscuro']].map(([k, i, l]) => `<button class="${theme() === k ? 'on' : ''}" aria-pressed="${theme() === k}" onclick="A.setTheme('${k}')">${ic(i)}${l}</button>`).join('')}</div>
       <p class="muted">Automático sigue el modo del teléfono.</p>
+      <label class="item"><input type="checkbox" id="f_vib" ${vibOn() ? 'checked' : ''} onchange="A.setVib(this.checked)"><div class="t">Vibrar cortito al completar algo</div></label>
 
       <h3 class="sec">${hic('nube')} Sincronizar con la familia</h3>
       <p class="muted">Estado: <b>${syncState}</b>. Pegá la configuración de Firebase (ver README) y un código de hogar. Después mandale la invitación a Dani y a Daniela.</p>
@@ -779,7 +861,22 @@ function vHoy(){
     ${S.checks.daniela?.next === dk() ? `<div class="item"><span>${P('daniela')}</span><div class="t meta">Viene hoy ${esc(S.checks.daniela.hours)}</div></div>` : ''}
   </div>`;
 
-  // Te toca
+  const todo = todoList(now, j);
+  const mineL = todo.filter(x => mine(x.own)), rest = todo.filter(x => !mine(x.own));
+  const row = x => `<div class="item"><div class="t" ${x.go ? `onclick="${x.go}"` : ''}>${x.html}</div><span title="${esc(pm(x.own).n)}" aria-label="${esc(pm(x.own).n)}">${AV(x.own)}</span>${x.btn || ''}</div>`;
+  h += `<div class="card"><h3>${hic('tetoca')} Te toca</h3>${mineL.length ? mineL.map(row).join('') : empty('tetoca', 'Nada pendiente para vos', 'Disfrutá el rato libre. Si surge algo, aparece acá solo.')}</div>`;
+  if(rest.length) h += `<div class="card"><h3>${hic('otros')} Lo de los demás</h3>${rest.map(row).join('')}</div>`;
+
+  if(!isStandalone() && !localStorage.getItem(LS.noInst)) h += `<div class="card install"><h3>${hic('telefono')} Instalá Carga Mental</h3><p class="muted">Tenela a un toque en el teléfono, con el ícono del camión.</p><div class="btns"><button class="pri" onclick="A.install()">Instalar</button><button onclick="A.installHelp()">Cómo se hace</button><button onclick="A.hideInstall()">Ahora no</button></div></div>`;
+
+  const logs = Object.values(S.log).sort((a,b) => b.at - a.at).slice(0, 10);
+  h += `<div class="card"><h3>${hic('reloj')} Últimos movimientos</h3>${logs.length ? logs.map(l => `<div class="log">${AV(l.by)}<div><b>${esc(pm(l.by).n)}</b> ${esc(l.act)} <span class="meta">· ${ago(l.at)}</span></div></div>`).join('') : empty('reloj', 'Todavía no hay movimientos', 'Cuando alguien anote una compra o termine una tarea, lo vas a ver acá.', '', true)}</div>`;
+  h += verLink();
+  return h;
+}
+
+/* Lo pendiente de hoy, de todos. Lo usan «Te toca» y los globitos de la barra inferior. */
+function todoList(now = new Date(), j = joacoDay(now)){
   const todo = [];
   sorted('stores').forEach(s => { const n = Object.values(S.items).filter(i => i.store === s.id && needs(i)); if(n.length) todo.push({own:s.owner, html:`${s.icon} <b>${esc(s.name)}</b>: ${n.length} para comprar`, go:`A.filter('${s.id}');A.go('compras')`}); });
   sorted('tasks').forEach(t => {
@@ -793,18 +890,22 @@ function vHoy(){
   if(j){ const c = S.checks.mochila, done = c.date === dk() ? Object.keys(c.done).length : 0; if(done < c.list.length) todo.push({own:j.lleva, html:`🎒 Mochila de Joaco ${done}/${c.list.length}`, go:`A.go('joaco')`}); }
   const pend = Object.values(S.indic).filter(n => !n.done).length;
   if(S.checks.daniela?.next && daysTo(S.checks.daniela.next) >= 0 && daysTo(S.checks.daniela.next) <= 2) todo.push({own:S.checks.daniela.coord, html:`🧹 Daniela viene ${fdate(S.checks.daniela.next)} · ${pend} indicaciones`, go:`A.go('casa')`});
+  return todo;
+}
 
-  const mineL = todo.filter(x => mine(x.own)), rest = todo.filter(x => !mine(x.own));
-  const row = x => `<div class="item"><div class="t" ${x.go ? `onclick="${x.go}"` : ''}>${x.html}</div><span title="${esc(pm(x.own).n)}" aria-label="${esc(pm(x.own).n)}">${AV(x.own)}</span>${x.btn || ''}</div>`;
-  h += `<div class="card"><h3>${hic('tetoca')} Te toca</h3>${mineL.length ? mineL.map(row).join('') : '<p class="muted">Nada pendiente para vos 🙌</p>'}</div>`;
-  if(rest.length) h += `<div class="card"><h3>${hic('otros')} Lo de los demás</h3>${rest.map(row).join('')}</div>`;
-
-  if(!isStandalone() && !localStorage.getItem(LS.noInst)) h += `<div class="card install"><h3>${hic('telefono')} Instalá Carga Mental</h3><p class="muted">Tenela a un toque en el teléfono, con el ícono del camión.</p><div class="btns"><button class="pri" onclick="A.install()">Instalar</button><button onclick="A.installHelp()">Cómo se hace</button><button onclick="A.hideInstall()">Ahora no</button></div></div>`;
-
-  const logs = Object.values(S.log).sort((a,b) => b.at - a.at).slice(0, 10);
-  h += `<div class="card"><h3>${hic('reloj')} Últimos movimientos</h3>${logs.length ? logs.map(l => `<div class="log">${AV(l.by)}<div><b>${esc(pm(l.by).n)}</b> ${esc(l.act)} <span class="meta">· ${ago(l.at)}</span></div></div>`).join('') : '<p class="muted">Todavía no hay movimientos.</p>'}</div>`;
-  h += verLink();
-  return h;
+/* Globitos de la barra inferior: cuántas cosas pendientes hay en cada sección. */
+function badges(){
+  const b = {};
+  b.hoy = me ? todoList().filter(x => mine(x.own)).length : 0;
+  b.compras = Object.values(S.items).filter(needs).length;
+  b.casa = Object.values(S.tasks).filter(t => (t.kind === 'rec' && recDue(t)) || (t.kind === 'cycle' && Object.keys(t.cur || {}).length)).length;
+  const now = new Date(), j = joacoDay(now), c = S.checks.mochila;
+  b.joaco = Object.values(S.salud).filter(s => (s.next && daysTo(s.next) < 0) || (!s.next && s.every && (!s.last || s.every + daysTo(s.last) <= 30))).length
+    + (j && c && (c.date === dk() ? Object.keys(c.done).length : 0) < c.list.length ? 1 : 0);
+  let read = 0; try { read = +localStorage.getItem(LS.read) || 0; } catch(e) {}
+  b.chat = Object.values(S.msgs).filter(m => m.by !== me && (m.at || 0) > read).length;
+  b.daniela = Object.values(S.indic).filter(n => !n.done).length;
+  return b;
 }
 
 function vCompras(){
@@ -813,8 +914,8 @@ function vCompras(){
   stores.filter(s => storeFilter === 'todos' || storeFilter === s.id).forEach(s => {
     const its = Object.values(S.items).filter(i => i.store === s.id).sort((a,b) => a.name.localeCompare(b.name));
     const need = its.filter(needs), rest = its.filter(i => !needs(i));
-    h += `<section class="card"><div class="row"><h3>${s.icon} ${esc(s.name)}</h3>${PB(s.owner, `A.cycleStore('${s.id}')`)}</div><div class="sub">${esc(s.how)} · se encarga ${esc(M[s.owner].n)}</div>
-      ${need.length ? need.map(i => `<div class="item"><input type="checkbox" onchange="A.bought('${i.id}')" aria-label="Comprado"><div class="t" onclick="A.itemForm('${i.id}')"><div>${esc(i.name)}</div><div class="meta">${i.state === 'list' ? `anotado por ${esc(M[i.by]?.n || '—')}` : `<span class="tag w">toca reponer</span> última ${ago(i.last)}`}${i.note ? ' · ' + esc(i.note) : ''}</div></div><button class="b sm" onclick="A.unlist('${i.id}')">✕</button></div>`).join('') : '<p class="muted">Nada para comprar 👌</p>'}
+    h += `<section class="card${pc('s:' + s.id)}"><div class="row"><h3>${s.icon} ${esc(s.name)}</h3>${PB(s.owner, `A.cycleStore('${s.id}')`)}</div><div class="sub">${esc(s.how)} · se encarga ${esc(M[s.owner].n)}</div>
+      ${need.length ? need.map(i => `<div class="item"><input type="checkbox" onchange="A.bought('${i.id}')" aria-label="Comprado"><div class="t" onclick="A.itemForm('${i.id}')"><div>${esc(i.name)}</div><div class="meta">${i.state === 'list' ? `anotado por ${esc(M[i.by]?.n || '—')}` : `<span class="tag w">toca reponer</span> última ${ago(i.last)}`}${i.note ? ' · ' + esc(i.note) : ''}</div></div><button class="b sm" onclick="A.unlist('${i.id}')">✕</button></div>`).join('') : empty('compras', 'Nada para comprar', 'La despensa está al día. Si algo se acaba, tocá «Se acaba».', '', true)}
       <details ${need.length ? "" : "open"}><summary>Habituales (${rest.length})</summary>${rest.map(i => `<div class="item"><div class="t" onclick="A.itemForm('${i.id}')"><div>${esc(i.name)}</div><div class="meta">cada ${i.every} días · última ${ago(i.last)}${i.lastBy ? ' (' + esc(M[i.lastBy]?.n) + ')' : ''}</div></div><button class="b sm" onclick="A.need('${i.id}')">Se acaba</button></div>`).join('')}</details>
       <div class="btns"><button onclick="A.share('${s.id}')">📲 Mandar lista</button>${need.length > 1 ? `<button onclick="A.boughtAll('${s.id}')">✔ Compré todo</button>` : ''}<button onclick="A.allList('${s.id}')">Pedido habitual</button><button onclick="A.itemForm(null,'${s.id}')">+ Producto</button></div></section>`;
   });
@@ -828,12 +929,13 @@ function vCasa(){
   h += `<h2>${hic('ciclo')} Tareas con etapas</h2>`;
   sorted('tasks').filter(t => t.kind === 'cycle').forEach(t => {
     const cur = t.cur || {}, nx = t.steps.findIndex((_, i) => !cur[i]);
-    h += `<div class="card"><div class="row"><h3>${t.icon} ${esc(t.name)}</h3>${PB(t.owner, `A.cycleTask('${t.id}')`)}</div>
-      <div class="steps">${t.steps.map((s, i) => `<button class="${cur[i] ? 'done' : i === nx ? 'next' : ''}" onclick="A.step('${t.id}',${i})">${cur[i] ? '✔ ' : ''}${esc(s)}<small>${cur[i] ? esc(M[cur[i].by]?.n) + ' · ' + ago(cur[i].at) : '&nbsp;'}</small></button>`).join('')}</div>
+    h += `<div class="card${pc('cy:' + t.id)}"><div class="row"><h3>${t.icon} ${esc(t.name)}</h3>${PB(t.owner, `A.cycleTask('${t.id}')`)}</div>
+      <div class="steps">${t.steps.map((s, i) => `<button class="${cur[i] ? 'done' : i === nx ? 'next' : ''}${pc(`st:${t.id}:${i}`)}" aria-pressed="${!!cur[i]}" onclick="A.step('${t.id}',${i})">${cur[i] ? '✔ ' : ''}${esc(s)}<small>${cur[i] ? esc(M[cur[i].by]?.n) + ' · ' + ago(cur[i].at) : '&nbsp;'}</small></button>`).join('')}</div>
       <div class="sub" style="margin-top:6px">Último ciclo completo: ${t.lastDone ? ago(t.lastDone.at) + ' · ' + [...new Set(t.lastDone.who || [t.lastDone.by])].map(p => M[p]?.n).join(' y ') : 'todavía no'}${t.id.startsWith('t_') && !['t_lava','t_ropa'].includes(t.id) ? ` · <a href="#" onclick="A.delTask('${t.id}');return false">borrar</a>` : ''}</div></div>`;
   });
 
-  h += `<h2>${hic('calendario')} Tareas que se repiten</h2><div class="card">${sorted('tasks').filter(t => t.kind === 'rec').map(t => `<div class="item"><div class="t"><div>${t.icon} ${esc(t.name)}</div><div class="meta">cada ${t.every} día${t.every > 1 ? 's' : ''} · ${t.last ? ago(t.last) + ' (' + esc(M[t.lastBy]?.n || '') + ')' : 'sin registro'} ${recDue(t) ? '<span class="tag w">toca</span>' : '<span class="tag">al día</span>'}</div></div>${PB(t.owner, `A.cycleTask('${t.id}')`)}<button class="b sm" onclick="A.recDone('${t.id}')">Hecho</button></div>`).join('')}
+  const recs = sorted('tasks').filter(t => t.kind === 'rec');
+  h += `<h2>${hic('calendario')} Tareas que se repiten</h2><div class="card">${recs.length ? '' : empty('calendario', 'Sin tareas que se repitan', 'Sumá las cosas de todas las semanas, como regar o sacar la basura, y la app te avisa cuándo toca.', '', true)}${recs.map(t => `<div class="item${pc('r:' + t.id)}"><div class="t"><div>${t.icon} ${esc(t.name)}</div><div class="meta">cada ${t.every} día${t.every > 1 ? 's' : ''} · ${t.last ? ago(t.last) + ' (' + esc(M[t.lastBy]?.n || '') + ')' : 'sin registro'} ${recDue(t) ? '<span class="tag w">toca</span>' : '<span class="tag">al día</span>'}</div></div>${PB(t.owner, `A.cycleTask('${t.id}')`)}<button class="b sm" onclick="A.recDone('${t.id}')">Hecho</button></div>`).join('')}
     <div class="btns"><button onclick="A.taskForm()">+ Nueva tarea</button></div></div>`;
 
   h += vDaniela(true);
@@ -842,7 +944,7 @@ function vCasa(){
 
 function vDaniela(embedded){
   const d = S.checks.daniela || {}, list = Object.values(S.indic).sort((a,b) => (a.created || 0) - (b.created || 0));
-  const block = kind => list.filter(n => n.kind === kind).map(n => `<div class="item"><input type="checkbox" ${n.done ? 'checked' : ''} onchange="A.toggleIndic('${n.id}')"><div class="t"><div class="${n.done ? 'done-tx' : ''}">${esc(n.text)}</div><div class="meta">${esc(M[n.by]?.n || '')}${n.done ? ' · hecho ' + ago(n.doneAt) : ''}</div></div>${me !== 'daniela' ? `<button class="b sm" onclick="A.delIndic('${n.id}')">✕</button>` : ''}</div>`).join('') || '<p class="muted">Nada por ahora.</p>';
+  const block = kind => list.filter(n => n.kind === kind).map(n => `<div class="item"><input type="checkbox" class="${pc('n:' + n.id).trim()}" ${n.done ? 'checked' : ''} onchange="A.toggleIndic('${n.id}')" aria-label="Hecho"><div class="t"><div class="${n.done ? 'done-tx' : ''}">${esc(n.text)}</div><div class="meta">${esc(M[n.by]?.n || '')}${n.done ? ' · hecho ' + ago(n.doneAt) : ''}</div></div>${me !== 'daniela' ? `<button class="b sm" onclick="A.delIndic('${n.id}')">✕</button>` : ''}</div>`).join('') || (kind === 'tarea' ? empty('escoba', 'Sin tareas por ahora', me === 'daniela' ? 'Cuando te dejen algo para hacer, aparece acá.' : 'Escribí abajo lo que querés que haga Daniela en su próxima visita.', '', true) : empty('cocina', 'Nada para cocinar', me === 'daniela' ? 'Si hay comidas para preparar, las vas a ver acá.' : 'Anotá abajo qué comidas querés que deje preparadas.', '', true));
   const isD = me === 'daniela';
   let h = `<h2>${hic('escoba')} ${isD ? 'Hola Daniela 👋' : 'Daniela (empleada de limpieza)'}</h2>
   <div class="card"><div class="row"><div><b>Próxima visita:</b> ${d.next ? fdate(d.next) + (d.hours ? ' · ' + esc(d.hours) : '') : 'sin fecha'}</div>${!isD ? `<button class="b sm" onclick="A.danielaForm()">Editar</button>` : ''}</div>
@@ -877,10 +979,11 @@ function vJoaco(){
   const c = S.checks.mochila, done = c.date === dk() ? c.done : {}, n = Object.keys(done).length;
   h += `<div class="card"><div class="row"><h3>${hic('mochila')} Mochila y ropa</h3><button class="b sm" onclick="A.mochilaEdit()">Editar</button></div>
     <div class="bar"><i style="width:${Math.round(100*n/Math.max(1,c.list.length))}%"></i></div>
-    ${c.list.map((x, i) => `<label class="item"><input type="checkbox" ${done[i] ? 'checked' : ''} onchange="A.mochila(${i})"><div class="t"><div>${esc(x)}</div>${done[i] ? `<div class="meta">${esc(M[done[i]]?.n)}</div>` : ''}</div></label>`).join('')}
+    ${c.list.map((x, i) => `<label class="item"><input type="checkbox" class="${pc('m:' + i).trim()}" ${done[i] ? 'checked' : ''} onchange="A.mochila(${i})"><div class="t"><div>${esc(x)}</div>${done[i] ? `<div class="meta">${esc(M[done[i]]?.n)}</div>` : ''}</div></label>`).join('')}
     <div class="sub">Se reinicia cada día.</div></div>`;
 
   h += `<div class="card"><div class="row"><h3>${hic('salud')} Salud</h3><button class="b sm" onclick="A.saludForm()">+ Control</button></div>
+    ${Object.keys(S.salud).length ? '' : empty('salud', 'Sin controles cargados', 'Agregá pediatra, dentista u oculista para que la app avise cuándo sacar turno.', '', true)}
     ${Object.values(S.salud).sort((a,b) => a.name.localeCompare(b.name)).map(s => {
       let tag = '';
       if(s.next){ const k = daysTo(s.next); tag = k < 0 ? `<span class="tag b">turno pasado: actualizá</span>` : `<span class="tag">turno ${fdate(s.next)}</span>`; }
@@ -893,7 +996,7 @@ function vJoaco(){
 function vChat(){
   const ms = Object.values(S.msgs).sort((a,b) => a.at - b.at).slice(-80);
   const quick = me === 'daniela' ? ['Falta producto de limpieza','Ya terminé por hoy','¿Qué cocino?'] : ['Hoy lo busco yo a Joaco','¿Falta algo del súper?','Llego tarde','Ya hice el pedido'];
-  return `<h2>${hic('chat')} Mensajes</h2><div class="msgs">${ms.length ? ms.map(m => `<div class="msg ${m.by === me ? 'me' : ''}"><div class="meta">${AV(m.by)}${esc(pm(m.by).n)} · ${ago(m.at)}</div>${esc(m.text)}</div>`).join('') : '<p class="muted">Sin mensajes todavía.</p>'}</div>
+  return `<h2>${hic('chat')} Mensajes</h2><div class="msgs">${ms.length ? ms.map(m => `<div class="msg ${m.by === me ? 'me' : ''}"><div class="meta">${AV(m.by)}${esc(pm(m.by).n)} · ${ago(m.at)}</div>${esc(m.text)}</div>`).join('') : empty('chat', 'Todavía no hay mensajes', 'Escribí algo o tocá una de las frases rápidas de abajo.')}</div>
     <div class="chips" style="margin:10px 0 70px">${quick.map(q => `<button onclick="A.send('${q}')">${q}</button>`).join('')}</div>
     <div class="composer"><input type="text" id="chatin" placeholder="Escribí un mensaje…" onkeydown="if(event.key==='Enter')A.send()"><button class="pri b" onclick="A.send()">Enviar</button></div>`;
 }
@@ -904,13 +1007,42 @@ function render(){
     ? [['daniela','escoba','Indicaciones'],['chat','chat','Mensajes']]
     : [['hoy','hoy','Hoy'],['compras','compras','Compras'],['casa','casa','Casa'],['joaco','joaco','Joaco'],['chat','chat','Mensajes']];
   if(!tabs.some(t => t[0] === tab)) tab = tabs[0][0];
-  const n = Object.values(S.items).filter(needs).length;
-  $('#nav').innerHTML = tabs.map(([k, i, l]) => `<button class="${tab === k ? 'on' : ''}" aria-current="${tab === k ? 'page' : 'false'}" onclick="A.go('${k}')">${ic(i)}${l}${k === 'compras' && n ? ` (${n})` : ''}</button>`).join('');
+  if(tab === 'chat') try { localStorage.setItem(LS.read, String(Date.now())); } catch(e) {}
+  const bd = badges(), nav = $('#nav');
+  $('#navbtns').innerHTML = tabs.map(([k, i, l]) => { const n = k === tab && k === 'chat' ? 0 : bd[k] || 0;
+    return `<button class="${tab === k ? 'on' : ''}" aria-current="${tab === k ? 'page' : 'false'}" data-tab="${k}" onclick="A.go('${k}')"><span class="nic">${ic(i)}${n ? `<span class="badge" aria-hidden="true">${n > 9 ? '9+' : n}</span>` : ''}</span>${l}${n ? `<span class="vh">, ${n} pendiente${n > 1 ? 's' : ''}</span>` : ''}</button>`; }).join('');
+  nav.style.setProperty('--n', tabs.length); nav.style.setProperty('--i', Math.max(0, tabs.findIndex(t => t[0] === tab)));
   $('#who').innerHTML = me ? `${AV(me)}${esc(pm(me).n)}${ic('ajustes')}` : ic('ajustes'); $('#who').classList.toggle('solo', !me);
   const typing = document.activeElement && ['chatin','in_tarea','in_comida'].includes(document.activeElement.id) ? {id:document.activeElement.id, v:document.activeElement.value} : null;
   $('#main').innerHTML = ({hoy:vHoy, compras:vCompras, casa:vCasa, joaco:vJoaco, chat:vChat, daniela:() => vDaniela(false)})[tab]();
   if(typing){ const el = document.getElementById(typing.id); if(el){ el.value = typing.v; el.focus(); } }
   renderSync();
+}
+
+/* Hojas modales: se cierran tirando hacia abajo (si la hoja está arriba de todo). */
+function swipeSheet(){
+  const box = $('#sheetbox'), modal = $('#modal'); let y0 = null, dy = 0, t0 = 0;
+  box.addEventListener('touchstart', e => {
+    const tg = e.target; if(e.touches.length !== 1 || box.scrollTop > 0 || (tg.closest && tg.closest('textarea,select,input[type=range],.chips'))) { y0 = null; return; }
+    y0 = e.touches[0].clientY; dy = 0; t0 = Date.now();
+  }, {passive:true});
+  box.addEventListener('touchmove', e => {
+    if(y0 === null) return; dy = e.touches[0].clientY - y0;
+    if(dy <= 0){ box.style.transform = ''; box.classList.remove('drag'); return; }
+    if(e.cancelable) e.preventDefault();
+    box.classList.add('drag'); box.style.transform = `translateY(${dy}px)`;
+    modal.style.backgroundColor = `rgba(0,0,0,${Math.max(0, .45 - dy/900)})`;
+  }, {passive:false});
+  const end = () => {
+    if(y0 === null) return; y0 = null; box.classList.remove('drag');
+    const fast = dy > 40 && dy / Math.max(1, Date.now() - t0) > .6;
+    if(dy > Math.min(140, box.offsetHeight * .3) || fast){
+      box.classList.add('back'); box.style.transform = 'translateY(100%)'; buzz(10);
+      setTimeout(() => A.close(), 200);
+    } else if(dy > 0){ box.classList.add('back'); box.style.transform = ''; modal.style.backgroundColor = ''; setTimeout(() => box.classList.remove('back'), 240); }
+    dy = 0;
+  };
+  box.addEventListener('touchend', end); box.addEventListener('touchcancel', end);
 }
 
 /* ============ Arranque ============ */
@@ -927,8 +1059,11 @@ function render(){
     if(go === 'anotar') tab = 'compras';
     history.replaceState(null, '', location.pathname);
   }
+  try { if(!localStorage.getItem(LS.read)) localStorage.setItem(LS.read, String(Date.now())); } catch(e) {}
   applyTheme();
   render();
+  swipeSheet();
+  addEventListener('keydown', e => { if(e.key === 'Escape' && !$('#modal').classList.contains('hidden')) A.close(); });
   if(go === 'anotar' && me && me !== 'daniela') setTimeout(() => A.itemForm(null, storeFilter !== 'todos' ? storeFilter : 'super'), 200);
   else setTimeout(maybeNews, 1600);
   setTimeout(() => { const sp = $('#splash'); sp.classList.add('out'); setTimeout(() => sp.remove(), 600); }, 1400);
