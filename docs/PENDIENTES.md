@@ -2,6 +2,7 @@ ARUCIP · PENDIENTES Y PLAN DE TRABAJO
 Actualizado el 6/11/2026 · versión de prueba 0.53 (portada nueva y botonera nueva)
 
 ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
+- Corrida 10/11 mañana: README con «Cómo agregar un caso, una guía o un enlace» y «Cómo se arma arucip.html» (ítems 8 y 12). Sin cambios de contenido clínico ni de estética. Las 87 guías y los enlaces ya están completos; lo que sigue de código sin depender de otros: ítem 13 (CHANGELOG), 10 (herramientas sin ningún caso).
 - 18 [HECHO] Buscador general predictivo en la portada (js/buscador.js).
 - 20 [PARCIAL] Sinónimos de signos y síntomas cargados (⚕ a revisar); faltan siglas.
 - 21 [PARCIAL] Etiquetas: ya hay signos/síntomas → motivos; falta etiquetar herramientas por capítulo.
@@ -75,11 +76,11 @@ A. TÉCNICO (1–45)
  5. [PENDIENTE] Dejar "main" (PICU Pocket) congelada con una etiqueta v0.49.
  6. [HECHO]     Service worker red primero (falta probarlo con una actualización real una vez publicado).
  7. [PENDIENTE] Aviso dentro de la app: "Hay versión nueva, recargá".
- 8. [PENDIENTE] Script de armado reproducible (fuentes → index.html → arucip.html), documentado.
+ 8. [HECHO]     Script de armado reproducible (tools/build_html.py), documentado en el README (10/11).
  9. [PARCIAL]   Pruebas automáticas (hay scripts de prueba; falta dejarlos en la carpeta tests/ del repo).
 10. [PARCIAL]   Chequeo de integridad de data.js: tests/smoke.js ya verifica ids repetidos, grupos inexistentes, casos sin guía y referencias rotas (9/11). Falta: herramientas sin ningún caso.
 11. [PENDIENTE] Actualizar "Novedades" y la versión (dice 0.51; corresponde 0.53).
-12. [PENDIENTE] README con cómo agregar un caso, una guía o una herramienta, paso a paso.
+12. [HECHO]     README con cómo agregar un caso, una guía o una herramienta, paso a paso.
 13. [PENDIENTE] CHANGELOG.md por versión.
 14. [PENDIENTE] (D) docs/COMO-REPLICAR.md: proceso Jotform → app (falta la página de Jotform guardada).
 15. [PENDIENTE] (D) Inventario del contenido de Jotform contra la app: qué falta y qué difiere.

@@ -68,3 +68,20 @@ Nota clínica: «Indicaciones diarias» y «periodicidad de estudios» son conte
 - Barra: **Emergencias** (PARO, Secuencia PALS, Cards, buscador y ABC) · **Motivos de ingreso** (por aspecto, con las herramientas de cada aparato y buscador por signo, síntoma, aparato o motivo) · **Indicaciones y cálculos** (balances, nutrición, analgosedación, infusiones, pase y escalas; «indicaciones diarias» y «estudios: qué pedir y cuándo» quedan como pendientes de redacción médica) · **Favoritos** (apartados y herramientas fijados como tarjetas) · **Más** (ordenado: herramientas, Autocuidado, Calidad y seguridad, IA, otras recomendaciones, la app).
 - Portada: buscador general predictivo (`js/buscador.js`) con tolerancia a acentos y a un error de tipeo.
 - `js/data.js`: `SYMP` (signos y síntomas → motivos, ⚕ a revisar), `SYMP_SYN`, `ALIAS`, `SYSMAP`, `IND`.
+
+## Cómo agregar un caso, una guía o un enlace a una herramienta (paso a paso)
+Todo el contenido de Motivos de ingreso está en `js/data.js`. No hace falta tocar `js/hubs.js` ni el diseño.
+1. **Caso nuevo**: en `CASES` (después del bloque del grupo que corresponda) agregar
+   `{ id: "xyz", n: "Nombre visible", g: ["cv"], rec: ["punto 1", "punto 2"], t: ["t:pals", "c:inf"] }`.
+   - `id`: corto, único (el chequeo de integridad de `tests/smoke.js` falla si se repite).
+   - `g`: ids de `GROUPS` donde aparece (deben existir).
+   - `rec`: guía «Al recibirlo», cualitativa y **sin dosis nuevas**. Todo contenido clínico nuevo es ⚕ pendiente de revisión médica: anotarlo en `docs/PENDIENTES.md`.
+   - `t`: herramientas ya existentes con el formato `tipo:id` (ver el comentario al inicio de `data.js`: `t:` herramienta, `k:` checklist, `c:` calculadora, `p:` POCUS, `b:` quemados, `x:` secciones). Lo de `BASE` se agrega solo.
+2. **Guía en un caso existente**: completar o editar su campo `rec`.
+3. **Enlace a una herramienta**: agregar `"tipo:id"` al campo `t` del caso. Solo a herramientas que ya existen; una referencia rota hace fallar las pruebas.
+4. **Signos y síntomas**: `SYMP` (síntoma → ids de casos), con sinónimos en `SYMP_SYN` y siglas en `ALIAS`.
+5. Probar: `NODE_PATH=$(npm root -g) node tests/smoke.js` (debe terminar en «Todo bien»).
+6. Commit + push a la rama de trabajo.
+
+## Cómo se arma arucip.html (reproducible)
+`python3 tools/build_html.py` lee `index.html`, incrusta `css/*.css`, `js/*.js` y las imágenes de `assets/` (base64) y escribe `arucip.html` en la raíz; sale con error si queda alguna referencia sin incrustar. Después: `node tests/smoke.js arucip.html` y subir `arucip.html` con el commit. Los íconos NO se regeneran con `tools/make_assets.js` (pisaría los actuales).
