@@ -312,3 +312,7 @@ Indicaciones y cálculos (mini programa de planilla del paciente)
 Aparatos y sistemas · cardio
 112. [PENDIENTE] ⚕ Marcapasos: explicación. Tipos de cirugía cardiovascular y qué hacer en cada una para el seguimiento posoperatorio (ej. cambio del soplo); cosas de ECMO a tener en cuenta.
 113. [PENDIENTE] Un último punto de Gonzalo quedó cortado («La posibilidad…»): preguntarle cuál era.
+
+## PRIORIDAD: pedido de Gonzalo del 11/11/2026 (manual PALS)
+
+Gonzalo pidió sumar todo lo útil del Libro del proveedor SVAP/PALS 2023. Lo hecho y la lista de lo que falta, con las notas clínicas ya redactadas, están en **docs/PALS.md** (sección «Pendiente: para la tarea diaria»). Tomá **un ítem por corrida**, en orden, antes que el resto de esta lista. Redacción y diseño propios; nada copiado del libro; todo ⚕.
