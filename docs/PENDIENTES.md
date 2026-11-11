@@ -2,6 +2,7 @@ ARUCIP · PENDIENTES Y PLAN DE TRABAJO
 Lista original del 6/11/2026 (v0.53) · estados revisados el 11/11/2026 (v0.61). Lo más nuevo está en «ACTUALIZACIÓN», acá abajo.
 
 ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
+- Corrida 11/11 noche: docs/VALIDACION.md nuevo (ítem 58, parcial): las 87 guías «Al recibirlo» con el mismo texto que muestra la app, agrupadas por aspecto, cada una con casilla para tildar y lugar para «Revisó», «Fecha» y «Observaciones». Se genera con node tools/build_validacion.js, que al regenerar conserva los tildes y lo anotado; si el texto de una guía cambia después de validada, vuelve a quedar sin tildar (con --check avisa si el archivo quedó desactualizado). Estado: 0 de 87 validadas; lo que falta es que Jorge y Eduardo la revisen (D). No se tocó la app, ni contenido clínico, ni estética.
 - Corrida 11/11 (2.ª): (a) tests/offline.js nuevo (ítem 35): chequea que todo archivo local que usa la app exista y esté en ASSETS de sw.js y, en un navegador con el service worker activo, corta la red y recarga: la app abre y navega igual, sin imágenes rotas (POCUS, Cards, QR) ni pedidos fallidos. Resultado: todo bien, no hubo que tocar sw.js. Falta probarlo en un teléfono real instalado (va con el ítem 3, (D)). (b) Corregido: la descripción del manifest (lo que muestra el teléfono al instalar) todavía decía «Funciona sin conexión.»; se quitó esa frase y la prueba nueva lo vigila. Para que llegue a la PWA de Jorge hay que volver a publicar en arucip/pruebas. (c) Nota: la carpeta src/ (fuentes viejas de la v0.4x, no se usan para armar la app) conserva textos viejos, incluida esa frase; no se tocó. Propuesta: borrarla o moverla a un archivo aparte, con el OK de Gonzalo. Sin cambios clínicos ni de estética.
 - Corrida 11/11 mañana: (a) tests/smoke.js ahora falla si una guía «Al recibirlo» o un texto de Emergencias trae una dosis (número + unidad tipo mg/kg, mL/kg, J/kg…): ítem 77, parcial (cubre js/data.js; no audita las herramientas viejas de index.html). (b) ⚕ A REVISAR POR MÉDICO: la única dosis que hay en las guías es anterior a la regla y quedó como excepción explícita del chequeo: Shock séptico, «Fluidos en alícuotas de 10–20 mL/kg con reevaluación después de cada una». No se tocó; que el servicio diga si se deja, se cambia o se reemplaza por «según la herramienta». (c) README: tabla de estructura al día (css/portada.css, js/portada.js, js/buscador.js, tests, tools). (d) Esta lista: estados viejos corregidos (no cambió ningún acuerdo) y plan por día reemplazado por «Qué sigue». Sin cambios clínicos ni de estética.
 - Corrida 10/11 noche: CHANGELOG.md creado (ítem 13). tests/smoke.js informa las herramientas sin ningún caso (ítem 10): solo quedan las de Más/Autocuidado/IA/app (maslach, bienestar, mindf, salud, violencia, collapse, iar1, simu, ialado, inst, qr, plan, new, about), que no son clínicas y no corresponden a casos. Sin cambios clínicos ni de estética.
@@ -137,7 +138,7 @@ Guías "Al recibirlo": los ítems 48 a 56 están ESCRITOS (87 de 87); lo que que
    (A revisar por un médico: las 87 guías, incluidas las de vía aérea quirúrgica, apneas,
     dependencia tecnológica, partes blandas, inmunocomprometido e infección asociada a dispositivos.)
 57. [HECHO]     Sumar herramientas enlazadas a los casos que hoy tienen 3 o menos.
-58. [PENDIENTE] ⚕ Revisión médica de las 87 guías ya escritas, con una lista de validación para Jorge y Eduardo.
+58. [PARCIAL]   ⚕ (D) Revisión médica de las 87 guías ya escritas. La lista de validación para Jorge y Eduardo ya está: docs/VALIDACION.md (11/11); falta que la revisen y tilden (0 de 87).
 59. [PENDIENTE] Marca visible en cada guía: "validada" o "pendiente de validación".
 60. [PENDIENTE] ⚕ "Banderas rojas" por caso (cuándo escalar).
 61. [PENDIENTE] ⚕ "Diagnósticos que no hay que perder" por caso.
@@ -255,7 +256,8 @@ haciendo sola, de a un paso por corrida (propuesta; nada de esto está implement
 - 32: enlaces directos a cada caso (#casos/shs). Es funcional, no visual, pero cambia la navegación: necesita el OK de Gonzalo.
 - 16 y 17: campos «fuente» y «revisado por / fecha» en data.js (estructura vacía, para que el servicio los complete).
 - src/: carpeta de fuentes viejas que ya no se usa (tiene textos con nombres viejos): borrarla o archivarla, con el OK de Gonzalo.
-- 58: armar docs/VALIDACION.md, la lista de las 87 guías para que Jorge y Eduardo tilden cuáles quedan validadas.
+- 59: cuando haya guías tildadas en docs/VALIDACION.md, mostrar «validada / pendiente de validación» en cada guía. Es un cambio visible: necesita el OK de Gonzalo y se muestra primero en un HTML aparte.
+- Una lista de validación igual para Emergencias (enfoque sistemático, triángulo, novedades AHA 2025; ítem 66) y para SYMP (signos y síntomas → motivos).
 Lo que NO puede avanzar sin personas:
 - Revisión médica ⚕ de todo lo clínico (58, 60–63, 66, 73, 78, 85) y el contenido que redacta el servicio (106–111).
 - Respuestas de Gonzalo: ejemplos de «no anda el predictivo» y «no anda la leche concentrada»; ítem 113 (mensaje cortado);

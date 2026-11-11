@@ -32,6 +32,7 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo G. Pereira.
 | `tests/offline.js` | Prueba sin conexión: todo lo que usa la app está en `ASSETS` de `sw.js` y, sin red, abre y navega igual. `NODE_PATH=$(npm root -g) node tests/offline.js`. Correrla si se agregan o quitan archivos. |
 | `tools/build_html.py` | Arma `arucip.html` (un solo archivo) desde el repositorio. |
 | `tools/publicar_pruebas.sh` | Publica la PWA en `arucip/pruebas`. |
+| `tools/build_validacion.js` | Arma `docs/VALIDACION.md`: las guías «Al recibirlo» para que los médicos tilden cuáles quedan validadas. Conserva los tildes y lo anotado al regenerar. |
 | `CHANGELOG.md`, `docs/PENDIENTES.md` | Resumen por versión; pendientes y acuerdos. |
 | `assets/arucip-mark.svg` | Logotipo: «P» de UCIP con la vara de Esculapio (fuente de los íconos). |
 | `assets/arucip-mark-alt.svg` | Logotipo alternativo (cabeza con engranajes, libro y estetoscopio), sin usar todavía. |
@@ -87,7 +88,8 @@ Todo el contenido de Motivos de ingreso está en `js/data.js`. No hace falta toc
 3. **Enlace a una herramienta**: agregar `"tipo:id"` al campo `t` del caso. Solo a herramientas que ya existen; una referencia rota hace fallar las pruebas.
 4. **Signos y síntomas**: `SYMP` (síntoma → ids de casos), con sinónimos en `SYMP_SYN` y siglas en `ALIAS`.
 5. Probar: `NODE_PATH=$(npm root -g) node tests/smoke.js` (debe terminar en «Todo bien»).
-6. Commit + push a la rama de trabajo.
+6. Si cambió el nombre o la guía (`rec`) de algún caso: `node tools/build_validacion.js` (actualiza `docs/VALIDACION.md` sin perder lo que tildaron los revisores).
+7. Commit + push a la rama de trabajo.
 
 ## Cómo se arma arucip.html (reproducible)
 `python3 tools/build_html.py` lee `index.html`, incrusta `css/*.css`, `js/*.js` y las imágenes de `assets/` (base64) y escribe `arucip.html` en la raíz; sale con error si queda alguna referencia sin incrustar. Después: `node tests/smoke.js arucip.html` y subir `arucip.html` con el commit. Los íconos NO se regeneran con `tools/make_assets.js` (pisaría los actuales).
