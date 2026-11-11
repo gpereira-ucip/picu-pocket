@@ -43,7 +43,7 @@
     var cat = function (c) { return function () { var a = document.querySelector('#v-more a[data-cat="' + c + '"]'); var tb = document.querySelector('.tabs button[data-v="more"]'); if (tb) tb.click(); if (a) a.click(); }; };
     [["Emergencias", "Sección", "", "emergencia emergencias triage abc valoracion inicial", tab("triage")],
      ["PARO: iniciar RCP", "Emergencias", "", "paro rcp reanimacion cardiopulmonar compresiones metronomo", function () { var p = document.getElementById("paro"); if (p) p.click(); }],
-     ["Secuencia PALS", "Emergencias", "", "pals reanimacion pediatrica algoritmos", function () { var a = document.querySelector('[data-tool="pals"]'); if (a) a.click(); }],
+     ["Signos vitales por edad (PALS)", "Emergencias", "", "pals signos vitales frecuencia cardiaca respiratoria presion arterial hipotension", function () { var a = document.querySelector('[data-tool="pals"]'); if (a) a.click(); }],
      ["Cards: medicación por peso", "Emergencias", "", "cards tarjetas medicacion peso dosis", function () { if (window.ARUCIP_GO) window.ARUCIP_GO("cards"); }],
      ["Indicaciones y cálculos", "Sección", "día a día", "balance balances hidrico indicaciones diarias estudios complementarios periodicidad laboratorio que pedir cuando calculos nutricion infusiones", tab("ind")],
      ["Motivos de ingreso", "Sección", "por aspecto", "ingreso casos motivos aparatos sistemas", tab("casos")],
