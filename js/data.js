@@ -221,7 +221,7 @@ window.ARUCIP_DATA = (function () {
       rec: ["Distinguí paciente estable de inestable (hipotensión, mala perfusión, alteración del sensorio).",
             "Inestable con pulso: cardioversión sincronizada. TSV estable: maniobras vagales o adenosina.",
             "ECG de 12 derivaciones, ionograma y calcio; revisá la tabla de arritmias en Cards."],
-      t: ["t:pals", "x:cards", "t:rcp", "c:elec"] },
+      t: ["t:taqui", "t:bradi", "t:pals", "x:cards", "t:rcp", "c:elec"] },
     { id: "hp", n: "Hipertensión pulmonar y crisis", g: ["cv", "re"],
       rec: ["Sospechala ante hipoxemia lábil, shock con sobrecarga derecha o descompensación con el llanto, la aspiración o la manipulación.",
             "Evitá los desencadenantes: hipoxia, hipercapnia, acidosis, dolor y agitación; analgosedación adecuada para procedimientos.",

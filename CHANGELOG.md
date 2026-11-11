@@ -12,6 +12,7 @@ Resumen por versión (el detalle está en el README y en docs/PENDIENTES.md).
 - 11/11: prueba de funcionamiento sin conexión (tests/offline.js); la descripción del manifest ya no dice «Funciona sin conexión».
 - 11/11 (noche): docs/VALIDACION.md, la lista de las 87 guías para la revisión médica, generada con tools/build_validacion.js (sin cambios en la app).
 - 11/11 (pedido de Gonzalo, con el Libro del proveedor SVAP/PALS 2023): triángulo de evaluación con el esquema del manual (apariencia, esfuerzo respiratorio, circulación); «Signos vitales normales por edad (PALS)» reemplaza la tabla PALS 2018: FC despierto y dormido, FR, presión sistólica, diastólica y media, límite de hipotensión y chequeo de los valores del paciente (⚕).
+- 11/11: «Bradicardia con pulso» y «Taquicardia con pulso» como algoritmos paso a paso (preguntas Sí/No, camino recorrido, dosis por peso con topes), con diseño y redacción propios basados en PALS 2020; enlazados desde Arritmias y en Más › Herramientas › Cardiovascular (⚕). Sin dosis nuevas: son las que ya tenía la app.
 
 ## 0.57–0.60 (8/11/2026)
 - Portada achicada, agradecimiento a la Fundación Garrahan, QR para compartir la app, buscador más grande, ícono A (solo emblema).
