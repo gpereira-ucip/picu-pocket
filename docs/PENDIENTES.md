@@ -1,6 +1,10 @@
 ARUCIP · PENDIENTES Y PLAN DE TRABAJO
 Lista original del 6/11/2026 (v0.53) · estados revisados el 11/11/2026 (v0.61). Lo más nuevo está en «ACTUALIZACIÓN», acá abajo.
 
+PRIORIDAD: pedido de Gonzalo del 11/11/2026 (manual PALS)
+
+Gonzalo pidió sumar todo lo útil del Libro del proveedor SVAP/PALS 2023. Lo hecho y la lista de lo que falta, con las notas clínicas ya redactadas, están en **docs/PALS.md** (sección «Pendiente: para la tarea diaria»). Tomá **un ítem por corrida**, en orden, antes que el resto de esta lista. Redacción y diseño propios; nada copiado del libro; todo ⚕.
+
 ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
 - Corrida 11/11 noche: docs/VALIDACION.md nuevo (ítem 58, parcial): las 87 guías «Al recibirlo» con el mismo texto que muestra la app, agrupadas por aspecto, cada una con casilla para tildar y lugar para «Revisó», «Fecha» y «Observaciones». Se genera con node tools/build_validacion.js, que al regenerar conserva los tildes y lo anotado; si el texto de una guía cambia después de validada, vuelve a quedar sin tildar (con --check avisa si el archivo quedó desactualizado). Estado: 0 de 87 validadas; lo que falta es que Jorge y Eduardo la revisen (D). No se tocó la app, ni contenido clínico, ni estética.
 - Corrida 11/11 (2.ª): (a) tests/offline.js nuevo (ítem 35): chequea que todo archivo local que usa la app exista y esté en ASSETS de sw.js y, en un navegador con el service worker activo, corta la red y recarga: la app abre y navega igual, sin imágenes rotas (POCUS, Cards, QR) ni pedidos fallidos. Resultado: todo bien, no hubo que tocar sw.js. Falta probarlo en un teléfono real instalado (va con el ítem 3, (D)). (b) Corregido: la descripción del manifest (lo que muestra el teléfono al instalar) todavía decía «Funciona sin conexión.»; se quitó esa frase y la prueba nueva lo vigila. Para que llegue a la PWA de Jorge hay que volver a publicar en arucip/pruebas. (c) Nota: la carpeta src/ (fuentes viejas de la v0.4x, no se usan para armar la app) conserva textos viejos, incluida esa frase; no se tocó. Propuesta: borrarla o moverla a un archivo aparte, con el OK de Gonzalo. Sin cambios clínicos ni de estética.
@@ -312,7 +316,3 @@ Indicaciones y cálculos (mini programa de planilla del paciente)
 Aparatos y sistemas · cardio
 112. [PENDIENTE] ⚕ Marcapasos: explicación. Tipos de cirugía cardiovascular y qué hacer en cada una para el seguimiento posoperatorio (ej. cambio del soplo); cosas de ECMO a tener en cuenta.
 113. [PENDIENTE] Un último punto de Gonzalo quedó cortado («La posibilidad…»): preguntarle cuál era.
-
-## PRIORIDAD: pedido de Gonzalo del 11/11/2026 (manual PALS)
-
-Gonzalo pidió sumar todo lo útil del Libro del proveedor SVAP/PALS 2023. Lo hecho y la lista de lo que falta, con las notas clínicas ya redactadas, están en **docs/PALS.md** (sección «Pendiente: para la tarea diaria»). Tomá **un ítem por corrida**, en orden, antes que el resto de esta lista. Redacción y diseño propios; nada copiado del libro; todo ⚕.
