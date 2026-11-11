@@ -1,7 +1,18 @@
 ARUCIP · PENDIENTES Y PLAN DE TRABAJO
 Lista original del 6/11/2026 (v0.53) · estados revisados el 11/11/2026 (v0.61). Lo más nuevo está en «ACTUALIZACIÓN», acá abajo.
 
-PRIORIDAD: pedido de Gonzalo del 11/11/2026 (manual PALS)
+PRIORIDAD 1: pedido de Gonzalo del 11/11/2026, 19:42 (indicaciones diarias)
+
+Hecho el 11/11 noche: herramienta «Hoja del día: indicaciones y balance» (index.html, T.diario), primera en «Indicaciones y cálculos». Falta, en este orden, una cosa por corrida:
+1. ⚕ Antibióticos por patología: qué cubre, dosis, dosis máxima por peso o edad, ajuste en injuria renal y concentración habitual por mL. Fuentes: guías del Garrahan y guías internacionales; si coinciden, citar la de mayor peso; si no, Garrahan. Las concentraciones salen de los «fiotips» que Gonzalo va a mandar (todavía no llegaron: NO inventar). Mostrarlo dentro de la sección 5 de la Hoja del día.
+2. ⚕ Inotrópicos: recomendación según patología (con fuente citada), en la sección 3.
+3. ⚕ Analgosedación: combinaciones útiles con calculadora (dosis solo con fuente citada), en la sección 4. La nota de sinergia opioide + paracetamol/AINE ya está, sin dosis.
+4. ⚕ Albúmina en quemados y situaciones anexas (con fuente citada; sin dosis inventadas).
+5. Bug «no anda la leche concentrada»: no se pudo reproducir; pedirle a Gonzalo qué fórmula, qué datos y qué ve.
+6. Bug «no anda bien el predictivo»: no se pudo reproducir; pedirle palabras concretas que no encuentra.
+7. Hoja del día, mejoras: PVC y gases en gráfico; varios pacientes (hoy guarda uno solo); exportar en PDF.
+
+PRIORIDAD 2: pedido de Gonzalo del 11/11/2026 (manual PALS)
 
 Gonzalo pidió sumar todo lo útil del Libro del proveedor SVAP/PALS 2023. Lo hecho y la lista de lo que falta, con las notas clínicas ya redactadas, están en **docs/PALS.md** (sección «Pendiente: para la tarea diaria»). Tomá **un ítem por corrida**, en orden, antes que el resto de esta lista. Redacción y diseño propios; nada copiado del libro; todo ⚕.
 

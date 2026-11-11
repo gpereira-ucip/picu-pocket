@@ -9,6 +9,7 @@ Resumen por versión (el detalle está en el README y en docs/PENDIENTES.md).
 - Los 87 motivos de ingreso tienen guía «Al recibirlo» (⚕) y 4 o más herramientas enlazadas.
 - Pruebas: chequeo de integridad de data.js en tests/smoke.js; README con cómo agregar casos y cómo se arma arucip.html.
 - 11/11: las pruebas fallan si una guía «Al recibirlo» o Emergencias trae una dosis; README y PENDIENTES al día (sin cambios en la app).
+- 11/11 noche (pedido de Gonzalo): «Hoja del día: indicaciones y balance» (tool diario): checklist de cuidados generales (⚕), tabla de gases y respirador con PaCO₂−EtCO₂, inotrópicos, analgosedación («primero la analgesia», ⚕), antibióticos, ingresos/egresos/PVC con líquidos totales, mL/kg, ritmo diurético y balance; nombre/HC solo en el dispositivo; compartir, mail y copiar. «Indicaciones y cálculos» empieza por ahí y suma «Fórmulas y preparaciones» en el día a día. Sin dosis nuevas.
 - 11/11: prueba de funcionamiento sin conexión (tests/offline.js); la descripción del manifest ya no dice «Funciona sin conexión».
 - 11/11 (noche): docs/VALIDACION.md, la lista de las 87 guías para la revisión médica, generada con tools/build_validacion.js (sin cambios en la app).
 - 11/11 (pedido de Gonzalo, con el Libro del proveedor SVAP/PALS 2023): triángulo de evaluación con el esquema del manual (apariencia, esfuerzo respiratorio, circulación); «Signos vitales normales por edad (PALS)» reemplaza la tabla PALS 2018: FC despierto y dormido, FR, presión sistólica, diastólica y media, límite de hipotensión y chequeo de los valores del paciente (⚕).

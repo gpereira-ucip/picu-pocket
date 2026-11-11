@@ -95,7 +95,7 @@ const ok = (c, m) => { console.log((c ? "OK   " : "FALLA") + " " + m); if (!c) f
   ok((await top("fieb"))[0] === "Fiebre", "predictivo: «fieb» → Fiebre");
   ok((await top("disnea"))[0] === "Dificultad respiratoria", "predictivo: sinónimo «disnea»");
   ok((await top("shok")).some((x) => /Shock/.test(x)), "predictivo: error de tipeo «shok»");
-  ok((await top("balance"))[0] === "Indicaciones y cálculos", "predictivo: «balance» → Indicaciones y cálculos");
+  { const tb = (await top("balance")).slice(0, 2).join(" | "); ok(/Hoja del día/.test(tb) && /Indicaciones y cálculos/.test(tb), "predictivo: «balance» → Hoja del día e Indicaciones y cálculos (" + tb + ")"); }
   await p.fill("#cv-search input", "shock septico"); await p.waitForTimeout(150); await p.click("#cv-search li"); await p.waitForTimeout(900);
   ok((await p.evaluate(() => document.querySelector("#v-casos h2").textContent)) === "Shock séptico", "elegir un motivo lo abre");
 

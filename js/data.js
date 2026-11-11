@@ -809,15 +809,15 @@ window.ARUCIP_DATA = (function () {
   /* Orden pedido por Gonzalo (9/11): cuidados generales · EAB y respirador · inotrópicos · analgosedación · antibióticos · resto.
      Los grupos con "pend" son secciones que redacta y valida el servicio (⚕): se muestran como «en preparación». */
   var IND = [
-    { n: "Cuidados generales", pend: "⚕ Pendiente de redacción y validación por el servicio (cabecera, protecciones, protección gástrica, etc.)." },
+    { n: "Cuidados generales y hoja del día (empezá acá)", t: ["t:diario"] },
     { n: "Estado ácido-base (EAB) y electrolitos", t: ["t:eab", "c:elec", "t:lact"] },
     { n: "Setting del respirador", t: ["t:pards", "t:peep", "t:irab", "t:vchg", "t:vdvt", "t:vafo", "t:asinc"] },
     { n: "Inotrópicos y vasoactivos", t: ["c:inf", "t:ccv", "t:vis"] },
-    { n: "Analgosedación", t: ["c:sed", "c:opi", "c:int", "t:analgo", "t:wat", "t:comfb"] },
+    { n: "Analgosedación: primero la analgesia", t: ["c:sed", "c:opi", "c:int", "t:analgo", "t:wat", "t:comfb"] },
     { n: "Antibióticos", pend: "⚕ Pendiente de redacción y validación por el servicio (antibióticos según fiebre y estado del paciente)." },
-    { n: "Balance y riñón", t: ["t:natr", "t:gfr", "c:hk", "c:sc"] },
+    { n: "Líquidos, balance y riñón", t: ["t:diario", "t:natr", "t:gfr", "c:hk", "c:sc"] },
     { n: "Nutrición y glucemia", t: ["c:leche", "c:hg", "t:gluc", "t:antro"] },
-    { n: "Todo el día a día", t: ["x:calc", "x:ck", "x:pocus"] },
+    { n: "Fórmulas y todo el día a día", t: ["x:bib", "x:calc", "x:ck", "x:pocus"] },
     { n: "Peso, dosis y medicación", t: ["c:age", "x:cards", "x:bib"] },
     { n: "Pase, traslado y escalas", t: ["k:ipass", "k:tras", "t:pelod", "t:pim3"] }
   ];
