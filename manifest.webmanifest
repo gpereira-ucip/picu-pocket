@@ -1,7 +1,7 @@
 {
   "name": "Arucip",
   "short_name": "Arucip",
-  "description": "Ayuda rápida para cuidados intensivos pediátricos. Funciona sin conexión.",
+  "description": "Ayuda rápida para cuidados intensivos pediátricos.",
   "lang": "es",
   "start_url": "./",
   "scope": "./",

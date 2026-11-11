@@ -29,6 +29,7 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo G. Pereira.
 | `js/portada.js` | Lógica de la portada, «‹ Volver» de las pantallas secundarias y traducciones. |
 | `js/migrate.js` | Migra datos locales `picu-*` → `arucip-*` (se carga en `<head>`). |
 | `tests/smoke.js` | Pruebas (Playwright): integridad de `data.js`, enlaces, botonera, buscador, «Volver», palabras prohibidas y guías sin dosis. |
+| `tests/offline.js` | Prueba sin conexión: todo lo que usa la app está en `ASSETS` de `sw.js` y, sin red, abre y navega igual. `NODE_PATH=$(npm root -g) node tests/offline.js`. Correrla si se agregan o quitan archivos. |
 | `tools/build_html.py` | Arma `arucip.html` (un solo archivo) desde el repositorio. |
 | `tools/publicar_pruebas.sh` | Publica la PWA en `arucip/pruebas`. |
 | `CHANGELOG.md`, `docs/PENDIENTES.md` | Resumen por versión; pendientes y acuerdos. |

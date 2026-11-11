@@ -2,6 +2,7 @@ ARUCIP · PENDIENTES Y PLAN DE TRABAJO
 Lista original del 6/11/2026 (v0.53) · estados revisados el 11/11/2026 (v0.61). Lo más nuevo está en «ACTUALIZACIÓN», acá abajo.
 
 ACTUALIZACIÓN (v0.54): cambios respecto de la lista de abajo
+- Corrida 11/11 (2.ª): (a) tests/offline.js nuevo (ítem 35): chequea que todo archivo local que usa la app exista y esté en ASSETS de sw.js y, en un navegador con el service worker activo, corta la red y recarga: la app abre y navega igual, sin imágenes rotas (POCUS, Cards, QR) ni pedidos fallidos. Resultado: todo bien, no hubo que tocar sw.js. Falta probarlo en un teléfono real instalado (va con el ítem 3, (D)). (b) Corregido: la descripción del manifest (lo que muestra el teléfono al instalar) todavía decía «Funciona sin conexión.»; se quitó esa frase y la prueba nueva lo vigila. Para que llegue a la PWA de Jorge hay que volver a publicar en arucip/pruebas. (c) Nota: la carpeta src/ (fuentes viejas de la v0.4x, no se usan para armar la app) conserva textos viejos, incluida esa frase; no se tocó. Propuesta: borrarla o moverla a un archivo aparte, con el OK de Gonzalo. Sin cambios clínicos ni de estética.
 - Corrida 11/11 mañana: (a) tests/smoke.js ahora falla si una guía «Al recibirlo» o un texto de Emergencias trae una dosis (número + unidad tipo mg/kg, mL/kg, J/kg…): ítem 77, parcial (cubre js/data.js; no audita las herramientas viejas de index.html). (b) ⚕ A REVISAR POR MÉDICO: la única dosis que hay en las guías es anterior a la regla y quedó como excepción explícita del chequeo: Shock séptico, «Fluidos en alícuotas de 10–20 mL/kg con reevaluación después de cada una». No se tocó; que el servicio diga si se deja, se cambia o se reemplaza por «según la herramienta». (c) README: tabla de estructura al día (css/portada.css, js/portada.js, js/buscador.js, tests, tools). (d) Esta lista: estados viejos corregidos (no cambió ningún acuerdo) y plan por día reemplazado por «Qué sigue». Sin cambios clínicos ni de estética.
 - Corrida 10/11 noche: CHANGELOG.md creado (ítem 13). tests/smoke.js informa las herramientas sin ningún caso (ítem 10): solo quedan las de Más/Autocuidado/IA/app (maslach, bienestar, mindf, salud, violencia, collapse, iar1, simu, ialado, inst, qr, plan, new, about), que no son clínicas y no corresponden a casos. Sin cambios clínicos ni de estética.
 - Corrida 10/11 (mensajes de Gonzalo del 9/11): (a) «Indicaciones y cálculos» reordenada como pidió: Cuidados generales (⚕ en preparación, lo redacta el servicio) · EAB y electrolitos · Setting del respirador · Inotrópicos y vasoactivos · Analgosedación · Antibióticos (⚕ en preparación) · resto (js/data.js IND; los grupos con «pend» se muestran como texto en preparación). Las fórmulas/herramientas enlazadas son las que ya existían; no se redactó contenido clínico. (b) «No anda la leche concentrada»: probado en navegador (Calcular meta y Aporte actual con B!, D!, PRE!…): calcula bien volumen y nutrientes; NO se pudo reproducir. Pedir a Gonzalo en qué pantalla y con qué datos falla. (c) «No anda bien el predictivo»: probado (tec, tce, sepsis, asma, bronq, kawasaki, sri, pards, cad, lra…) y devuelve lo esperado; NO se pudo reproducir. Pedir ejemplos concretos de lo que no encuentra (ítems 90 y 19). (d) «Albúmina en quemados y situaciones anexas»: pendiente, es contenido clínico ⚕ (indicaciones/dosis) a redactar y validar por el servicio; sin dosis inventadas.
@@ -106,7 +107,7 @@ A. TÉCNICO (1–45)
 32. [PENDIENTE] Enlaces directos a cada caso y herramienta (por ejemplo #casos/shs).
 33. [PENDIENTE] Botón compartir enlace de una herramienta.
 34. [PARCIAL]   Lista de "recientes" (ya existe dentro de Favoritos).
-35. [PENDIENTE] Verificar que todo funcione sin conexión, incluidas imágenes de POCUS y Cards.
+35. [PARCIAL]   Verificar que todo funcione sin conexión, incluidas imágenes de POCUS y Cards. Hecho en navegador de prueba (tests/offline.js, 11/11); falta en teléfono real (D, con el ítem 3).
 36. [PENDIENTE] Bajar el peso del HTML (hoy unos 8 MB) optimizando imágenes.
 37. [PENDIENTE] Subconjunto de las fuentes Montserrat para reducir peso.
 38. [PENDIENTE] Medir el arranque en un celular de gama baja.
@@ -251,9 +252,9 @@ Las prioridades 1 a 3 de la rutina están completas (87 guías, enlaces, pruebas
 haciendo sola, de a un paso por corrida (propuesta; nada de esto está implementado):
 - 77: extender la auditoría de dosis a index.html (solo listar qué pantalla muestra qué dosis y su fuente; no cambiar nada).
 - 47 y 46: limpieza de traducciones sin uso y de textos con nombres viejos (hoy no hay ninguno visible; quedan claves internas).
-- 35: prueba automática de que todo lo que usa la app está en ASSETS de sw.js (sin conexión).
 - 32: enlaces directos a cada caso (#casos/shs). Es funcional, no visual, pero cambia la navegación: necesita el OK de Gonzalo.
 - 16 y 17: campos «fuente» y «revisado por / fecha» en data.js (estructura vacía, para que el servicio los complete).
+- src/: carpeta de fuentes viejas que ya no se usa (tiene textos con nombres viejos): borrarla o archivarla, con el OK de Gonzalo.
 - 58: armar docs/VALIDACION.md, la lista de las 87 guías para que Jorge y Eduardo tilden cuáles quedan validadas.
 Lo que NO puede avanzar sin personas:
 - Revisión médica ⚕ de todo lo clínico (58, 60–63, 66, 73, 78, 85) y el contenido que redacta el servicio (106–111).
