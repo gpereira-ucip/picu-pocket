@@ -5007,8 +5007,8 @@ window.ARUCIP_DATA = (function () {
       n: "Triángulo de evaluación pediátrica",
       d: "Primera impresión en segundos, antes de tocar al paciente.",
       pts: ["Apariencia (estado neurológico): tono, interacción, consuelo, mirada, llanto o voz.",
-            "Trabajo respiratorio: posturas, tiraje, aleteo, ruidos anormales.",
-            "Circulación cutánea: palidez, cianosis, piel moteada.",
+            "Esfuerzo respiratorio: posturas, tiraje, aleteo, ruidos anormales.",
+            "Circulación (color): palidez, cianosis, piel moteada.",
             "Si alguno está alterado, pasá directo al ABC y pedí ayuda. Si la combinación indica que hay que reanimar, usá el botón PARO."],
       t: ["t:pals"]
     },
@@ -5973,14 +5973,14 @@ window.ARUCIP_DATA = (function () {
   var NOTE = '<p class="hint hub-note">Apoyo a la decisión: no reemplaza el criterio clínico ni el protocolo de tu servicio. Verificá siempre las dosis en la fuente original.</p>';
   var back = '<button class="btn g back" type="button" data-hb>‹ Volver</button>';
 
-  var TRI_SVG = '<svg class="tri-svg" viewBox="0 0 300 232" role="img" aria-label="Triángulo de evaluación pediátrica: apariencia, trabajo respiratorio y circulación a la piel" style="display:block;width:min(100%,340px);margin:6px auto 12px">' +
-    '<polygon points="150,12 286,200 14,200" fill="none" stroke="#17384A" stroke-width="3" stroke-linejoin="round"/>' +
-    '<polygon points="150,12 286,200 150,200" fill="#C2402F" fill-opacity=".16"/><polygon points="150,12 14,200 150,200" fill="#1F7A5A" fill-opacity=".16"/>' +
-    '<circle cx="150" cy="12" r="10" fill="#1F5368"/><circle cx="14" cy="200" r="10" fill="#1F7A5A"/><circle cx="286" cy="200" r="10" fill="#C2402F"/>' +
-    '<g font-family="inherit" font-weight="700" text-anchor="middle" fill="currentColor"><text x="150" y="82" font-size="15" fill="#1F5368">Apariencia</text><text x="150" y="100" font-size="11" font-weight="500">estado neurológico</text>' +
-    '<text x="82" y="160" font-size="13" fill="#1F7A5A">Trabajo</text><text x="82" y="176" font-size="13" fill="#1F7A5A">respiratorio</text>' +
-    '<text x="212" y="160" font-size="12" fill="#C2402F">Circulación</text><text x="212" y="176" font-size="13" fill="#C2402F">a la piel</text></g>' +
-    '<text x="150" y="226" font-size="10" text-anchor="middle" fill="currentColor" opacity=".7">Evaluación en segundos, antes de tocar al paciente</text></svg>';
+  var TRI_SVG = '<svg class="tri-svg" viewBox="0 0 320 250" role="img" aria-label="Triángulo de evaluación pediátrica: apariencia, esfuerzo respiratorio y circulación (color)" style="display:block;width:min(100%,340px);margin:6px auto 12px">' +
+    '<polygon points="160,44 70,196 168,166" fill="#3F2E8C"/>' +
+    '<polygon points="160,44 250,196 168,166" fill="#8CC152"/>' +
+    '<polygon points="70,196 250,196 168,166" fill="#1F93A8"/>' +
+    '<g font-family="inherit" font-weight="700" font-size="12.5" text-anchor="middle" fill="#fff">' +
+    '<rect x="8" y="10" width="112" height="24" rx="12" fill="#3F2E8C"/><text x="64" y="26.5">Apariencia</text>' +
+    '<rect x="166" y="10" width="148" height="24" rx="12" fill="#8CC152"/><text x="240" y="26.5">Esfuerzo respiratorio</text>' +
+    '<rect x="92" y="208" width="136" height="24" rx="12" fill="#1F93A8"/><text x="160" y="224.5">Circulación (color)</text></g></svg>';
   /* ---------- TRIAGE ---------- */
   function renderTriage() {
     var T = D.TRIAGE, host = $("#tri-body");
