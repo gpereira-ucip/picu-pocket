@@ -3416,7 +3416,7 @@ function r1(){
  else if(cs==="critico"){tfin=sch*fa/pu;met=metd+": "+fm(sch,0)+" kcal/día × factor "+fm(fa,2)+"."}
  else{tfin=sch*fa/pu;met=metd+": "+fm(sch,0)+" kcal/día × factor "+fm(fa,2)+(fa===1.3?" (Schofield + 30% del requerimiento).":".")}
  const meta=tfin*pu;
- T("m-meta",fm(meta,0));T("m-metakg",isFinite(tfin)?fm(tfin,1)+" kcal/kg/día":"– kcal/kg/día");T("m-met","Cálculo: "+met+(ob==="Sí"&&isFinite(pt)?" Peso usado: "+fm(pu,1)+" kg (promedio con el peso teórico).":""));
+ T("m-meta",fm(meta,0));T("m-metakg",isFinite(tfin)?fm(tfin,1)+" kcal/kg/día":"– kcal/kg/día");T("m-met","Cálculo: "+met+(ob==="Sí"&&isFinite(pt)?" Peso usado: "+fm(pu,1)+" kg (promedio con el peso teórico).":"")+(E("m-fo").value.indexOf("!")>=0?" Fórmula concentrada: da la misma meta de calorías en menos volumen, pero la proteína es casi la misma que con la común (tiene la misma proporción de proteína por caloría). Para sumar proteína hace falta otra fórmula o un módulo.":""));
  const fd=FORMULAS.find(f=>f[0]===E("m-fo").value),k100=fd?fd[2]:null,vol=k100?(meta/k100)*100:null;
  T("m-vol",fm(vol,0));E("m-vt").value=(vol&&nt)?fm(vol/nt,0):"–";
  if(fd&&vol){const pt2=fd[4]/100*vol;T("m-hc",fm(fd[3]/100*vol,1));T("m-pr",fm(pt2,1));T("m-prk",fm(pt2/pu,2)+" g/kg/día");T("m-gr",fm(fd[5]/100*vol,1));T("m-na",fm(fd[6]/100*vol,1));T("m-os",fd[7]?fm(fd[7],0):"s/d")}
