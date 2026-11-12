@@ -4,6 +4,7 @@ Resumen por versión (el detalle está en el README y en docs/PENDIENTES.md).
 ⚕ = contenido clínico pendiente de revisión médica. No se agregaron dosis nuevas.
 
 ## 0.61 (8–10/11/2026)
+- 12/11 (aviso de Jorge): en los motivos de consulta ya no se repite dos veces un acceso que también está en «Siempre a mano» (por ejemplo, Cards en Arritmias).
 - Buscador con siglas, «Volver» en todas las pantallas, triángulo de evaluación, «Enfoque sistemático: paso a paso» (PALS) y novedades AHA 2025 en Emergencias (⚕).
 - «Indicaciones y cálculos» reordenada: cuidados generales · EAB y electrolitos · respirador · inotrópicos · analgosedación · antibióticos (⚕ varios «en preparación»).
 - Los 87 motivos de ingreso tienen guía «Al recibirlo» (⚕) y 4 o más herramientas enlazadas.

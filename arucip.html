@@ -6235,7 +6235,7 @@ window.ARUCIP_DATA = (function () {
       var rec = c.rec || g0.rec;
       html = back + '<p class="hub-badge">' + c.g.map(function (i) { return esc(gname(i).n); }).join(" · ") + "</p><h2>" + esc(c.n) + "</h2>" +
         '<h3 class="hub-h">Al recibirlo</h3><div class="card"><div class="calc"><ol class="hub-ol">' + rec.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ol></div></div>" +
-        sections(c.t) + base() + NOTE;
+        sections(c.t.filter(function (r) { return D.BASE.indexOf(r) < 0; })) + base() + NOTE; /* lo que ya está en «Siempre a mano» no se repite arriba */
     } else if (cs.g) {
       var g = gname(cs.g);
       html = back + '<div class="hub-hd"><span class="tile-i">' + svg(g.ic) + "</span><h2>" + esc(g.n) + '</h2></div><p class="sub">' + esc(g.d) + '</p><h3 class="hub-h">Motivos de ingreso</h3><div class="cr-l">' + casesOf(g.id).map(caseRow).join("") + "</div>" + sysTools(g.id) + NOTE;
