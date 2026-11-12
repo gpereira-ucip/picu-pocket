@@ -16,6 +16,7 @@ Resumen por versión (el detalle está en el README y en docs/PENDIENTES.md).
 - 11/11: «Bradicardia con pulso» y «Taquicardia con pulso» como algoritmos paso a paso (preguntas Sí/No, camino recorrido, dosis por peso con topes), con diseño y redacción propios basados en PALS 2020; enlazados desde Arritmias y en Más › Herramientas › Cardiovascular (⚕). Sin dosis nuevas: son las que ya tenía la app.
 - 11/11: «Problema respiratorio: gravedad y tipo (PALS)» y «Shock: reconocimiento y tipo (PALS)», paso a paso y sin dosis, enlazados desde insuficiencia respiratoria, bronquiolitis y los motivos de shock (⚕).
 - 11/11: cotejo de dosis PALS 2020 contra la app (docs/PALS.md); dos discrepancias marcadas ⚠ en la ficha de TSV (2.ª dosis de adenosina y energía de cardioversión), sin cambiar el dato original.
+- 12/11: «Emergencia por opioides: paso a paso (PALS)», sin dosis, en Más › Herramientas › Multisistémico y enlazada desde el motivo de alcohol, drogas de abuso y opioides (⚕).
 
 ## 0.57–0.60 (8/11/2026)
 - Portada achicada, agradecimiento a la Fundación Garrahan, QR para compartir la app, buscador más grande, ícono A (solo emblema).

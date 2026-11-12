@@ -733,7 +733,7 @@ window.ARUCIP_DATA = (function () {
             "Pedí gases, ionograma, función renal y hepática, CK y tóxicos en orina/sangre según disponibilidad.",
             "Observación prolongada y monitoreo; vigilá abstinencia, agitación y aspiración.",
             "Consultá con toxicología y evaluá el contexto social (abuso, intento de suicidio, maltrato)."],
-      t: ["t:tox", "x:cards", "c:hg", "t:gcs"] },
+      t: ["t:opio", "t:tox", "x:cards", "c:hg", "t:gcs"] },
 
     /* ===== Posoperatorio y procedimientos ===== */
     { id: "pmy", n: "Posoperatorio de cirugía mayor (abdominal, torácica, ortopédica)", g: ["po"],
