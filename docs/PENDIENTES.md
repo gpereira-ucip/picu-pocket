@@ -12,6 +12,15 @@ Hecho el 11/11 noche: herramienta «Hoja del día: indicaciones y balance» (ind
 6. Bug «no anda bien el predictivo»: no se pudo reproducir; pedirle palabras concretas que no encuentra.
 7. Hoja del día, mejoras: PVC y gases en gráfico; varios pacientes (hoy guarda uno solo); exportar en PDF.
 
+ESTRUCTURA MODULAR (decisión de Gonzalo del 12/11/2026; idea y prueba de Jorge: github.com/arucip/modular1)
+
+Qué es: en vez de tener casi todo dentro de index.html, cada parte va en su archivo. No cambia nada de lo que ve el usuario. Sirve para tocar una parte sin riesgo de romper otra, para que la app abra más rápido y para que cada cambio se vea claro en GitHub. No se adopta la copia de Jorge tal cual porque parte de una versión vieja (le falta lo del 9 al 12/11); se aplica la misma idea sobre esta rama. Reglas en el README.
+- [HECHO 12/11] Datos pesados a js/datos/: NOIMG (noimg.js), CARDS (cards.js), IMG e IMGX (pocus-img.js). index.html pasó de 7,9 MB a 3,3 MB. Contenido idéntico byte a byte; smoke y offline en «Todo bien».
+- [PENDIENTE] Qué sigue, un bloque por corrida y solo cuando no haya trabajo en las prioridades clínicas: (1) traducciones en/pt (los Object.assign de I18N) a js/i18n/; (2) fichas de «Fórmulas y preparaciones» y «Notas prácticas»; (3) algoritmos PALS (palsFlow y T.bradi, T.taqui, T.recresp, T.recshock, T.opio) a js/pals.js; (4) escalas y calculadoras por aparato; (5) estilos de index.html a css/. Ojo en (3) y (4): es código, no solo datos; verificar el orden de carga.
+- [A CHARLAR ENTRE LOS TRES] De la prueba de Jorge quedan por decidir: cargar cada herramienta recién al abrirla (hoy se carga todo al inicio), guardar las fórmulas como texto en JSON, e imágenes como archivos .jpg/.webp en vez de texto base64 (ahorra cerca de un 25 % de peso).
+
+ISSUES (decisión de Gonzalo del 12/11/2026): Jorge, Eduardo y Gonzalo cargan sugerencias y errores en https://github.com/gpereira-ucip/picu-pocket/issues. Gonzalo los conversa con Claude y recién entonces pasan a esta lista. (D) Falta que Jorge y Eduardo lo acepten y que, si se quiere un formulario guiado para cargar issues, Gonzalo autorice subir las plantillas a main (solo funcionan desde la rama principal).
+
 PRIORIDAD 2: pedido de Gonzalo del 11/11/2026 (manual PALS)
 
 Gonzalo pidió sumar todo lo útil del Libro del proveedor SVAP/PALS 2023. Lo hecho y la lista de lo que falta, con las notas clínicas ya redactadas, están en **docs/PALS.md** (sección «Pendiente: para la tarea diaria»). Tomá **un ítem por corrida**, en orden, antes que el resto de esta lista. Redacción y diseño propios; nada copiado del libro; todo ⚕.

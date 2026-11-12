@@ -10,6 +10,8 @@
 - **El HTML que se le entrega al usuario es SIEMPRE `arucip.html` generado desde este repositorio**: `python3 tools/build_html.py` (después subirlo con el commit). Ningún otro HTML representa a Arucip.
 - Trabajá y subí en lotes chicos (commit + push después de cada lote): si la sesión se corta por falta de uso disponible, no se pierde nada.
 - **Publicación (PWA en GitHub Pages)**: el sitio de Jorge es `arucip/pruebas` (rama `main`, raíz). Después de subir cambios a esta rama, publicar con `tools/publicar_pruebas.sh <clon de pruebas>` (cada ejecución = una versión nueva, con el commit de origen). Requiere agregar `arucip/pruebas` a la sesión (add_repo, con push).
+- **Estructura modular (decisión de Gonzalo del 12/11/2026, a partir de la prueba `arucip/modular1` de Jorge)**: de acá en adelante cada parte de la app va en su propio archivo y `index.html` se va achicando de a poco. Reglas: (1) todo lo NUEVO (datos, herramientas, textos largos) se escribe en un archivo propio dentro de `js/` o `js/datos/`, no dentro de `index.html`; (2) lo que ya está en `index.html` se saca de a un bloque por vez, sin cambiar ni una coma del contenido, y solo si después pasan `tests/smoke.js` y `tests/offline.js`; (3) todo archivo nuevo se agrega a `ASSETS` en `sw.js`; (4) `arucip.html` sigue siendo un solo archivo: `tools/build_html.py` vuelve a meter todo adentro. El plan y lo que falta separar están en `docs/PENDIENTES.md` («ESTRUCTURA MODULAR»).
+- **Pedidos y errores por issues (decisión de Gonzalo del 12/11/2026)**: Jorge, Eduardo y Gonzalo cargan cada sugerencia o cosa que no funciona como un issue en https://github.com/gpereira-ucip/picu-pocket/issues (uno por tema). Gonzalo los revisa y los conversa con Claude; **ningún issue se implementa solo**: las tareas programadas no toman issues por su cuenta si Gonzalo no lo indicó en `docs/PENDIENTES.md`.
 - Cada corrida programada empieza sin memoria de las conversaciones con Gonzalo: lo acordado está en este README y en `docs/PENDIENTES.md`. Si se acuerda algo nuevo, se escribe ahí.
 
 
@@ -24,6 +26,7 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo G. Pereira.
 | `css/portada.css` | Capa visual: logotipo, botones y portada (aprobada: no tocar). |
 | `css/hubs.css` | Estilos de Emergencias, Motivos de ingreso e Indicaciones y cálculos. |
 | `js/data.js` | Datos de Emergencias (`TRIAGE`), aparatos (`SYS`), Motivos de ingreso (`CASES`, `GROUPS`, `SYMP`) e Indicaciones y cálculos (`IND`). Se edita acá para agregar casos. |
+| `js/datos/noimg.js`, `js/datos/cards.js`, `js/datos/pocus-img.js` | Solo datos, separados de `index.html` el 12/11: imágenes de las fichas de procedimientos (`NOIMG`), Cards por peso (`CARDS`) e imágenes de POCUS (`IMG`, `IMGX`). Se cargan antes del código de `index.html`. |
 | `js/hubs.js` | Arma las pantallas de Emergencias, Motivos de ingreso e Indicaciones y cálculos con enlaces a lo que ya tiene la app. |
 | `js/buscador.js` | Buscador general predictivo de la portada (siglas, sinónimos, tildes y un error de tipeo). |
 | `js/portada.js` | Lógica de la portada, «‹ Volver» de las pantallas secundarias y traducciones. |

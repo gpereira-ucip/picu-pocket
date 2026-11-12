@@ -31,7 +31,8 @@ const scan = (txt, base) => {
 };
 scan(html, "");
 fs.readdirSync(path.join(ROOT, "css")).forEach((f) => scan(read("css/" + f), "css"));
-fs.readdirSync(path.join(ROOT, "js")).forEach((f) => scan(read("js/" + f), ""));
+fs.readdirSync(path.join(ROOT, "js")).filter((f) => f.endsWith(".js")).forEach((f) => scan(read("js/" + f), ""));
+fs.readdirSync(path.join(ROOT, "js/datos")).forEach((f) => refs.add("js/datos/" + f)); /* solo datos: deben estar todos en ASSETS */
 const man = JSON.parse(read("manifest.webmanifest"));
 (man.icons || []).forEach((i) => refs.add(i.src));
 const used = [...refs].filter((u) => u !== "sw.js");

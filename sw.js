@@ -7,7 +7,7 @@
  * Idea y base: Jorge Selandari. */
 var CACHE = "arucip";
 var TIMEOUT_MS = 4000;
-var ASSETS = ["./", "index.html", "css/hubs.css", "css/portada.css", "js/data.js", "js/hubs.js", "js/portada.js", "js/buscador.js", "js/migrate.js",
+var ASSETS = ["./", "index.html", "css/hubs.css", "css/portada.css", "js/data.js", "js/hubs.js", "js/portada.js", "js/buscador.js", "js/migrate.js", "js/datos/noimg.js", "js/datos/cards.js", "js/datos/pocus-img.js",
   "assets/emblem-ar-ucip.png", "assets/logo-emblem-light.png", "assets/logo-emblem-dark.png", "assets/logo-wordmark-light.png", "assets/logo-wordmark-dark.png", "assets/qr-app.svg", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", function (e) {
