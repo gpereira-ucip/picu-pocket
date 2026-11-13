@@ -14,7 +14,7 @@ window.ARUCIP_DATA = (function () {
          pocusq: "POCUS en la recepción del gran quemado", ipass: "Pase de guardia (I-PASS)",
          procu: "Procuración de órganos (INCUCAI)", no: "Armado de óxido nítrico" },
     c: { age: "Peso estimado por edad", sed: "Analgosedación: preparación estandarizada", opi: "Conversión de opioides",
-         int: "Goteo continuo a intermitente", elec: "Electrolitos y ácido-base", inf: "Inotrópicos y vasoactivos: preparación",
+         int: "Goteo continuo a intermitente", elec: "Electrolitos", inf: "Inotrópicos y vasoactivos: preparación",
          leche: "Fórmulas lácteas y metas calóricas", sc: "Superficie corporal y necesidades basales", hg: "Hipoglucemia",
          hk: "Glucosa e insulina en hiperkalemia", endo: "Cetoacidosis diabética" },
     p: { 0: "Accesos vasculares ecoguiados", 1: "Ecografía pulmonar", 2: "Vía aérea y diafragma", 3: "Ecocardiografía funcional",

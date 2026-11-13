@@ -4594,7 +4594,7 @@ function results(){const a=ag(),w=wt(),h=ht(),T=tot(),sq=T[2]+T[3]+T[4],sup=T[2]
   +pp("Puntos por factor","SCQ: &lt;25% = 0; 25–40% = 1; &gt;40% = 2. AB-B: &lt;25% = 0; ≥25% = 1. B: &lt;10% = 0; 10–40% = 1; &gt;40% = 2. Dorso-glúteo, traslado inadecuado y patología previa: 1 punto. Síndrome inhalatorio: 2 puntos.")}
  E("b-an2").innerHTML=w>0?pp("Dosis para "+sf(w)+" kg",`Paracetamol 15 mg/kg: ${sf(15*w)} mg<br>Dipirona 20 mg/kg: ${sf(20*w)} mg<br>Morfina 0,1 mg/kg: ${sf(.1*w)} mg<br>Fentanilo 1–2 µg/kg: ${sf(w)} a ${sf(2*w)} µg<br>Ketamina 1–2 mg/kg: ${sf(w)} a ${sf(2*w)} mg`):pp("Falta el peso","Ingresá el peso arriba.")}
 
-E("b-dgr").innerHTML=[1,2,3,4].map(i=>{const[l,g]=DEG[i].s.split(" - ");return `<button type="button" class="bdc" data-d="${i}"${i===2?' hidden':''}><i style="background:${DEG[i].c}"></i><span><b>${l} -<em id="b-p${i}" style="float:right">0%</em></b><span style="display:block;white-space:nowrap;font-size:.74rem;font-weight:700">${g}</span></span></button>`}).join("");
+E("b-dgr").innerHTML=[1,2,3,4].map(i=>{const[l,g]=DEG[i].s.split(" - ");return `<button type="button" class="bdc" data-d="${i}"${i===2?' hidden':''}><i style="background:${DEG[i].c}"></i><span><b>${l} -</b><span style="display:block;white-space:nowrap;font-size:.74rem;font-weight:700">${g}</span><em id="b-p${i}" style="display:block">0%</em></span></button>`}).join("");
 function mark(){document.querySelectorAll(".bside .bdc").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.d===S.deg));
  document.querySelectorAll("#b-cs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.c===S.chart));document.querySelectorAll("#b-ss button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===S.side));
  document.querySelectorAll("#b-ft button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===S.ft))}
@@ -5192,7 +5192,7 @@ window.ARUCIP_DATA = (function () {
          pocusq: "POCUS en la recepción del gran quemado", ipass: "Pase de guardia (I-PASS)",
          procu: "Procuración de órganos (INCUCAI)", no: "Armado de óxido nítrico" },
     c: { age: "Peso estimado por edad", sed: "Analgosedación: preparación estandarizada", opi: "Conversión de opioides",
-         int: "Goteo continuo a intermitente", elec: "Electrolitos y ácido-base", inf: "Inotrópicos y vasoactivos: preparación",
+         int: "Goteo continuo a intermitente", elec: "Electrolitos", inf: "Inotrópicos y vasoactivos: preparación",
          leche: "Fórmulas lácteas y metas calóricas", sc: "Superficie corporal y necesidades basales", hg: "Hipoglucemia",
          hk: "Glucosa e insulina en hiperkalemia", endo: "Cetoacidosis diabética" },
     p: { 0: "Accesos vasculares ecoguiados", 1: "Ecografía pulmonar", 2: "Vía aérea y diafragma", 3: "Ecocardiografía funcional",
