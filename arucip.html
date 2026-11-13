@@ -4292,7 +4292,7 @@ const big=(l,v)=>`<div class="big"><small>${l}</small><b>${v}</b></div>`;
 const pp=(l,v)=>`<div class="pp"><small>${l}</small>${v}</div>`;
 const wn=t=>`<div class="wn">${t}</div>`;
 const sub=(t,sm,b)=>`<details class="sdd2"><summary><div style="flex:1;min-width:0"><b>${t}</b><small>${sm}</small></div>${ic("chev","chev")}</summary><div class="sdx">${b}</div></details>`;
-const DEG={1:{n:"A (1.º grado)",s:"A",sub:"1.º",c:"#FACC15"},2:{n:"AB-A (2.º superficial)",s:"AB-A",sub:"2.º sup.",c:"#FB923C"},3:{n:"AB (2.º grado)",s:"AB",sub:"2.º",c:"#EF4444"},4:{n:"B (3.º grado)",s:"B",sub:"3.º",c:"#7F1D1D"}};
+const DEG={1:{n:"A - 1.er grado",s:"A - 1.er grado",sub:"Epidérmica",c:"#FACC15"},2:{n:"AB-A - 2.º grado superficial",s:"AB-A - 2.º grado sup.",sub:"Dérmica superficial",c:"#FB923C"},3:{n:"AB - 2.º grado",s:"AB - 2.º grado",sub:"Dérmica",c:"#EF4444"},4:{n:"B - 3.er grado",s:"B - 3.er grado",sub:"Espesor total",c:"#7F1D1D"}};
 const LBT=[[0,9.5,2.75,2.5],[1,8.5,3.25,2.5],[5,6.5,4,2.75],[10,5.5,4.25,3],[15,4.5,4.5,3.25],[18,3.5,4.75,3.5]];
 const LBN=["menores de 1 año","1 a 4 años","5 a 9 años","10 a 14 años","15 a 17 años","adulto (18 años o más)"];
 const lbi=a=>{if(!isFinite(a))return 5;let r=0;LBT.forEach((x,i)=>{if(a>=x[0])r=i});return r};
@@ -4581,7 +4581,7 @@ function results(){const a=ag(),w=wt(),h=ht(),T=tot(),sq=T[2]+T[3]+T[4],sup=T[2]
   +pp("Puntos por factor","SCQ: &lt;25% = 0; 25–40% = 1; &gt;40% = 2. AB-B: &lt;25% = 0; ≥25% = 1. B: &lt;10% = 0; 10–40% = 1; &gt;40% = 2. Dorso-glúteo, traslado inadecuado y patología previa: 1 punto. Síndrome inhalatorio: 2 puntos.")}
  E("b-an2").innerHTML=w>0?pp("Dosis para "+sf(w)+" kg",`Paracetamol 15 mg/kg: ${sf(15*w)} mg<br>Dipirona 20 mg/kg: ${sf(20*w)} mg<br>Morfina 0,1 mg/kg: ${sf(.1*w)} mg<br>Fentanilo 1–2 µg/kg: ${sf(w)} a ${sf(2*w)} µg<br>Ketamina 1–2 mg/kg: ${sf(w)} a ${sf(2*w)} mg`):pp("Falta el peso","Ingresá el peso arriba.")}
 
-E("b-dgr").innerHTML=[1,2,3,4].map(i=>`<button type="button" class="bdc" data-d="${i}"${i===2?' hidden':''}><i style="background:${DEG[i].c}"></i><span><b>${DEG[i].s}</b><small>${DEG[i].sub}</small></span><em id="b-p${i}">0%</em></button>`).join("");
+E("b-dgr").innerHTML=[1,2,3,4].map(i=>{const[l,g]=DEG[i].s.split(" - ");return `<button type="button" class="bdc" data-d="${i}"${i===2?' hidden':''}><i style="background:${DEG[i].c}"></i><span><b>${l} -<em id="b-p${i}" style="float:right">0%</em></b><span style="display:block;white-space:nowrap;font-size:.74rem;font-weight:700">${g}</span></span></button>`}).join("");
 function mark(){document.querySelectorAll(".bside .bdc").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.d===S.deg));
  document.querySelectorAll("#b-cs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.c===S.chart));document.querySelectorAll("#b-ss button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===S.side));
  document.querySelectorAll("#b-ft button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===S.ft))}
