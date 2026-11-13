@@ -295,7 +295,7 @@ window.ARUCIP_DATA = (function () {
       rec: ["Mantené al niño tranquilo y en posición de confort; no fuerces maniobras que lo agiten.",
             "Crup: adrenalina nebulizada y corticoide.",
             "Preparate para vía aérea difícil con equipo de ORL o quirúrgico disponible."],
-      t: ["k:intub", "t:sri", "p:2", "t:cort", "t:anaf"] },
+      t: ["t:cuerpo", "k:intub", "t:sri", "p:2", "t:cort", "t:anaf"] },
     { id: "pnt", n: "Neumotórax / derrame pleural / hemotórax", g: ["re", "tr"],
       rec: ["Neumotórax a tensión: compromiso respiratorio y hemodinámico súbito; es una urgencia clínica, no esperes la radiografía.",
             "Ecografía pulmonar a la cabecera para confirmar neumotórax o derrame; Rx de tórax si el paciente está estable.",

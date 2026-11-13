@@ -26,7 +26,7 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo G. Pereira.
 | `css/portada.css` | Capa visual: logotipo, botones y portada (aprobada: no tocar). |
 | `css/hubs.css` | Estilos de Emergencias, Motivos de ingreso e Indicaciones y cálculos. |
 | `js/data.js` | Datos de Emergencias (`TRIAGE`), aparatos (`SYS`), Motivos de ingreso (`CASES`, `GROUPS`, `SYMP`) e Indicaciones y cálculos (`IND`). Se edita acá para agregar casos. |
-| `js/datos/noimg.js`, `js/datos/cards.js`, `js/datos/pocus-img.js` | Solo datos, separados de `index.html` el 12/11: imágenes de las fichas de procedimientos (`NOIMG`), Cards por peso (`CARDS`) e imágenes de POCUS (`IMG`, `IMGX`). Se cargan antes del código de `index.html`. |
+| `js/datos/noimg.js`, `js/datos/cards.js`, `js/datos/pocus-img.js`, `js/datos/pals-cuerpo-extrano.js` | Solo datos, separados de `index.html` el 12/11: imágenes de las fichas de procedimientos (`NOIMG`), Cards por peso (`CARDS`) e imágenes de POCUS (`IMG`, `IMGX`); y, desde el 13/11, los nodos del algoritmo de cuerpo extraño (`PALS_CUERPO`). Se cargan antes del código de `index.html`. |
 | `js/hubs.js` | Arma las pantallas de Emergencias, Motivos de ingreso e Indicaciones y cálculos con enlaces a lo que ya tiene la app. |
 | `js/buscador.js` | Buscador general predictivo de la portada (siglas, sinónimos, tildes y un error de tipeo). |
 | `js/portada.js` | Lógica de la portada, «‹ Volver» de las pantallas secundarias y traducciones. |
