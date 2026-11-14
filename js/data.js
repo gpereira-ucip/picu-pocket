@@ -251,7 +251,7 @@ window.ARUCIP_DATA = (function () {
             "Posparo: oxigenación y ventilación normales, evitar hipotensión, glucemia y temperatura controladas.",
             "ECG, ecocardiografía funcional y estudio de la causa (las H y las T).",
             "Valorá el pronóstico neurológico y comunicá a la familia con claridad."],
-      t: ["t:rcp", "t:parolog", "x:cards", "t:pals", "p:3", "t:gcs", "t:analgo", "t:fss", "c:hk", "c:hg"] },
+      t: ["t:rcp", "t:equipo", "t:parolog", "x:cards", "t:pals", "p:3", "t:gcs", "t:analgo", "t:fss", "c:hk", "c:hg"] },
     { id: "kaw", n: "Kawasaki con shock / PIMS", g: ["cv", "in", "he"],
       rec: ["Sospechalo en fiebre persistente con exantema, conjuntivitis, mucositis y adenopatías, o shock con inflamación multisistémica (PIMS).",
             "Valorá función cardíaca: ECG, troponina, BNP y ecocardiografía (descartá dilatación o aneurismas coronarios).",
