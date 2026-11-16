@@ -228,11 +228,12 @@ También aparece en: Infectológico.
 - Fecha: 
 - Observaciones: 
 
-### [ ] Obstrucción de vía aérea alta (crup, epiglotitis, cuerpo extraño) · `vaa` · texto `b4627d78`
+### [ ] Obstrucción de vía aérea alta (crup, epiglotitis, cuerpo extraño) · `vaa` · texto `3b659a0a`
 
 1. Mantené al niño tranquilo y en posición de confort; no fuerces maniobras que lo agiten.
 2. Crup: adrenalina nebulizada y corticoide.
-3. Preparate para vía aérea difícil con equipo de ORL o quirúrgico disponible.
+3. Crup, cómo medir la gravedad: estridor solo con el llanto o la agitación (leve); estridor en reposo con tiraje (moderado); tiraje marcado, agitación o somnolencia, cianosis o fatiga (grave, riesgo de falla respiratoria).
+4. Preparate para vía aérea difícil con equipo de ORL o quirúrgico disponible.
 
 - Revisó: 
 - Fecha: 
