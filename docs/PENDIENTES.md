@@ -1,6 +1,32 @@
 ARUCIP · PENDIENTES Y PLAN DE TRABAJO
 Lista original del 6/11/2026 (v0.53) · estados revisados el 11/11/2026 (v0.61). Lo más nuevo está en «ACTUALIZACIÓN», acá abajo.
 
+PRIORIDAD 0: pedido de Gonzalo del 17/11/2026 (por pedido de Jorge): TODA la app modular y DOS IDIOMAS NUEVOS
+
+A) Estructura modular completa, con carpetas de nombres que una persona entienda sin saber programar.
+   Objetivo: que Jorge pueda abrir, por ejemplo, la carpeta de POCUS y tocar solo eso. No cambia nada de lo que ve el usuario.
+   Estructura destino (una carpeta por sector de la app; nombres en castellano, sin tildes ni espacios):
+   - js/nucleo/ (arranque, portada, menú, buscador, botonera, modo oscuro, service worker)
+   - js/emergencias/ (panel de emergencia, modo PARO, signos vitales PALS)
+   - js/motivos-de-ingreso/ (casos, triage, guías «Al recibirlo»)
+   - js/indicaciones-y-calculos/ (calculadoras, infusiones, hoja del día y balance, leches y fórmulas)
+   - js/pals-algoritmos/ (bradicardia, taquicardia, shock, respiratorio, opioides, cuerpo extraño, equipos)
+   - js/quemados/
+   - js/pocus-ecografia/ (imágenes y guías de ecografía)
+   - js/cards-medicacion-por-peso/
+   - js/escalas/
+   - js/notas-practicas/ y js/formulas-y-preparaciones/
+   - js/idiomas/ (en.js, pt.js, fr.js, de.js; hoy en js/i18n/)
+   - css/ con un archivo por sector.
+   Reglas: mover de a un bloque por commit, sin cambiar ni una coma del contenido; después de cada bloque, smoke.js y offline.js en «Todo bien», arucip.html regenerado y cada archivo en ASSETS de sw.js. Lo ya movido a js/datos/ y js/i18n/ se reubica en estas carpetas. Crear docs/MAPA.md: una tabla «qué hay en cada carpeta» en castellano simple, para Jorge. Que index.html quede solo como esqueleto que carga las partes.
+   Ritmo: esta prioridad va primero. Cada corrida hace todos los bloques que pueda, de a uno, con commit y push después de cada uno (si se corta, no se pierde nada).
+
+B) Idiomas nuevos: francés y alemán (hoy: español, inglés y portugués).
+   - Primero la infraestructura: selector con FR y DE; si falta una frase, se muestra en inglés (y si tampoco está, en español). Marcar en la app «traducción en progreso».
+   - Después, traducir por tandas, empezando por lo que más se ve: menú, botonera, portada, emergencias, motivos de ingreso. Cada tanda en js/idiomas/fr.js y de.js.
+   - Las dosis, unidades y números NO se traducen ni se tocan. Términos médicos con la denominación usual en cada idioma.
+   - Avance anotado acá (cuántas claves de cuántas en cada idioma).
+
 PRIORIDAD 1: pedido de Gonzalo del 11/11/2026, 19:42 (indicaciones diarias)
 
 Hecho el 11/11 noche: herramienta «Hoja del día: indicaciones y balance» (index.html, T.diario), primera en «Indicaciones y cálculos». Falta, en este orden, una cosa por corrida:
