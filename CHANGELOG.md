@@ -4,6 +4,7 @@ Resumen por versión (el detalle está en el README y en docs/PENDIENTES.md).
 ⚕ = contenido clínico pendiente de revisión médica. No se agregaron dosis nuevas.
 
 ## 0.61 (8–10/11/2026)
+- 17/11 (pedido de Gonzalo): Quemados, el tipo B ahora dice «3.er y 4.º grado» (espesor total y lo que se extiende por debajo de la piel: grasa, músculo). ⚕ pendiente de revisión médica.
 - 14/11: herramienta nueva «Equipos de alto rendimiento en la reanimación (PALS)» (funciones, comunicación en circuito cerrado, conductas del equipo; ⚕ sin dosis), enlazada desde Paro.
 - 13/11 (pedido de Gonzalo): Quemados, el porcentaje de cada grado va en su propio renglón (se superponía con el texto). En Indicaciones, el acceso «Electrolitos y ácido-base» pasa a llamarse «Electrolitos» para no repetir «Estado ácido-base».
 - 13/11: nueva herramienta «Cuerpo extraño en la vía aérea: paso a paso (PALS)» (Más › Herramientas › Multisistémico; enlazada desde «Obstrucción de vía aérea alta»; buscable por atragantamiento, Heimlich). Sin dosis. ⚕ pendiente de revisión médica.
