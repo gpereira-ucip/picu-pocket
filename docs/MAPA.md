@@ -1,0 +1,16 @@
+# Mapa de Arucip: qué hay en cada carpeta (para Jorge)
+
+Está en construcción: la estructura por sectores es la PRIORIDAD 0 de docs/PENDIENTES.md. Cada vez que se mueve un bloque, se actualiza esta tabla.
+
+| Carpeta o archivo | Qué hay | Estado |
+|---|---|---|
+| `index.html` | El esqueleto de la app y lo que todavía no se separó en sectores | se va vaciando |
+| `js/data.js` | Motivos de ingreso, guías «Al recibirlo», enlaces, triage y emergencias | pasará a `js/motivos-de-ingreso/` y `js/emergencias/` |
+| `js/idiomas/` | Traducciones al inglés y portugués (`traducciones-1.js`, `traducciones-2.js`). Acá irán `fr.js` y `de.js` | ✔ movido (antes `js/i18n/`) |
+| `js/datos/` | Datos pesados: imágenes de POCUS, Cards de medicación por peso, algoritmos PALS (cuerpo extraño, equipos) | pendiente de repartir por sector |
+| `js/buscador.js`, `js/portada.js`, `js/hubs.js`, `js/migrate.js` | Buscador, portada, pantallas de menú y migración de datos guardados | pasarán a `js/nucleo/` |
+| `css/` | Estilos (`portada.css`, `hubs.css`) | un archivo por sector, pendiente |
+| `assets/` | Logos, íconos e imágenes | no cambia |
+| `tests/` | Pruebas automáticas (`smoke.js`, `offline.js`) | no cambia |
+| `tools/` | Scripts para armar `arucip.html` y publicar | no cambia |
+| `docs/` | Pendientes, plan, validación médica, este mapa | no cambia |
