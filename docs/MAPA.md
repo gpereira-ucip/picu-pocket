@@ -7,7 +7,8 @@ Está en construcción: la estructura por sectores es la PRIORIDAD 0 de docs/PEN
 | `index.html` | El esqueleto de la app y lo que todavía no se separó en sectores | se va vaciando |
 | `js/data.js` | Motivos de ingreso, guías «Al recibirlo», enlaces, triage y emergencias | pasará a `js/motivos-de-ingreso/` y `js/emergencias/` |
 | `js/idiomas/` | Traducciones al inglés y portugués (`traducciones-1.js`, `traducciones-2.js`). Acá irán `fr.js` y `de.js` | ✔ movido (antes `js/i18n/`) |
-| `js/datos/` | Datos pesados: imágenes de POCUS, Cards de medicación por peso, algoritmos PALS (cuerpo extraño, equipos) | pendiente de repartir por sector |
+| `js/datos/` | Datos pesados: imágenes de POCUS y Cards de medicación por peso | pendiente de repartir por sector |
+| `js/pals-algoritmos/` | Algoritmos PALS: cuerpo extraño y equipos de alto rendimiento | ✔ movido |
 | `js/buscador.js`, `js/portada.js`, `js/hubs.js`, `js/migrate.js` | Buscador, portada, pantallas de menú y migración de datos guardados | pasarán a `js/nucleo/` |
 | `css/` | Estilos (`portada.css`, `hubs.css`) | un archivo por sector, pendiente |
 | `assets/` | Logos, íconos e imágenes | no cambia |
