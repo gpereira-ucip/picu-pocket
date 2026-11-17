@@ -371,3 +371,6 @@ Indicaciones y cálculos (mini programa de planilla del paciente)
 Aparatos y sistemas · cardio
 112. [PENDIENTE] ⚕ Marcapasos: explicación. Tipos de cirugía cardiovascular y qué hacer en cada una para el seguimiento posoperatorio (ej. cambio del soplo); cosas de ECMO a tener en cuenta.
 113. [PENDIENTE] Un último punto de Gonzalo quedó cortado («La posibilidad…»): preguntarle cuál era.
+
+## Hemoderivados por edad (17/11)
+- [ ] Cargar el apartado neonatal de plasma, crioprecipitado y plaquetas de Baby Blood Assist cuando Gonzalo mande las capturas (no copiar texto: redactar con palabras propias). ⚕
