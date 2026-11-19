@@ -1342,6 +1342,30 @@ window.PALS_EQUIPO={
 roles:[["Líder del equipo","Dirige, no hace maniobras. Asigna roles, mira el cuadro completo, decide y pide la reevaluación."],["Compresiones","Comprime con calidad y avisa cuando se cansa para rotar."],["Vía aérea","Abre la vía aérea, ventila y vigila la oxigenación."],["Monitor y desfibrilador","Coloca el monitor y las paletas o parches, lee el ritmo en voz alta y prepara la descarga cuando el líder la indica."],["Acceso y medicación","Consigue el acceso vascular, prepara y administra lo que el líder indica."],["Registro y cronómetro","Anota horas, ritmos, intervenciones y avisa los tiempos (ciclos de 2 minutos, medicación)."]],
 com:["Circuito cerrado: el líder da una orden clara a una persona por su nombre o rol; quien la recibe la repite en voz alta; avisa cuando la terminó; el líder lo confirma.","Mensajes claros y breves: voz firme, sin gritar, sin órdenes sueltas al aire.","Pedir lo que se necesita en forma concreta, no sugerencias ambiguas.","Ningún integrante se queda con una duda: si algo no se entendió, se pregunta."],
 tips:["Conocer los propios límites: pedir ayuda a tiempo, antes de que el paciente empeore.","Intervenciones constructivas: si alguien ve un error o una alternativa, lo dice en voz alta, con respeto y al líder.","Resumen y reevaluación en voz alta cada tanto: qué sabemos, qué hicimos, qué falta, qué otras causas pensar.","Respeto mutuo: el clima del equipo es parte de la calidad de la reanimación.","Después del evento: repaso breve con todo el equipo, qué salió bien y qué mejorar."]};
+</script><script>// (etiqueta, categoria, kcal/100mL, HC, PROT, GRASAS, SODIO(mg), mOsm/L)
+const FORMULAS = [
+  ["PRE - Prematuros","Fórmulas para prematuro",80,8,2.4,4.3,46,275],
+  ["PRE! - Prematuros concentrada","Fórmulas para prematuro",106,11,3.1,5.7,62,370],
+  ["D - Inicio","Fórmulas de inicio",68,7.5,1.5,3.6,24,260],
+  ["D! - Inicio concentrada","Fórmulas de inicio",92.6,10,1.9,5,33,350],
+  ["B - Continuación","Fórmulas de continuación",70,7.8,2,3.2,34,270],
+  ["B! - Continuación concentrada","Fórmulas de continuación",93,10.5,2.8,4.4,45,355],
+  ["A - Niños mayores","Niños mayores",67,7.4,2.6,2.9,38,null],
+  ["C - Sin lactosa","Fórmulas especiales",73,7.7,2.4,3.6,42,200],
+  ["C! - Sin lactosa concentrada","Fórmulas especiales",97,10.2,3.2,4.8,56,267],
+  ["E - Con hidrolizado proteico parcial","Fórmulas especiales",66.7,6.9,2.2,3.4,54,180],
+  ["E! - Con hidrolizado proteico parcial concentrada","Fórmulas especiales",89,9.2,2.9,4.5,72,240],
+  ["CA - Reducida en lactosa","Fórmulas especiales",61,4.8,3.25,3.25,46,null],
+  ["DESC - Totalmente descremada","Fórmulas especiales",36,5.2,3.5,0.1,46,null],
+  ["MONO - Con alto contenido de TCM","Fórmulas especiales",74.2,12,2,2.1,35,280],
+  ["NEO - Con aminoácidos libres","Fórmulas especiales",70,7.9,2.2,3.4,17.7,360],
+  ["H - Con hidrolizado extenso de proteínas","Fórmulas especiales",66.5,6.8,1.8,3.5,18.5,180],
+  ["SOJA - Con aislado proteico de soja","Fórmulas especiales",66.4,6.7,1.8,3.6,18,180],
+  ["LIQ! - Suplemento hipercalórico/hiperproteico","Suplemento",130,17,5.5,4.4,60,330],
+  ["LH-PT-SF - Leche humana pretérmino sin fortificar","Centro de Lactancia Materna",70,6.95,1.81,4,40,305],
+  ["LH-PT-F - Leche humana pretérmino fortificada","Centro de Lactancia Materna",86,9.75,2.91,4,45,399],
+  ["LH-T - Leche humana madura término","Centro de Lactancia Materna",66,7,0.9,3.8,16,286],
+];
 </script><script>/* Hemoderivados por edad: indicaciones y umbrales resumidos de NHS Blood and Transplant (apps «Blood Components» y «Baby Blood Assist», basadas en guías de la British Society for Haematology). Lo usa T.hemo en index.html.
    Redacción propia en castellano (no es copia del texto original). Unidades pasadas a las de acá: Hb y fibrinógeno de g/L a g/dL y mg/dL, plaquetas de x10⁹/L a /µL.
    Sugerencia de Leonel Fuentes, 17/11/2026. ⚕ Pendiente de revisión médica. */
@@ -3659,30 +3683,6 @@ const TMB_ANIOS = [
   {from:16, mujer:26, varon:28}, {from:17, mujer:26, varon:27},
 ];
 
-// (etiqueta, categoria, kcal/100mL, HC, PROT, GRASAS, SODIO(mg), mOsm/L)
-const FORMULAS = [
-  ["PRE - Prematuros","Fórmulas para prematuro",80,8,2.4,4.3,46,275],
-  ["PRE! - Prematuros concentrada","Fórmulas para prematuro",106,11,3.1,5.7,62,370],
-  ["D - Inicio","Fórmulas de inicio",68,7.5,1.5,3.6,24,260],
-  ["D! - Inicio concentrada","Fórmulas de inicio",92.6,10,1.9,5,33,350],
-  ["B - Continuación","Fórmulas de continuación",70,7.8,2,3.2,34,270],
-  ["B! - Continuación concentrada","Fórmulas de continuación",93,10.5,2.8,4.4,45,355],
-  ["A - Niños mayores","Niños mayores",67,7.4,2.6,2.9,38,null],
-  ["C - Sin lactosa","Fórmulas especiales",73,7.7,2.4,3.6,42,200],
-  ["C! - Sin lactosa concentrada","Fórmulas especiales",97,10.2,3.2,4.8,56,267],
-  ["E - Con hidrolizado proteico parcial","Fórmulas especiales",66.7,6.9,2.2,3.4,54,180],
-  ["E! - Con hidrolizado proteico parcial concentrada","Fórmulas especiales",89,9.2,2.9,4.5,72,240],
-  ["CA - Reducida en lactosa","Fórmulas especiales",61,4.8,3.25,3.25,46,null],
-  ["DESC - Totalmente descremada","Fórmulas especiales",36,5.2,3.5,0.1,46,null],
-  ["MONO - Con alto contenido de TCM","Fórmulas especiales",74.2,12,2,2.1,35,280],
-  ["NEO - Con aminoácidos libres","Fórmulas especiales",70,7.9,2.2,3.4,17.7,360],
-  ["H - Con hidrolizado extenso de proteínas","Fórmulas especiales",66.5,6.8,1.8,3.5,18.5,180],
-  ["SOJA - Con aislado proteico de soja","Fórmulas especiales",66.4,6.7,1.8,3.6,18,180],
-  ["LIQ! - Suplemento hipercalórico/hiperproteico","Suplemento",130,17,5.5,4.4,60,330],
-  ["LH-PT-SF - Leche humana pretérmino sin fortificar","Centro de Lactancia Materna",70,6.95,1.81,4,40,305],
-  ["LH-PT-F - Leche humana pretérmino fortificada","Centro de Lactancia Materna",86,9.75,2.91,4,45,399],
-  ["LH-T - Leche humana madura término","Centro de Lactancia Materna",66,7,0.9,3.8,16,286],
-];
 const bk=(age,t)=>{let b=t[0];for(const r of t){if(r.from<=age)b=r;else break}return b};
 const fm=(v,d=0)=>(v===null||v===undefined||!isFinite(v))?"–":v.toLocaleString("es-AR",{minimumFractionDigits:d,maximumFractionDigits:d});
 const DEF="B - Continuación";
