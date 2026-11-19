@@ -3385,7 +3385,8 @@ ${sel("m-o","¿Paciente obeso?",'<option value="No">No</option><option value="S�
 <div class="wn" id="m-w1" hidden></div><div class="wn" id="m-w2" hidden></div>
 <h4 class="mh">Volumen de fórmula o leche</h4>
 ${picker("m-fo")}
-<div class="big"><small>Volumen</small><b id="m-vol">–</b><small>mL / día</small></div>
+<div class="big"><small>Volumen</small><b id="m-vol">–</b><small>mL / día</small><small id="m-volk" hidden></small></div>
+<div id="m-lk" hidden><p class="lc-m" id="m-lkt"></p><button type="button" class="btn" id="m-lkb" style="height:auto;min-height:40px;padding:8px 16px;font-size:.85rem;margin-top:4px">Volver a calcular el volumen por la meta</button></div>
 <div class="flds" style="margin-top:12px">${fld("m-nt","N.º de tomas por día (opcional)")}<label class="f"><span>Volumen por toma</span><input id="m-vt" type="text" value="–" disabled></label></div>
 <h4 class="mh">Aporte de nutrientes al volumen calculado</h4>
 <div class="mg">${chip("m-hc","Hidratos de carbono (g/día)")}${chip("m-pr","Proteínas (g/día)","m-prk")}${chip("m-gr","Grasas (g/día)")}${chip("m-na","Sodio (mg/día)*")}</div>
@@ -3405,12 +3406,14 @@ ${fld("m-va","Volumen que está recibiendo (mL/día)")}
 <div class="pp"><small>Paciente quemado o con fibrosis quística</small>Meta = Schofield + 30% del requerimiento (factor 1,3, editable). Para FQ se sugiere un aumento de 20–50% sobre el requerimiento: 1,3 está dentro de ese rango.</div>
 <div class="pp"><small>Paciente obeso</small>Se usa el promedio entre el peso real y el peso teórico para la talla.</div>
 <div class="pp"><small>Volumen y nutrientes</small>Volumen (mL/día) = meta ÷ kcal por 100 mL × 100. Cada nutriente = valor por 100 mL × volumen ÷ 100.</div>
+<div class="pp"><small>Si cambiás la leche</small>El volumen queda fijo (el que te dio la primera leche, que cubre también el líquido) y la app muestra cuántas calorías y nutrientes da la leche nueva con ese mismo volumen. Si cambiás datos del paciente o tocás «Volver a calcular el volumen por la meta», el volumen se recalcula.</div>
 </div></details>
 <p class="nt2">*Sodio: el documento original titula esta columna "(g)"; por su magnitud parece tratarse de mg/100 mL. Verificar antes de usar en restricción de sodio.</p>
 <p class="nt2">Gasto energético basal: ecuaciones de Schofield (1985), con peso o con peso y talla, hasta los 18 años; en mayores se usa la ecuación de Schofield de adultos. RDA y composición de las fórmulas: Hospital Garrahan, Área de Alimentación (ISBN 978-987-3685-08-8). Herramienta de apoyo para uso profesional: no reemplaza la valoración del equipo de Nutrición.</p>
 </div></details>`;
 Q("#calcs").insertAdjacentHTML("beforeend",html);
 const V=id=>parseFloat(E(id).value),T=(id,t)=>{E(id).textContent=t},sh=(id,on,t)=>{const e=E(id);if(t!==undefined)e.innerHTML=t;e.hidden=!on};
+let lock=null,lastVol=null,lastFo="";
 function r1(){
  const cs=E("m-c").value;
  E("m-gf").hidden=cs==="sano";E("m-go").hidden=E("m-o").value!=="Sí";
@@ -3419,6 +3422,7 @@ function r1(){
  const un=E("m-u").value,ed=V("m-e"),sx=E("m-s").value,pw=V("m-w"),fa=V("m-f")||defF,ht=V("m-h"),ob=E("m-o").value,pt=V("m-pt"),nt=V("m-nt");
  const ids=["m-hc","m-pr","m-gr","m-na"];
  if(!isFinite(ed)||!isFinite(pw)||!sx){T("m-meta","–");T("m-metakg","– kcal/kg/día");T("m-met","");T("m-vol","–");E("m-vt").value="–";ids.forEach(i=>T(i,"–"));T("m-prk","–");T("m-os","–");["m-w1","m-w2","m-w3","m-w4"].forEach(i=>E(i).hidden=true);
+  E("m-lk").hidden=true;E("m-volk").hidden=true;lastVol=null;
   if(isFinite(ed)&&isFinite(pw)&&!sx)sh("m-w1",true,"Elegí el sexo para calcular.");return}
  const em=un==="Meses"?ed:ed*12,ea=un==="Años"?ed:ed/12;
  const pu=(ob==="Sí"&&isFinite(pt))?(pw+pt)/2:pw;
@@ -3434,8 +3438,12 @@ function r1(){
  else if(cs==="critico"){tfin=sch*fa/pu;met=metd+": "+fm(sch,0)+" kcal/día × factor "+fm(fa,2)+"."}
  else{tfin=sch*fa/pu;met=metd+": "+fm(sch,0)+" kcal/día × factor "+fm(fa,2)+(fa===1.3?" (Schofield + 30% del requerimiento).":".")}
  const meta=tfin*pu;
- T("m-meta",fm(meta,0));T("m-metakg",isFinite(tfin)?fm(tfin,1)+" kcal/kg/día":"– kcal/kg/día");T("m-met","Cálculo: "+met+(ob==="Sí"&&isFinite(pt)?" Peso usado: "+fm(pu,1)+" kg (promedio con el peso teórico).":"")+(E("m-fo").value.indexOf("!")>=0?" Fórmula concentrada: da la misma meta de calorías en menos volumen, pero la proteína es casi la misma que con la común (tiene la misma proporción de proteína por caloría). Para sumar proteína hace falta otra fórmula o un módulo.":""));
- const fd=FORMULAS.find(f=>f[0]===E("m-fo").value),k100=fd?fd[2]:null,vol=k100?(meta/k100)*100:null;
+ T("m-meta",fm(meta,0));T("m-metakg",isFinite(tfin)?fm(tfin,1)+" kcal/kg/día":"– kcal/kg/día");T("m-met","Cálculo: "+met+(ob==="Sí"&&isFinite(pt)?" Peso usado: "+fm(pu,1)+" kg (promedio con el peso teórico).":"")+(!lock&&E("m-fo").value.indexOf("!")>=0?" Fórmula concentrada: da la misma meta de calorías en menos volumen, pero la proteína es casi la misma que con la común (tiene la misma proporción de proteína por caloría). Para sumar proteína hace falta otra fórmula o un módulo.":""));
+ const fd=FORMULAS.find(f=>f[0]===E("m-fo").value),k100=fd?fd[2]:null,vol=lock?lock.vol:(k100?(meta/k100)*100:null);
+ lastVol=vol;lastFo=E("m-fo").value;
+ if(lock&&fd){const kt=k100/100*vol;E("m-volk").hidden=false;T("m-volk","Fijo: aporta "+fm(kt,0)+" kcal/día ("+fm(kt/pu,1)+" kcal/kg/día), "+fm(kt/meta*100,0)+"% de la meta");
+  E("m-lk").hidden=false;T("m-lkt","Mantuviste el volumen calculado con «"+lock.from+"» ("+fm(vol,0)+" mL/día) para seguir cubriendo el líquido. Abajo ves cuánto aporta «"+fd[0]+"» con ese mismo volumen."+(kt>meta*1.1?" Supera la meta calórica en "+fm(kt/meta*100-100,0)+"%.":kt<meta*0.9?" Queda "+fm(100-kt/meta*100,0)+"% por debajo de la meta calórica.":""))}
+ else{E("m-lk").hidden=true;E("m-volk").hidden=true}
  T("m-vol",fm(vol,0));E("m-vt").value=(vol&&nt)?fm(vol/nt,0):"–";
  if(fd&&vol){const pt2=fd[4]/100*vol;T("m-hc",fm(fd[3]/100*vol,1));T("m-pr",fm(pt2,1));T("m-prk",fm(pt2/pu,2)+" g/kg/día");T("m-gr",fm(fd[5]/100*vol,1));T("m-na",fm(fd[6]/100*vol,1));T("m-os",fd[7]?fm(fd[7],0):"s/d")}
  else{ids.forEach(i=>T(i,"–"));T("m-os","–");T("m-prk","–")}
@@ -3452,8 +3460,12 @@ function r2(){
  if(isFinite(pw)&&pw>0){T("m-k2k",fm(k/pw,1)+" kcal/kg/día");T("m-pr2k",fm(p/pw,2)+" g/kg/día")}else{T("m-k2k","– kcal/kg/día");T("m-pr2k","– g/kg/día")}
 }
 const root=Q("#c-leche");
-root.addEventListener("input",()=>{r1();r2()});root.addEventListener("change",()=>{r1();r2()});
+const PAC=["m-w","m-c","m-u","m-e","m-s","m-f","m-h","m-o","m-pt"];
+const onEd=e=>{if(lock&&e.target&&PAC.indexOf(e.target.id)>=0)lock=null;r1();r2()};
+root.addEventListener("input",onEd);root.addEventListener("change",onEd);
+E("m-lkb").addEventListener("click",()=>{lock=null;r1();r2()});
 root.addEventListener("click",e=>{const o=e.target.closest(".mp-o");if(!o)return;const l=o.closest(".mp-l"),id=l.dataset.for,v=o.dataset.v;
+ if(id==="m-fo"&&!lock&&isFinite(lastVol)&&lastVol>0&&v!==lastFo)lock={vol:lastVol,from:lastFo};
  E(id).value=v;l.querySelectorAll(".mp-o").forEach(x=>x.setAttribute("aria-pressed",x===o));T(id+"-n",v);T(id+"-k",kc(v));E(id+"-d").open=false;r1();r2()});
 E("m-tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const m=b.dataset.m;document.querySelectorAll("#m-tabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));E("m-p1").hidden=m!=="1";E("m-p2").hidden=m!=="2"});
 r1();r2();

@@ -4,6 +4,7 @@ Resumen por versión (el detalle está en el README y en docs/PENDIENTES.md).
 ⚕ = contenido clínico pendiente de revisión médica. No se agregaron dosis nuevas.
 
 ## 0.61 (8–10/11/2026)
+- 19/11 (pedido de Gonzalo): en Fórmulas lácteas, al cambiar la leche el volumen queda fijo (el que cubría las necesidades con la primera leche, que asegura también el líquido) y se ve cuántas calorías, proteínas y demás aporta la leche nueva con ese mismo volumen, con el porcentaje de la meta. Botón «Volver a calcular el volumen por la meta»; si se cambian datos del paciente, se recalcula solo.
 - 17/11 (sugerencia de Leonel Fuentes): herramienta nueva «Hemoderivados por edad (NHS)» en la carpeta `js/hemoderivados/`: umbrales y dosis de glóbulos rojos, plasma, crioprecipitado, plaquetas y complejo protrombínico para neonatos, niños y adultos, resumidos en castellano de las apps del NHS británico (Blood Components y Baby Blood Assist), en g/dL y /µL, con calculadora de volumen de glóbulos rojos. Enlazada desde Transfusiones por peso. Falta el apartado neonatal de plasma y plaquetas (esperando capturas de Baby Blood Assist). ⚕ pendiente de revisión médica.
 - 17/11 (pedido de Gonzalo): Quemados, el tipo B ahora dice «3.er y 4.º grado» (espesor total y lo que se extiende por debajo de la piel: grasa, músculo). ⚕ pendiente de revisión médica.
 - 14/11: herramienta nueva «Equipos de alto rendimiento en la reanimación (PALS)» (funciones, comunicación en circuito cerrado, conductas del equipo; ⚕ sin dosis), enlazada desde Paro.
