@@ -27,6 +27,8 @@
     sys: '<circle cx="12" cy="4.500" r="2.500"/><path d="M12 8v6M6.500 10.500 12 12l5.500-1.500M9 21l3-7 3 7"/>',
     flame: '<path d="M12 2.600C12.500 5.300 15.100 6.900 16.800 9.300c1.500 2.100 1.900 4.300 1.100 6.500C17 18.700 14.800 20.600 12 20.600c-3.300 0-5.800-2.300-5.800-5.500 0-2.200 1-3.800 2.500-5.400.3 1.400 1 2.300 2 2.800-.4-3.200.2-7 1.300-9.900Z"/>',
     card: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/>',
+    lungs: '<path d="M12 3v8"/><path d="M12 11c-1.500 0-2.500-1-3-2C6.500 9 4 12 3.500 16c-.3 2.300.5 4 2.500 4 3 0 5-1.500 5-4.500V11"/><path d="M12 11c1.500 0 2.500-1 3-2 2.500 0 5 3 5.500 7 .3 2.300-.5 4-2.500 4-3 0-5-1.500-5-4.500V11"/>',
+    brain: '<path d="M9.500 3A3 3 0 0 0 6.500 6a3 3 0 0 0-2 5.300A3.500 3.500 0 0 0 7 17.500 3 3 0 0 0 12 19V4.500A2.500 2.500 0 0 0 9.500 3Z"/><path d="M14.500 3A3 3 0 0 1 17.500 6a3 3 0 0 1 2 5.300 3.500 3.500 0 0 1-2.500 6.200A3 3 0 0 1 12 19"/>',
     more: '<circle cx="5" cy="12" r="1.500"/><circle cx="12" cy="12" r="1.500"/><circle cx="19" cy="12" r="1.500"/>'
   };
   var svg = function (n) {
@@ -86,8 +88,11 @@
     var T = D.TRIAGE, host = $("#tri-body");
     if (!host) return;
     var li = function (a) { return a.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join(""); };
+    /* 20/11 (pedido de Gonzalo): botones del ABCDE con ícono y color propios en lugar de la letra sola */
+    var ABCX = { A: ["wind", "Permeable y protegida"], B: ["lungs", "Oxigenación y ventilación"], C: ["heart", "Perfusión, ritmo y presión"], D: ["brain", "Conciencia, pupilas y glucemia"], E: ["sys", "Lesiones, temperatura y entorno"] };
     var abc = T.abc.map(function (s) {
-      return '<details class="abc"><summary><span class="abc-l">' + s.l + '</span><b>' + esc(s.n) + '</b>' + CHEV + '</summary><div class="abc-b"><ul class="hub-ul">' + li(s.pts) +
+      var x = ABCX[s.l] || ["clip", ""];
+      return '<details class="abc abc-' + s.l + '"><summary><span class="abc-i">' + svg(x[0]) + '</span><span class="abc-t"><small>' + s.l + '</small><b>' + esc(s.n) + '</b><em>' + esc(x[1]) + '</em></span>' + CHEV + '</summary><div class="abc-b"><ul class="hub-ul">' + li(s.pts) +
         '</ul><div class="hl-l">' + s.t.map(link).join("") + "</div></div></details>";
     }).join("");
     host.innerHTML =
@@ -153,15 +158,11 @@
       html = back + '<p class="hub-badge">Signo o síntoma</p><h2>' + esc(cs.s) + '</h2><p class="sub">Motivos de ingreso que pueden presentarse con este signo o síntoma. Orientativo: no reemplaza el criterio clínico.</p><div class="cr-l">' +
         D.CASES.filter(function (c) { return ids.indexOf(c.id) >= 0; }).map(caseRow).join("") + "</div>" + NOTE;
     } else {
-      var others = ["ad", "pr", "ca"].map(function (id) { return D.SYS.filter(function (x) { return x.id === id; })[0]; }).filter(Boolean);
       html = '<h2>Motivos de ingreso</h2><p class="sub">Motivos de ingreso a terapia intensiva pediátrica, por aspecto. Buscá por aparato, signo, síntoma o motivo.</p>' +
         '<div id="cs-search"></div>' +
         '<h3 class="hub-h">Por aspecto o aparato</h3><div class="hub-grid">' + D.GROUPS.map(function (g) {
           return '<button class="tile" type="button" data-grp="' + g.id + '"><span class="tile-i">' + svg(g.ic) + "</span><b>" + esc(g.n) + "</b><small>" + casesOf(g.id).length + " motivos · " + esc(g.d) + "</small></button>";
-        }).join("") + "</div>" +
-        '<h3 class="hub-h">Otros recursos</h3><div class="hub-grid">' + others.map(function (x) {
-          return '<button class="tile" type="button" data-sys="' + x.id + '"><span class="tile-i">' + svg(x.ic) + "</span><b>" + esc(x.n) + "</b><small>" + esc(x.d) + "</small></button>";
-        }).join("") + "</div>" + NOTE;
+        }).join("") + "</div>" + NOTE; /* 20/11: sin «Otros recursos» (pedido de Gonzalo); siguen en Indicaciones y cálculos */
     }
     v.innerHTML = html;
     var sh = $("#cs-search");

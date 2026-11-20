@@ -4,6 +4,7 @@ Resumen por versión (el detalle está en el README y en docs/PENDIENTES.md).
 ⚕ = contenido clínico pendiente de revisión médica. No se agregaron dosis nuevas.
 
 ## 0.61 (8–10/11/2026)
+- 20/11 (pedido de Gonzalo): Emergencias › Evaluación primaria: los botones del ABCDE pasan de la letra sola a tarjetas con ícono, color propio y subtítulo (A vía aérea, B pulmones, C corazón, D cerebro, E cuerpo). Motivos de ingreso: sale «Otros recursos» (Analgesia, Procedimientos y Calidad siguen en Indicaciones y cálculos).
 - 20/11: francés y alemán aparecen en el selector de idioma (Más › Ajustes). Primera tanda traducida: portada, botonera, ajustes y botones comunes; lo que todavía no está traducido se ve en inglés (aviso en pantalla). Se sigue por tandas en las corridas diarias. Archivo: js/idiomas/frances-aleman.js.
 - 20/11 (pedido de Gonzalo): sale de Más el «Plan de desarrollo: 13 objetivos» (10 de 13 hechos). Los 3 que faltan (textos de COMFORT-B, SPIKES y ajuste renal) quedan en docs/PENDIENTES.md.
 - 19/11 (pedido de Gonzalo): en Fórmulas lácteas, al cambiar la leche el volumen queda fijo (el que cubría las necesidades con la primera leche, que asegura también el líquido) y se ve cuántas calorías, proteínas y demás aporta la leche nueva con ese mismo volumen, con el porcentaje de la meta. Botón «Volver a calcular el volumen por la meta»; si se cambian datos del paciente, se recalcula solo.

@@ -1035,15 +1035,22 @@ body{font-size:1rem}
 .cr{border-color:color-mix(in srgb,var(--acc) 22%,var(--line))}
 /* ABC */
 .abc-w{display:flex;flex-direction:column;gap:10px;margin:14px 0}
-.abc{border:1.5px solid color-mix(in srgb,var(--acc) 25%,var(--line));border-radius:20px;background:var(--surf);overflow:hidden}
-.abc summary{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;list-style:none}
+.abc{--k:#2A7F8E;position:relative;border:1px solid color-mix(in srgb,var(--k) 22%,var(--line));border-radius:18px;background:linear-gradient(100deg,color-mix(in srgb,var(--k) 9%,var(--surf)) 0%,var(--surf) 55%);overflow:hidden;box-shadow:0 1px 2px rgba(20,40,60,.05),0 4px 14px -8px color-mix(in srgb,var(--k) 45%,transparent);transition:box-shadow .2s,transform .15s}
+.abc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--k)}
+.abc-A{--k:#2A7F8E}.abc-B{--k:#3A78B5}.abc-C{--k:#C0503A}.abc-D{--k:#6E5BAA}.abc-E{--k:#C08A25}
+:root[data-mode=dark] .abc-A{--k:#4FC3C0}:root[data-mode=dark] .abc-B{--k:#7FB2E8}:root[data-mode=dark] .abc-C{--k:#F08C74}:root[data-mode=dark] .abc-D{--k:#AE9CF0}:root[data-mode=dark] .abc-E{--k:#E8B65A}
+.abc summary{display:flex;align-items:center;gap:14px;padding:13px 14px 13px 16px;cursor:pointer;list-style:none}
+.abc summary:active{transform:scale(.99)}
 .abc summary::-webkit-details-marker{display:none}
-.abc summary b{flex:1;font:650 1rem var(--sans)}
-.abc summary .hl-c{transition:transform .2s}
+.abc-i{flex:none;display:inline-flex;width:44px;height:44px;border-radius:50%;align-items:center;justify-content:center;color:var(--k);background:color-mix(in srgb,var(--k) 14%,var(--surf));box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--k) 30%,transparent)}
+.abc-i svg{width:22px;height:22px}
+.abc-t{flex:1;display:flex;flex-direction:column;line-height:1.2;min-width:0}
+.abc-t small{font:700 .68rem var(--sans);letter-spacing:.14em;color:var(--k);text-transform:uppercase}
+.abc-t b{font:650 1.02rem var(--sans)}
+.abc-t em{font:400 .8rem var(--sans);font-style:normal;color:var(--mut);margin-top:1px}
+.abc summary .hl-c{transition:transform .2s;color:var(--k)}
+.abc[open]{box-shadow:0 6px 20px -10px color-mix(in srgb,var(--k) 60%,transparent)}
 .abc[open] summary .hl-c{transform:rotate(90deg)}
-.abc-l{display:inline-flex;width:40px;height:40px;border-radius:13px;align-items:center;justify-content:center;font:700 1.3rem var(--serif);color:#fff;
-  background:linear-gradient(160deg,#2A7F8E,#1F5368);box-shadow:inset 0 -3px 0 #D9A441}
-:root[data-mode=dark] .abc-l{background:linear-gradient(160deg,#3CC2B9,#1E8E8B);color:#042220}
 .abc-b{padding:0 14px 14px}
 .abc-b .hl-l{margin-top:12px}
 .tri-t{margin-top:12px}
@@ -6246,6 +6253,8 @@ window.ARUCIP_DATA = (function () {
     sys: '<circle cx="12" cy="4.500" r="2.500"/><path d="M12 8v6M6.500 10.500 12 12l5.500-1.500M9 21l3-7 3 7"/>',
     flame: '<path d="M12 2.600C12.500 5.300 15.100 6.900 16.800 9.300c1.500 2.100 1.900 4.300 1.100 6.500C17 18.700 14.800 20.600 12 20.600c-3.300 0-5.800-2.300-5.800-5.500 0-2.200 1-3.800 2.500-5.400.3 1.400 1 2.300 2 2.800-.4-3.200.2-7 1.300-9.900Z"/>',
     card: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/>',
+    lungs: '<path d="M12 3v8"/><path d="M12 11c-1.500 0-2.500-1-3-2C6.500 9 4 12 3.500 16c-.3 2.300.5 4 2.500 4 3 0 5-1.500 5-4.500V11"/><path d="M12 11c1.500 0 2.500-1 3-2 2.500 0 5 3 5.500 7 .3 2.300-.5 4-2.500 4-3 0-5-1.500-5-4.500V11"/>',
+    brain: '<path d="M9.500 3A3 3 0 0 0 6.500 6a3 3 0 0 0-2 5.300A3.500 3.500 0 0 0 7 17.500 3 3 0 0 0 12 19V4.500A2.500 2.500 0 0 0 9.500 3Z"/><path d="M14.500 3A3 3 0 0 1 17.500 6a3 3 0 0 1 2 5.300 3.500 3.500 0 0 1-2.500 6.200A3 3 0 0 1 12 19"/>',
     more: '<circle cx="5" cy="12" r="1.500"/><circle cx="12" cy="12" r="1.500"/><circle cx="19" cy="12" r="1.500"/>'
   };
   var svg = function (n) {
@@ -6305,8 +6314,11 @@ window.ARUCIP_DATA = (function () {
     var T = D.TRIAGE, host = $("#tri-body");
     if (!host) return;
     var li = function (a) { return a.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join(""); };
+    /* 20/11 (pedido de Gonzalo): botones del ABCDE con ícono y color propios en lugar de la letra sola */
+    var ABCX = { A: ["wind", "Permeable y protegida"], B: ["lungs", "Oxigenación y ventilación"], C: ["heart", "Perfusión, ritmo y presión"], D: ["brain", "Conciencia, pupilas y glucemia"], E: ["sys", "Lesiones, temperatura y entorno"] };
     var abc = T.abc.map(function (s) {
-      return '<details class="abc"><summary><span class="abc-l">' + s.l + '</span><b>' + esc(s.n) + '</b>' + CHEV + '</summary><div class="abc-b"><ul class="hub-ul">' + li(s.pts) +
+      var x = ABCX[s.l] || ["clip", ""];
+      return '<details class="abc abc-' + s.l + '"><summary><span class="abc-i">' + svg(x[0]) + '</span><span class="abc-t"><small>' + s.l + '</small><b>' + esc(s.n) + '</b><em>' + esc(x[1]) + '</em></span>' + CHEV + '</summary><div class="abc-b"><ul class="hub-ul">' + li(s.pts) +
         '</ul><div class="hl-l">' + s.t.map(link).join("") + "</div></div></details>";
     }).join("");
     host.innerHTML =
@@ -6372,15 +6384,11 @@ window.ARUCIP_DATA = (function () {
       html = back + '<p class="hub-badge">Signo o síntoma</p><h2>' + esc(cs.s) + '</h2><p class="sub">Motivos de ingreso que pueden presentarse con este signo o síntoma. Orientativo: no reemplaza el criterio clínico.</p><div class="cr-l">' +
         D.CASES.filter(function (c) { return ids.indexOf(c.id) >= 0; }).map(caseRow).join("") + "</div>" + NOTE;
     } else {
-      var others = ["ad", "pr", "ca"].map(function (id) { return D.SYS.filter(function (x) { return x.id === id; })[0]; }).filter(Boolean);
       html = '<h2>Motivos de ingreso</h2><p class="sub">Motivos de ingreso a terapia intensiva pediátrica, por aspecto. Buscá por aparato, signo, síntoma o motivo.</p>' +
         '<div id="cs-search"></div>' +
         '<h3 class="hub-h">Por aspecto o aparato</h3><div class="hub-grid">' + D.GROUPS.map(function (g) {
           return '<button class="tile" type="button" data-grp="' + g.id + '"><span class="tile-i">' + svg(g.ic) + "</span><b>" + esc(g.n) + "</b><small>" + casesOf(g.id).length + " motivos · " + esc(g.d) + "</small></button>";
-        }).join("") + "</div>" +
-        '<h3 class="hub-h">Otros recursos</h3><div class="hub-grid">' + others.map(function (x) {
-          return '<button class="tile" type="button" data-sys="' + x.id + '"><span class="tile-i">' + svg(x.ic) + "</span><b>" + esc(x.n) + "</b><small>" + esc(x.d) + "</small></button>";
-        }).join("") + "</div>" + NOTE;
+        }).join("") + "</div>" + NOTE; /* 20/11: sin «Otros recursos» (pedido de Gonzalo); siguen en Indicaciones y cálculos */
     }
     v.innerHTML = html;
     var sh = $("#cs-search");
