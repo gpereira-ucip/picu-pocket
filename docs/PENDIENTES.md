@@ -376,3 +376,9 @@ Aparatos y sistemas · cardio
 
 ## Hemoderivados por edad (17/11)
 - [ ] Cargar el apartado neonatal de plasma, crioprecipitado y plaquetas de Baby Blood Assist cuando Gonzalo mande las capturas (no copiar texto: redactar con palabras propias). ⚕
+
+## Ex «Plan de desarrollo: 13 objetivos» (sacado de Más el 20/11, pedido de Gonzalo)
+10 de 13 hechos. Quedan:
+- [ ] COMFORT-B: faltan los textos de cada puntaje. ⚕
+- [ ] Comunicar malas noticias (SPIKES). ⚕
+- [ ] Ajuste de dosis renal y en hemofiltración. ⚕ (sin dosis de memoria: necesita fuente)
