@@ -382,3 +382,8 @@ Aparatos y sistemas · cardio
 - [ ] COMFORT-B: faltan los textos de cada puntaje. ⚕
 - [ ] Comunicar malas noticias (SPIKES). ⚕
 - [ ] Ajuste de dosis renal y en hemofiltración. ⚕ (sin dosis de memoria: necesita fuente)
+
+## Francés y alemán (estado 20/11)
+- [x] Infraestructura: fr y de en el selector, con respaldo en inglés (campo fb:"en" en js/idiomas/frances-aleman.js) y aviso «traducción en curso».
+- [x] Tanda 1: portada, botonera, ajustes, botones comunes y aviso inicial.
+- [ ] Tanda 2 en adelante: copiar en fr y de, por tandas, las claves de js/idiomas/traducciones-1.js y -2.js (empezar por Emergencias y Motivos de ingreso). Sin tocar dosis ni números.

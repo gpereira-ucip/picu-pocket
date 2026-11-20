@@ -4690,11 +4690,13 @@ function sget(){try{return localStorage.getItem("arucip-lang")||"es"}catch(e){re
 function sset(v){try{localStorage.setItem("arucip-lang",v)}catch(e){}}
 function cur(){return I18N.langs[L]||I18N.langs.es}
 function offered(){return I18N.order.filter(function(c){return I18N.langs[c].offer!==false})}
-function lookup(d,key){if(has(d.dict,key))return d.dict[key];if(has(pRev,key)&&has(d.paras,pRev[key]))return d.paras[pRev[key]];return undefined}
+function lookup(d,key){if(has(d.dict,key))return d.dict[key];if(has(pRev,key)&&has(d.paras,pRev[key]))return d.paras[pRev[key]];if(d.fb&&I18N.langs[d.fb]&&I18N.langs[d.fb]!==d)return lookup(I18N.langs[d.fb],key);return undefined}
+/* 20/11: fr y de usan d.fb="en": lo que todavía no está traducido se ve en inglés */
 /* 0.23: plantillas. Una clave con {0}, {1}… vale para cualquier número: cada número del texto (\d con . y , internos) ocupa un marcador, en orden. Los números se copian tal cual. */
 var NUMRE=/\d(?:[\d.,]*\d)?/g;
 function tplIdx(d){if(d._tpl)return d._tpl;var m={},k,ord,sk;for(k in d.dict){if(!has(d.dict,k)||k.indexOf("{0}")<0)continue;ord=[];sk=k.replace(/\{(\d+)\}/g,function(x,i){ord.push(i);return"\u0001"});m[sk]={v:d.dict[k],o:ord}}d._tpl=m;return m}
-function tplLookup(d,key){if(!/\d/.test(key))return undefined;var vals=[],sk=key.replace(NUMRE,function(x){vals.push(x);return"\u0001"}),t=tplIdx(d);if(!has(t,sk))return undefined;t=t[sk];if(vals.length!==t.o.length)return undefined;var by={},i;for(i=0;i<t.o.length;i++)by[t.o[i]]=vals[i];return t.v.replace(/\{(\d+)\}/g,function(x,j){return has(by,j)?by[j]:x})}
+function tplLookup(d,key){var r=tplLookup1(d,key);if(r===undefined&&d.fb&&I18N.langs[d.fb]&&I18N.langs[d.fb]!==d)r=tplLookup1(I18N.langs[d.fb],key);return r}
+function tplLookup1(d,key){if(!/\d/.test(key))return undefined;var vals=[],sk=key.replace(NUMRE,function(x){vals.push(x);return"\u0001"}),t=tplIdx(d);if(!has(t,sk))return undefined;t=t[sk];if(vals.length!==t.o.length)return undefined;var by={},i;for(i=0;i<t.o.length;i++)by[t.o[i]]=vals[i];return t.v.replace(/\{(\d+)\}/g,function(x,j){return has(by,j)?by[j]:x})}
 /* 0.49: voz y copia del registro del PARO */
 I18N.tpl=function(key){return L==="es"?key:(tplLookup(cur(),key)||key)};
 /* 0.49: traducción de una frase suelta (voz y copia del PARO): devuelve undefined si no hay entrada */
@@ -4732,18 +4734,18 @@ function trAttr(e){
   v=e.getAttribute(a);
   if(has(o,a)&&o[a].shown===v)v=o[a].orig;
   if(L==="es"){if(has(o,a)){e.setAttribute(a,o[a].orig);delete o[a]}continue}
-  h=has(d.attr,v)?d.attr[v]:(has(d.dict,v)?d.dict[v]:undefined);
+  h=has(d.attr,v)?d.attr[v]:(has(d.dict,v)?d.dict[v]:undefined);if(h===undefined&&d.fb&&I18N.langs[d.fb]){var fd=I18N.langs[d.fb];h=has(fd.attr,v)?fd.attr[v]:(has(fd.dict,v)?fd.dict[v]:undefined)}
   if(h===undefined){if(has(o,a)){e.setAttribute(a,o[a].orig);delete o[a]}continue}
   o[a]={orig:v,shown:h};if(e.getAttribute(a)!==h)e.setAttribute(a,h)}
  origAttr.set(e,o)}
 /* claves explícitas: data-i18n y data-i18n-attr */
 function trKeys(e){
  var d=cur(),k=e.getAttribute("data-i18n"),sv;
- if(k){if(!origKey.has(e))origKey.set(e,e.textContent);sv=has(d.keys,k)&&L!=="es"?d.keys[k]:origKey.get(e);if(e.textContent!==sv)e.textContent=sv}
+ if(k){if(!origKey.has(e))origKey.set(e,e.textContent);var dk=has(d.keys,k)?d.keys:(d.fb&&I18N.langs[d.fb]&&has(I18N.langs[d.fb].keys,k)?I18N.langs[d.fb].keys:null);sv=dk&&L!=="es"?dk[k]:origKey.get(e);if(e.textContent!==sv)e.textContent=sv}
  var ka=e.getAttribute("data-i18n-attr");
  if(ka){ka.split(";").forEach(function(p){var kv=p.split(":");if(kv.length<2)return;var an=kv[0].trim(),kk=kv[1].trim();
   var o=origAttr.get(e)||{};if(!has(o,an)||o[an].shown!==e.getAttribute(an))o[an]={orig:e.getAttribute(an),shown:e.getAttribute(an)};
-  var nv=L!=="es"&&has(d.keys,kk)?d.keys[kk]:o[an].orig;o[an].shown=nv;origAttr.set(e,o);if(e.getAttribute(an)!==nv)e.setAttribute(an,nv)})}}
+  var kd=has(d.keys,kk)?d.keys:(d.fb&&I18N.langs[d.fb]&&has(I18N.langs[d.fb].keys,kk)?I18N.langs[d.fb].keys:null);var nv=L!=="es"&&kd?kd[kk]:o[an].orig;o[an].shown=nv;origAttr.set(e,o);if(e.getAttribute(an)!==nv)e.setAttribute(an,nv)})}}
 function walk(root){if(!root)return;
  if(root.nodeType===3){tr(root);return}
  if(root.nodeType!==1&&root.nodeType!==9&&root.nodeType!==11)return;
@@ -4757,7 +4759,7 @@ function note(){var el=document.getElementById("lang-note");if(!el)return;var t=
  if(L==="es"||!t){el.hidden=true;el.textContent="";return}el.hidden=false;el.textContent=t}
 function apply(){busy=true;try{var d=cur();document.documentElement.lang=L;document.documentElement.dir=d.dir==="rtl"?"rtl":"ltr";walk(document.body);note()}finally{busy=false}}
 I18N.set=function(code){if(!I18N.langs[code])code="es";L=code;I18N.cur=code;sset(code);apply();var s=document.getElementById("lang-sel");if(s&&s.value!==code)s.value=code};
-I18N.t=function(key,fallback){var d=cur();return has(d.keys,key)&&L!=="es"?d.keys[key]:(fallback===undefined?key:fallback)};
+I18N.t=function(key,fallback){var d=cur();if(L!=="es"&&!has(d.keys,key)&&d.fb&&I18N.langs[d.fb])d=I18N.langs[d.fb];return has(d.keys,key)&&L!=="es"?d.keys[key]:(fallback===undefined?key:fallback)};
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
 function addSel(){var c=document.querySelector("#aju45");if(!c||document.getElementById("lang-sel"))return;
  var r=document.createElement("div");r.className="row-fs";
@@ -4777,7 +4779,7 @@ if(document.readyState==="complete")setTimeout(init,50);else window.addEventList
 /* Créditos (v0.50) */
 })();
 
-</script><script src="js/idiomas/traducciones-1.js"></script><script src="js/idiomas/traducciones-2.js"></script>
+</script><script src="js/idiomas/traducciones-1.js"></script><script src="js/idiomas/traducciones-2.js"></script><script src="js/idiomas/frances-aleman.js"></script>
 <script>
 if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}
 </script><script>/* Portada de Arucip: se muestra al abrir la app (una vez por sesión) y al tocar el logo del encabezado. */
