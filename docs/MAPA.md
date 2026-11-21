@@ -17,3 +17,5 @@ Está en construcción: la estructura por sectores es la PRIORIDAD 0 de docs/PEN
 | `tests/` | Pruebas automáticas (`smoke.js`, `offline.js`) | no cambia |
 | `tools/` | Scripts para armar `arucip.html` y publicar | no cambia |
 | `docs/` | Pendientes, plan, validación médica, este mapa | no cambia |
+
+| `js/pocus-ecografia/notas-unidad.js` | Notas de la unidad mostradas en POCUS (movidas el 21/11) | ✔ nuevo |
