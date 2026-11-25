@@ -11,7 +11,7 @@ Está en construcción: la estructura por sectores es la PRIORIDAD 0 de docs/PEN
 | `js/hemoderivados/` | Hemoderivados por edad (guía NHS: neonatos, niños y adultos), redactado en castellano | ✔ nuevo (17/11) |
 | `js/notas-practicas/` | Notas prácticas por tema (`notas-practicas.js`: intubación, respirador, VAFO, toracostomía, neuro, ROTEM, etc.), movidas de `index.html` el 22/11 | hecho |
 | `js/formulas-y-preparaciones/` | Tabla de leches y fórmulas (`formulas-leches.js`: kcal, hidratos, proteínas, grasas, sodio y mOsm por 100 mL) | ✔ nuevo (19/11); faltan las notas prácticas |
-| `js/pals-algoritmos/` | Algoritmos PALS: cuerpo extraño y equipos de alto rendimiento | ✔ movido |
+| `js/pals-algoritmos/` | Algoritmos PALS: cuerpo extraño, equipos de alto rendimiento y pasos de emergencia por opioides | ✔ movido |
 | `js/buscador.js`, `js/portada.js`, `js/hubs.js`, `js/migrate.js` | Buscador, portada, pantallas de menú y migración de datos guardados | pasarán a `js/nucleo/` |
 | `css/` | Estilos (`portada.css`, `hubs.css`) | un archivo por sector, pendiente |
 | `assets/` | Logos, íconos e imágenes | no cambia |
