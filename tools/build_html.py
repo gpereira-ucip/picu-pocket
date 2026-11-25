@@ -18,6 +18,16 @@ def read(p):
     return open(os.path.join(ROOT, p), encoding="utf-8").read()
 
 
+# Fecha de actualización al lado de la versión (pedido de Gonzalo, 25/11/2026): cada build la pone al día en index.html.
+import datetime
+MESES = "enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre".split()
+hoy = (datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None) - datetime.timedelta(hours=3)).date()  # hora de Argentina
+FECHA = "%d de %s de %d" % (hoy.day, MESES[hoy.month - 1], hoy.year)
+src = read("index.html")
+nuevo = re.sub(r'(<span class=\\?"vfecha\\?">)[^<]*(</span>)', lambda m: m.group(1) + FECHA + m.group(2), src)
+if nuevo != src:
+    open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(nuevo)
+
 h = read("index.html")
 h = re.sub(r'<link[^>]*href="(css/[^"]+)"[^>]*>', lambda m: "<style>" + read(m.group(1)) + "</style>", h)
 h = re.sub(r'<script[^>]*src="(js/[^"]+)"[^>]*></script>',

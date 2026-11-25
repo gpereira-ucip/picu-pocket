@@ -5,6 +5,7 @@ Resumen por versión (el detalle está en el README y en docs/PENDIENTES.md).
 
 ## Sin versión · 25/11/2026
 - «Acerca de esta versión»: queda un solo título «Equipo», con cada persona y su rol (se sacó la lista repetida de arriba).
+- La versión muestra la fecha de actualización al lado, por ejemplo «0.61 (25 de noviembre de 2026)», en Más y en Novedades. tools/build_html.py la pone al día sola en cada build.
 
 ## 0.61 (8–10/11/2026)
 - 20/11 (pedido de Gonzalo): Emergencias › Evaluación primaria: los botones del ABCDE pasan de la letra sola a tarjetas con ícono, color propio y subtítulo (A vía aérea, B pulmones, C corazón, D cerebro, E cuerpo). Motivos de ingreso: sale «Otros recursos» (Analgesia, Procedimientos y Calidad siguen en Indicaciones y cálculos).
