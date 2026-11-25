@@ -3,6 +3,9 @@
 Resumen por versión (el detalle está en el README y en docs/PENDIENTES.md).
 ⚕ = contenido clínico pendiente de revisión médica. No se agregaron dosis nuevas.
 
+## Sin versión · 25/11/2026
+- «Acerca de esta versión»: queda un solo título «Equipo», con cada persona y su rol (se sacó la lista repetida de arriba).
+
 ## 0.61 (8–10/11/2026)
 - 20/11 (pedido de Gonzalo): Emergencias › Evaluación primaria: los botones del ABCDE pasan de la letra sola a tarjetas con ícono, color propio y subtítulo (A vía aérea, B pulmones, C corazón, D cerebro, E cuerpo). Motivos de ingreso: sale «Otros recursos» (Analgesia, Procedimientos y Calidad siguen en Indicaciones y cálculos).
 - 20/11: francés y alemán aparecen en el selector de idioma (Más › Ajustes). Primera tanda traducida: portada, botonera, ajustes y botones comunes; lo que todavía no está traducido se ve en inglés (aviso en pantalla). Se sigue por tandas en las corridas diarias. Archivo: js/idiomas/frances-aleman.js.
