@@ -42,6 +42,7 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo G. Pereira.
 | `js/quemados/siluetas-quemados.js` | Datos de las siluetas del mapa de quemaduras (`SIL`, `SPEC`), separados de `index.html` el 27/11. Se carga antes del código de `index.html`. |
 | `js/indicaciones-y-calculos/tablas-calculadoras.js` | Tablas de las calculadoras y escalas (`D`), separadas de `index.html` el 27/11. Se carga antes del código de `index.html`. |
 | `js/idiomas/frances-aleman-2.js` | Francés y alemán, tanda 2 (27/11): nombres de los 12 grupos y los 87 motivos de ingreso. Se carga después de `frances-aleman.js`. |
+| `js/idiomas/frances-aleman-3.js` | Francés y alemán, tanda 3 (27/11): textos fijos de Emergencias, aparatos y sistemas e Indicaciones y cálculos. Se carga después de `frances-aleman-2.js`. |
 | `js/hubs.js` | Arma las pantallas de Emergencias, Motivos de ingreso e Indicaciones y cálculos con enlaces a lo que ya tiene la app. |
 | `js/buscador.js` | Buscador general predictivo de la portada (siglas, sinónimos, tildes y un error de tipeo). |
 | `js/portada.js` | Lógica de la portada, «‹ Volver» de las pantallas secundarias y traducciones. |
