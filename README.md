@@ -39,6 +39,7 @@ Basada en AR-UCIP (Argentina). Autor: Gonzalo G. Pereira.
 | `js/pals-algoritmos/pals-taquicardia.js` | Pasos del algoritmo «Taquicardia con pulso» (`PALS_TAQUI`), separados de `index.html` el 27/11. Las dosis y la calculadora siguen en `T.taqui`. Se carga antes del código de `index.html`. |
 | `js/pals-algoritmos/pals-bradicardia.js` | Pasos del algoritmo «Bradicardia con pulso» (`PALS_BRADI`), separados de `index.html` el 27/11. Las dosis y la calculadora siguen en `T.bradi`. Se carga antes del código de `index.html`. |
 | `js/nucleo/sinonimos-buscador.js` | Sinónimos del filtro de herramientas (`SYN`), separados de `index.html` el 27/11. Se carga antes del código de `index.html`. |
+| `js/quemados/siluetas-quemados.js` | Datos de las siluetas del mapa de quemaduras (`SIL`, `SPEC`), separados de `index.html` el 27/11. Se carga antes del código de `index.html`. |
 | `js/hubs.js` | Arma las pantallas de Emergencias, Motivos de ingreso e Indicaciones y cálculos con enlaces a lo que ya tiene la app. |
 | `js/buscador.js` | Buscador general predictivo de la portada (siglas, sinónimos, tildes y un error de tipeo). |
 | `js/portada.js` | Lógica de la portada, «‹ Volver» de las pantallas secundarias y traducciones. |
