@@ -19,6 +19,7 @@ Está en construcción: la estructura por sectores es la PRIORIDAD 0 de docs/PEN
 | `tools/` | Scripts para armar `arucip.html` y publicar | no cambia |
 | `docs/` | Pendientes, plan, validación médica, este mapa | no cambia |
 
+| `js/nucleo/sinonimos-buscador.js` | Sinónimos del filtro de herramientas (`SYN`), movidos el 27/11 | ✔ nuevo |
 | `js/pocus-ecografia/notas-unidad.js` | Notas de la unidad mostradas en POCUS (movidas el 21/11) | ✔ nuevo |
 | `js/pocus-ecografia/accesos-vasculares.js` | Guía «Accesos vasculares ecoguiados» de POCUS (movida el 24/11) | ✔ nuevo |
 | `js/formulas-y-preparaciones/formulas-rapidas.js` | Fórmulas rápidas, preparaciones y unidades (Más › Otras recomendaciones), movidas el 23/11 | ✔ nuevo |
