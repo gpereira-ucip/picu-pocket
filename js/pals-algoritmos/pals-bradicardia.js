@@ -1,0 +1,11 @@
+/* Datos del algoritmo «Bradicardia con pulso: paso a paso»: T.bradi en index.html. Contenido movido sin cambios desde index.html. ⚕ Pendiente de revisión médica. */
+window.PALS_BRADI={
+a:{k:"Paso 1",q:"¿Hay compromiso cardiopulmonar?",it:["Alteración aguda del estado mental","Signos de shock (mala perfusión, relleno lento, pulsos débiles)","Hipotensión para la edad"],o:[["Sí","b"],["No","z"]]},
+b:{k:"Paso 2 · Apoyo y monitoreo",q:"Sostené la vía aérea, la ventilación y la oxigenación",it:["Mantené la vía aérea permeable.","Ventilación con presión positiva y oxígeno si hace falta.","Monitor cardíaco para ver el ritmo; controlá pulso, presión arterial y saturación."],o:[["Listo, sigo","c"]]},
+c:{k:"Paso 3",q:"Con oxigenación y ventilación adecuadas, ¿la FC sigue por debajo de 60 por minuto?",it:["Mirá también la perfusión: si es mala, no esperes."],o:[["Sí: FC < 60","d"],["No","e"]]},
+d:{k:"Paso 3 · Acción",q:"Iniciá RCP (compresiones)",it:["Compresiones de alta calidad mientras seguís ventilando.","Pedí ayuda y preparate para el paso siguiente."],o:[["Seguir","e"]]},
+e:{k:"Paso 4",q:"¿Persiste la bradicardia?",o:[["Sí","f"],["No","z"]]},
+f:{k:"Paso 5 · Tratamiento",q:"Tratá la bradicardia que persiste",it:["Seguí con la RCP mientras la FC sea menor de 60.","Acceso IV o IO.","<b>Adrenalina</b> (ver dosis abajo), repetir cada 3 a 5 minutos.","<b>Atropina</b> si sospechás aumento del tono vagal o bloqueo AV primario.","Considerá marcapasos transtorácico o transvenoso.","Buscá y tratá la causa: hipoxia, hipotermia, fármacos o tóxicos, hipertensión endocraneana, bloqueo cardíaco."],o:[["Controlar pulso","g"]]},
+g:{k:"Paso 6",q:"Control de pulso cada 2 minutos: ¿tiene pulso?",o:[["Sí, tiene pulso","e"],["No hay pulso","x"]]},
+x:{end:1,alarm:1,k:"Sin pulso",q:"Es un paro cardíaco",it:["Seguí con la RCP y pasá al algoritmo de paro: botón EMERGENCIA de la portada o PARO en Emergencias."],endtxt:"Usá «Empezar de nuevo» si el paciente recupera el pulso y vuelve a estar bradicárdico."},
+z:{end:1,k:"Sin compromiso o resuelta",q:"Medidas generales y búsqueda de la causa",it:["Sostené el ABC; oxígeno si hace falta.","Observá y monitoreá de cerca.","ECG de 12 derivaciones.","Buscá y tratá la causa subyacente (hipoxia, hipotermia, fármacos, bloqueo AV, hipertensión endocraneana). En el deportista, una FC algo baja puede ser normal."]}};
